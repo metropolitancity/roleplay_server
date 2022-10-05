@@ -37,4 +37,5 @@ public OnGameModeInit()
 
 // systems
 #include <systems/player/player>
+#include <systems/vehicles/vehicles>
 #include <systems/notifications/nt>

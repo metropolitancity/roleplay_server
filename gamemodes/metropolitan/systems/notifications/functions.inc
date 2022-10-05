@@ -69,7 +69,7 @@ stock NT:Send(playerid, E_NOTIFICATION_TYPE:type, const message[], va_args<>)
             PlayerTextDrawShow(playerid, PTD_Notification[playerid][i][t]);
         }
 
-        new len = strlen(message), seconds = len < 20 ? 2000 : floatround(len * 200);
+        new len = strlen(message), seconds = len < 20 ? 3500 : floatround(len * 250);
         Notification[playerid][i][Timer] = SetTimerEx("NT_Destroy", seconds, false, "ii", playerid, i);
         return 1;
     }

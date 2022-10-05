@@ -28,6 +28,11 @@ enum ( <<=1 )
     CEO
 }
 
+
+// macro key
+#define PRESSED(%0) (((newkeys & (%0)) == (%0)) && ((oldkeys & (%0)) != (%0)))
+
+
 // "namespace"
 #define Player:           Player_
 #define NT:               NT_

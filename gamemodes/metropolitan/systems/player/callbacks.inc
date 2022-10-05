@@ -75,6 +75,11 @@ hook OnPlayerRequestSpawn(playerid)
     return Y_HOOKS_BREAK_RETURN_0;
 }
 
+hook OnPlayerText(playerid, text[])
+{
+    return Y_HOOKS_BREAK_RETURN_0;
+}
+
 hook OnPlayerClickTextDraw(playerid, Text:clickedid)
 {
     if ( Player[playerid][Login] ) return Y_HOOKS_CONTINUE_RETURN_1;
