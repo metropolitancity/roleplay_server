@@ -1,0 +1,30 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Compiler",
+      "type": "shell",
+      "command": "${workspaceRoot}\\pawno\\pawncc.exe",
+      "args": [
+        "${workspaceRoot}\\gamemodes\\metropolitan\\main.pwn",
+        "--%",
+        "-Dgamemodes",
+        "-i${workspaceRoot}\\gamemodes\\metropolitan",
+        "-;+",
+        "-(+",
+        "-d3",
+        "-Z"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "isBackground": false,
+      "presentation": {
+        "reveal": "silent",
+        "panel": "dedicated"
+      },
+      "problemMatcher": "$pawncc"
+    }
+  ]
+}
