@@ -3,4 +3,4 @@ log.txt
 omp_minidump.dmp
 logs/*
 gamemodes/main.amx
-database.init
+database.ini
