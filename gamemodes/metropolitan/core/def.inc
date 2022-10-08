@@ -28,6 +28,7 @@ enum ( <<=1 )
     CEO
 }
 
+#define MAX_UUID_LEN        64
 
 // macro key
 #define PRESSED(%0) (((newkeys & (%0)) == (%0)) && ((oldkeys & (%0)) != (%0)))
@@ -35,4 +36,5 @@ enum ( <<=1 )
 
 // "namespace"
 #define Player:           Player_
+#define Vehicle:          Vehicle_
 #define NT:               NT_

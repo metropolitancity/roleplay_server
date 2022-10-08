@@ -27,4 +27,5 @@ hook OnGameModeExit()
 }
 
 // =================================== [ TABELAS ] =================================== //
-#define TABLE_USERS            "users"
+#define TABLE_USERS             "users"
+#define TABLE_USERS_VEHICLES    ""TABLE_USERS"_vehicles"

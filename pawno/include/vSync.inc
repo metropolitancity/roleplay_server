@@ -46,6 +46,7 @@
 #define IsComponentRearBullbar(%0)	(%0 == 1109 || %0 == 1110)
 
 forward OnVehicleCreated(vehicleid);
+forward OnVehicleDestroy(vehicleid);
 forward OnVehicleChangePaintjob(playerid, vehicleid, paintjobid);
 
 
@@ -1058,6 +1059,9 @@ stock vSync_DestroyVehicle(vehicleid)
 		vSync_gVehicleInternal[vehicleid - 1][vSync_Bullbars][0] = 0;
 		vSync_gVehicleInternal[vehicleid - 1][vSync_Bullbars][1] = 0;
 
+		if ( funcidx("OnVehicleDestroy") != -1 ) {
+			CallLocalFunction("OnVehicleDestroy", "i", vehicleid);
+		}
 		return DestroyVehicle(vehicleid);
 	}
 	return 0;
