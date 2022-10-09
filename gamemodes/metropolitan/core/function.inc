@@ -39,3 +39,18 @@ stock CleanChat(playerid=INVALID_PLAYER_ID, lines=20)
     }
     return 1;
 }
+
+stock Player:Kick(playerid, ms=100)
+{
+    if ( !IsPlayerConnected(playerid) )return 0;
+    ms = ms <= 0 ? 1 : ms;
+    SetTimerEx("OnPlayerKick", ms, false, "i", playerid);
+    return 1;
+}
+
+forward OnPlayerKick(playerid);
+public OnPlayerKick(playerid)
+{
+    if ( !IsPlayerConnected(playerid) )return 0;
+    return Kick(playerid), 1;
+}

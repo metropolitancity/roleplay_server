@@ -1,8 +1,11 @@
 #include <YSI_Coding\y_hooks>
 
 #define SERVER_NAME     "Metropolitan Roleplay"
+#define SERVER_SITE     "https://metropolitanrolelplay.com"
 #define SERVER_STAGE    "[ALPHA]"
 #define SERVER_VERSION  "v1.0.0"
+
+#define SERVER_MESSAGE_TAG          "[MP{FFFFFF}:{00BBFF}RP]"
 
 
 hook OnGameModeInit()

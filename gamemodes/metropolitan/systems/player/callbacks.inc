@@ -280,6 +280,6 @@ public OnPlayerAttempAuth(playerid)
     // mensagem de sucesso!
     
     CleanChat(playerid);
-    SendClientMessagef(playerid, COLOR_BLUE, "[MP{"COLOR_WHITE_EMBED"}:{"COLOR_BLUE_EMBED"}RP] {"COLOR_WHITE_EMBED"}Bem vindo, %s, seu último login foi em {"COLOR_RED_EMBED"}%s{"COLOR_WHITE_EMBED"}.", Player[playerid][Name], Player[playerid][LastLogin]);
+    SendClientMessagef(playerid, COLOR_BLUE, ""SERVER_MESSAGE_TAG" {"COLOR_WHITE_EMBED"}Bem vindo, %s, seu último login foi em {"COLOR_RED_EMBED"}%s{"COLOR_WHITE_EMBED"}.", Player[playerid][Name], Player[playerid][LastLogin]);
     return Y_HOOKS_BREAK_RETURN_1;
 }

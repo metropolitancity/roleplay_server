@@ -25,11 +25,13 @@ public OnGameModeInit()
 
 // core
 #include <core/def>
+#include <core/fixers>
 #include <core/database>
 #include <core/config>
 #include <core/colors>
 #include <core/function>
 #include <core/command_perfomed>
+
 
 // voice
 #include <voice/voice>

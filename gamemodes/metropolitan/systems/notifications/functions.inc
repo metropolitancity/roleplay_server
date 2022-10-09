@@ -1,5 +1,7 @@
 stock NT:Send(playerid, E_NOTIFICATION_TYPE:type, const message[], va_args<>)
 {
+    new len = strlen(message), seconds = len < 20 ? 3500 : floatround(len * 150);
+
     nt_init:
     for(new i; i < MAX_PLAYER_NOTIFICATION; i++)
     {
@@ -39,9 +41,9 @@ stock NT:Send(playerid, E_NOTIFICATION_TYPE:type, const message[], va_args<>)
         PlayerTextDrawSetShadow(playerid, PTD_Notification[playerid][i][1], 0);
 
         va_format(f_message, sizeof(f_message), message, va_start<3>);
-        PTD_Notification[playerid][i][2] = CreatePlayerTextDraw(playerid, NotificationPosition[i][0] + 15.0, NotificationPosition[i][1] + 13.0, f_message);
+        PTD_Notification[playerid][i][2] = CreatePlayerTextDraw(playerid, NotificationPosition[i][0] + 15.0, NotificationPosition[i][1] + ( len > 40 ? 10.0 : 13.0 ), f_message);
         PlayerTextDrawLetterSize(playerid, PTD_Notification[playerid][i][2], 0.196204, 1.002497);
-        PlayerTextDrawTextSize(playerid, PTD_Notification[playerid][i][2], 630.840454, 0.000000);
+        PlayerTextDrawTextSize(playerid, PTD_Notification[playerid][i][2], 150.000000, 0.000000);
         PlayerTextDrawAlignment(playerid, PTD_Notification[playerid][i][2], 1);
         PlayerTextDrawColor(playerid, PTD_Notification[playerid][i][2], -1);
         PlayerTextDrawUseBox(playerid, PTD_Notification[playerid][i][2], 1);
@@ -69,7 +71,7 @@ stock NT:Send(playerid, E_NOTIFICATION_TYPE:type, const message[], va_args<>)
             PlayerTextDrawShow(playerid, PTD_Notification[playerid][i][t]);
         }
 
-        new len = strlen(message), seconds = len < 20 ? 3500 : floatround(len * 250);
+        
         Notification[playerid][i][Timer] = SetTimerEx("NT_Destroy", seconds, false, "ii", playerid, i);
         return 1;
     }
