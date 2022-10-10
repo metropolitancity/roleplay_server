@@ -14,8 +14,7 @@ enum E_VEHICLE_DATA
     Float:Fuel,
     Float:KM
 }
-new Vehicle[MAX_VEHICLES][E_VEHICLE_DATA];
-
+new Vehicle[MAX_VEHICLES][E_VEHICLE_DATA], Iterator:pVehicles[MAX_PLAYERS]<MAX_VEHICLES>;
 new bool:PlayerLoadedVehicles[MAX_PLAYERS];
 
 #include <systems/vehicles/functions>

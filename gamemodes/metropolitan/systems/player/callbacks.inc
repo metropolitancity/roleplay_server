@@ -47,9 +47,8 @@ hook OnPlayerDisconnect(playerid, reason)
         mysql_tquery(SQL_Connection, query);
 
         printf("[MP:RP] Salvando conta do jogador %s.", Player[playerid][Name]);
-        if ( funcidx("OnPlayerSave") != -1 )
-        {
-            CallLocalFunction("OnPlayerSave", "i", playerid);
+        if ( funcidx("OnPlayerSave") != -1 ) {
+            CallLocalFunction("OnPlayerSave", "d", playerid);
         }
 
         // destruir veiculo admin, caso haja algum criado pelo jogador
@@ -169,6 +168,31 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
         cache_delete(cache);
         bcrypt_check(Player[playerid][Password], pass_hash, "OnPasswordVerify", "d", playerid);
         return Y_HOOKS_BREAK_RETURN_1;
+    }
+    return Y_HOOKS_CONTINUE_RETURN_1;
+}
+
+hook OnPlayerClickMap(playerid, Float:fX, Float:fY, Float:fZ)
+{
+    if ( Player:GetAdminWorking(playerid) )
+    {
+        if ( Player:GetAdmin(playerid) >= MODERATOR )
+        {
+            if ( IsPlayerInAnyVehicle(playerid) ) {
+                new vehicleid = GetPlayerVehicleID(playerid);
+                SetVehiclePos(vehicleid, fX, fY, fZ);
+                LinkVehicleToInterior(vehicleid, 0);
+                SetVehicleVirtualWorld(vehicleid, 0);
+            } else {
+                SetPlayerPos(playerid, fX, fY, fZ);
+            }
+            
+            SetPlayerInterior(playerid, 0);
+            SetPlayerVirtualWorld(playerid, 0);
+            SetCameraBehindPlayer(playerid);
+            NT:Send(playerid, NT_TYPE_INFO, "Você foi teleportado até o ponto marcado.");
+            return Y_HOOKS_BREAK_RETURN_1;
+        }
     }
     return Y_HOOKS_CONTINUE_RETURN_1;
 }

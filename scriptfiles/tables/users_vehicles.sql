@@ -13,6 +13,11 @@ CREATE TABLE IF NOT EXISTS `users_vehicles`(
     `color2` INT(3) NOT NULL,
     `fuel` FLOAT NOT NULL,
     `km` FLOAT DEFAULT 0,
+    `health` FLOAT DEFAULT 1000,
+    `damage_panels` INT(11) DEFAULT 0,
+    `damage_doors` INT(11) DEFAULT 0,
+    `damage_tires` INT(11) DEFAULT 0,
+    `damage_lights` INT(11) DEFAULT 0,
     foreign key (`user_id`) references `users`(`id`),
     `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP(),
     `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP
