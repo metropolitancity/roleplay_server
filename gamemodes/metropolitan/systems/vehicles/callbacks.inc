@@ -37,6 +37,21 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
     return Y_HOOKS_CONTINUE_RETURN_1;
 }
 
+hook OnPlayerStateChange(playerid, newstate, oldstate)
+{
+    if ( newstate == PLAYER_STATE_DRIVER || newstate == PLAYER_STATE_PASSENGER)
+    {
+        Vehicle:ShowPlayerSpeedometer(playerid);
+        return Y_HOOKS_CONTINUE_RETURN_1;
+    }
+    else if ( newstate == PLAYER_STATE_ONFOOT )
+    {
+        Vehicle:HidePlayerSpeedometer(playerid);
+        return Y_HOOKS_CONTINUE_RETURN_1;
+    }
+    return Y_HOOKS_CONTINUE_RETURN_1;
+}
+
 hook OnPlayerConnect(playerid)
 {
     PlayerLoadedVehicles[playerid] = false;
@@ -126,4 +141,19 @@ public OnPlayerLoadVehicle(playerid)
         return 1;
     }
     return 0;
+}
+
+public OnSpeedometerUpdate(playerid)
+{
+    new str[128];
+    new vehicleid = GetPlayerVehicleID(playerid), modelid = GetVehicleModel(vehicleid), speed = GetVehicleSpeed(vehicleid), max_speed = GetVehicleMaxSpeed(modelid);
+
+    //
+    format(str, sizeof(str), "%03d", speed);
+    PlayerTextDrawSetString(playerid, PTD_Speedometer[playerid][3], str);
+    
+    // 
+    PlayerTextDrawTextSize(playerid, PTD_Speedometer[playerid][2], (50.0 / max_speed) * speed, 5.000000);
+    PlayerTextDrawShow(playerid, PTD_Speedometer[playerid][2]);
+    return 1;
 }

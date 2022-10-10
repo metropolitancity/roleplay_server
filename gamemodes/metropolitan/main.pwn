@@ -5,6 +5,7 @@
 #include <sampvoice>
 #include <Pawn.CMD>
 #include <sscanf2>
+#include <discord-connector>
 #include <YSI_Coding\y_va>
 #include <YSI_Data\y_iterate>
 #include <easyDialog>

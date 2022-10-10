@@ -75,7 +75,7 @@
     },
     "password": "147",
     "pawn": {
-        "legacy_plugins": [ "crashdetect", "mysql", "bcrypt-samp" ],
+        "legacy_plugins": [ "crashdetect", "mysql", "bcrypt-samp", "discord-connector"],
         "main_scripts": [
             "main 1"
         ],
@@ -88,5 +88,7 @@
     },
     "sleep": 5.0,
     "use_dyn_ticks": true,
-    "website": "metropolitanroleplay.com"
+    "website": "metropolitanroleplay.com",
+    "discord_bot_token": "tyj03Jnmcqh19npsvh7kreBlllZE5DVe"
+    
 }

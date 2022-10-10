@@ -1,5 +1,6 @@
 // forwards
 forward OnPlayerLoadVehicle(playerid);
+forward OnSpeedometerUpdate(playerid);
 
 enum E_VEHICLE_OWNER_DATA
 {
@@ -15,7 +16,11 @@ enum E_VEHICLE_DATA
     Float:KM
 }
 new Vehicle[MAX_VEHICLES][E_VEHICLE_DATA], Iterator:pVehicles[MAX_PLAYERS]<MAX_VEHICLES>;
-new bool:PlayerLoadedVehicles[MAX_PLAYERS];
+
+new bool:PlayerLoadedVehicles[MAX_PLAYERS], TimerSpeedometer[MAX_PLAYERS];
+
+// textdraws
+new PlayerText:PTD_Speedometer[MAX_PLAYERS][16];
 
 #include <systems/vehicles/functions>
 #include <systems/vehicles/callbacks>
