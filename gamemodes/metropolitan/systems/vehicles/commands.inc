@@ -10,6 +10,11 @@ cmd:motor(playerid)
     {
         case 0:
         {
+            if ( Vehicle:GetFuel(vehicleid) <= 0.0 )
+            {
+                NT:Send(playerid, NT_TYPE_ERROR, "Esse veiculo esta sem combustível.");
+                return 0;
+            }
             SetVehicleParams(vehicleid, VEHICLE_TYPE_ENGINE, true);
             NT:Send(playerid, NT_TYPE_SUCCESS, "motor ligado.");
             return 1;

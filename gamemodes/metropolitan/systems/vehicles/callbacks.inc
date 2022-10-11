@@ -11,6 +11,7 @@ hook OnVehicleCreated(vehicleid)
     if ( !Iter_Contains(Vehicle, vehicleid) ) {
         Iter_Add(Vehicle, vehicleid);
     }
+    TimerUpdateFuel[vehicleid] = SetTimerEx("OnVehicleUpdateFuel", 5000, true, "i", vehicleid);
     return Y_HOOKS_CONTINUE_RETURN_1;
 }
 
@@ -19,6 +20,8 @@ hook OnVehicleDestroy(vehicleid)
     if ( Iter_Contains(Vehicle, vehicleid)) {
         Iter_Remove(Vehicle, vehicleid);
     }
+    KillTimer(TimerUpdateFuel[vehicleid]);
+    TimerUpdateFuel[vehicleid] = INVALID_TIMER_ID;
     return Y_HOOKS_CONTINUE_RETURN_1;
 }
 
@@ -58,6 +61,15 @@ hook OnPlayerConnect(playerid)
     return Y_HOOKS_CONTINUE_RETURN_1;
 }
 
+hook OnPlayerDisconnect(playerid, reason)
+{
+    if ( TimerSpeedometer[playerid] ) {
+        KillTimer(TimerSpeedometer[playerid]);
+        TimerSpeedometer[playerid] = 0;
+    }
+    return Y_HOOKS_CONTINUE_RETURN_1;
+}
+
 public OnPlayerSave(playerid)
 {
     
@@ -74,11 +86,13 @@ public OnPlayerSave(playerid)
             GetVehicleDamageStatus(vehicleid, panels, doors, lights, tires);
 
             mysql_format(SQL_Connection, query, sizeof(query),
-                "%sUPDATE "TABLE_USERS_VEHICLES" SET `spawn_x`='%f',`spawn_y`='%f',`spawn_z`='%f',`spawn_a`='%f',`interior`='%d',`world`='%d',`health`='%f',`damage_panels`='%d',`damage_doors`='%d',`damage_lights`='%d',`damage_tires`='%d' WHERE `id`='%s';",
+                "%sUPDATE "TABLE_USERS_VEHICLES" SET `spawn_x`='%f',`spawn_y`='%f',`spawn_z`='%f',`spawn_a`='%f',`interior`='%d',`world`='%d',`km`='%f',`fuel`='%f',`health`='%f',`damage_panels`='%d',`damage_doors`='%d',`damage_lights`='%d',`damage_tires`='%d' WHERE `id`='%s';",
                 query,
                 spawn_x, spawn_y, spawn_z, spawn_a,
                 GetVehicleInterior(vehicleid),
                 GetVehicleVirtualWorld(vehicleid),
+                GetDistanceTraveled(vehicleid),
+                Vehicle:GetFuel(vehicleid),
                 vHealth,
                 panels,
                 doors,
@@ -105,6 +119,28 @@ hook OnPlayerSpawn(playerid)
     mysql_format(SQL_Connection, query, sizeof(query), "SELECT v.*, u.name as user_name FROM "TABLE_USERS_VEHICLES" as v LEFT JOIN "TABLE_USERS" as u ON u.id = v.user_id WHERE `user_id`='%d';", Player[playerid][ID]);
     mysql_tquery(SQL_Connection, query, "OnPlayerLoadVehicle", "i", playerid);
     return Y_HOOKS_CONTINUE_RETURN_1;
+}
+
+public OnVehicleUpdateFuel(vehicleid)
+{
+    if ( IsValidVehicle(vehicleid) )
+    {
+        if ( GetVehicleParams(vehicleid, VEHICLE_TYPE_ENGINE) || Vehicle:GetFuel(vehicleid) > 0.0 )
+        {
+            new speed = GetVehicleSpeed(vehicleid);
+            Vehicle:SetFuel(vehicleid, Vehicle:GetFuel(vehicleid) - (0.05 + (speed * 0.00238)) );
+
+            if ( Vehicle:GetFuel(vehicleid) <= 0.0 ) {
+                SetVehicleParams(vehicleid, VEHICLE_TYPE_ENGINE, false);
+                NT:Send(GetVehicleDriver(vehicleid), NT_TYPE_ERROR, "Veiculo sem combustível.");
+
+            }
+        }
+        return 1;
+    }
+    KillTimer(TimerUpdateFuel[vehicleid]);
+    TimerUpdateFuel[vehicleid] = INVALID_TIMER_ID;
+    return 0;
 }
 
 public OnPlayerLoadVehicle(playerid)
@@ -135,6 +171,7 @@ public OnPlayerLoadVehicle(playerid)
             cache_get_value_name_float(i, "fuel", Vehicle[vehicleid][Fuel]);
             cache_get_value_name_float(i, "km", Vehicle[vehicleid][KM]);
             
+            SetVehicleDistanceTravaled(vehicleid, Vehicle[vehicleid][KM]);
             Iter_Add(pVehicles[playerid], vehicleid);
         }
         printf("%s carregou %d veiculos", Player[playerid][Name], Iter_Count(pVehicles[playerid]));
@@ -153,7 +190,13 @@ public OnSpeedometerUpdate(playerid)
     PlayerTextDrawSetString(playerid, PTD_Speedometer[playerid][3], str);
     
     // 
-    PlayerTextDrawTextSize(playerid, PTD_Speedometer[playerid][2], (50.0 / max_speed) * speed, 5.000000);
+    PlayerTextDrawTextSize(playerid, PTD_Speedometer[playerid][2], (50.0 / max_speed) * speed, 4.000000);
     PlayerTextDrawShow(playerid, PTD_Speedometer[playerid][2]);
+
+    format(str, sizeof(str), "%07d", floatround(GetDistanceTraveled(vehicleid) / 1000, floatround_floor));
+    PlayerTextDrawSetString(playerid, PTD_Speedometer[playerid][12], str);
+
+    PlayerTextDrawTextSize(playerid, PTD_Speedometer[playerid][8], 3.000000,  (-15.0 / Vehicle:GetMaxFuel(modelid) ) * Vehicle:GetFuel(vehicleid));
+    PlayerTextDrawShow(playerid, PTD_Speedometer[playerid][8]);
     return 1;
 }

@@ -15,3 +15,6 @@
 
 #define COLOR_YELLOW            0xFFFF00FF
 #define COLOR_YELLOW_EMBED      "FFFF00"
+
+#define COLOR_ORANGE            0xFF8C00FF
+#define COLOR_ORANGE_EMBED      "FF8C00"

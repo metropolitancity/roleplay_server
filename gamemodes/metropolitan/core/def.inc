@@ -34,6 +34,9 @@ enum ( <<=1 )
 #define PRESSED(%0) (((newkeys & (%0)) == (%0)) && ((oldkeys & (%0)) != (%0)))
 
 
+//
+#define INVALID_TIMER_ID        ( -1 )
+
 // "namespace"
 #define Player:           Player_
 #define Vehicle:          Vehicle_

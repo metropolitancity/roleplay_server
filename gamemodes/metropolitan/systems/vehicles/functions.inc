@@ -17,9 +17,9 @@ stock Vehicle:ShowPlayerSpeedometer(playerid)
     PlayerTextDrawSetProportional(playerid, PTD_Speedometer[playerid][0], 0);
     PlayerTextDrawSetShadow(playerid, PTD_Speedometer[playerid][0], 0);
 
-    PTD_Speedometer[playerid][1] = CreatePlayerTextDraw(playerid, 117.811668, 390.115570, "LD_SPAC:white");
+    PTD_Speedometer[playerid][1] = CreatePlayerTextDraw(playerid, 118.000000, 390.000000, "LD_SPAC:white");
     PlayerTextDrawLetterSize(playerid, PTD_Speedometer[playerid][1], 0.000000, 0.000000);
-    PlayerTextDrawTextSize(playerid, PTD_Speedometer[playerid][1], 50.000000, 5.000000);
+    PlayerTextDrawTextSize(playerid, PTD_Speedometer[playerid][1], 50.000000, 4.000000);
     PlayerTextDrawAlignment(playerid, PTD_Speedometer[playerid][1], 1);
     PlayerTextDrawColor(playerid, PTD_Speedometer[playerid][1], 255);
     PlayerTextDrawSetShadow(playerid, PTD_Speedometer[playerid][1], 0);
@@ -29,11 +29,11 @@ stock Vehicle:ShowPlayerSpeedometer(playerid)
     PlayerTextDrawSetProportional(playerid, PTD_Speedometer[playerid][1], 0);
     PlayerTextDrawSetShadow(playerid, PTD_Speedometer[playerid][1], 0);
 
-    PTD_Speedometer[playerid][2] = CreatePlayerTextDraw(playerid, 118.376426, 390.232086, "LD_SPAC:white");
+    PTD_Speedometer[playerid][2] = CreatePlayerTextDraw(playerid, 118.000000, 390.000000, "LD_SPAC:white");
     PlayerTextDrawLetterSize(playerid, PTD_Speedometer[playerid][2], 0.000000, 0.000000);
-    PlayerTextDrawTextSize(playerid, PTD_Speedometer[playerid][2], 0.000000, 5.000000);
+    PlayerTextDrawTextSize(playerid, PTD_Speedometer[playerid][2], 0.000000, 4.000000);
     PlayerTextDrawAlignment(playerid, PTD_Speedometer[playerid][2], 1);
-    PlayerTextDrawColor(playerid, PTD_Speedometer[playerid][2], 12320767);
+    PlayerTextDrawColor(playerid, PTD_Speedometer[playerid][2], 0x5F9EA0FF);
     PlayerTextDrawSetShadow(playerid, PTD_Speedometer[playerid][2], 0);
     PlayerTextDrawSetOutline(playerid, PTD_Speedometer[playerid][2], 0);
     PlayerTextDrawBackgroundColor(playerid, PTD_Speedometer[playerid][2], 255);
@@ -41,7 +41,7 @@ stock Vehicle:ShowPlayerSpeedometer(playerid)
     PlayerTextDrawSetProportional(playerid, PTD_Speedometer[playerid][2], 0);
     PlayerTextDrawSetShadow(playerid, PTD_Speedometer[playerid][2], 0);
 
-    PTD_Speedometer[playerid][3] = CreatePlayerTextDraw(playerid, 140.000000, 379.216979, "000");
+    PTD_Speedometer[playerid][3] = CreatePlayerTextDraw(playerid, 140.000000, 379.216979, "000");// velocimetro
     PlayerTextDrawLetterSize(playerid, PTD_Speedometer[playerid][3], 0.182117, 0.952498);
     PlayerTextDrawTextSize(playerid, PTD_Speedometer[playerid][3], 29.117103, 0.000000);
     PlayerTextDrawAlignment(playerid, PTD_Speedometer[playerid][3], 3);
@@ -105,9 +105,9 @@ stock Vehicle:ShowPlayerSpeedometer(playerid)
 
     PTD_Speedometer[playerid][8] = CreatePlayerTextDraw(playerid, 197.387634, 394.399902, "LD_SPAC:white");
     PlayerTextDrawLetterSize(playerid, PTD_Speedometer[playerid][8], 0.000000, 0.000000);
-    PlayerTextDrawTextSize(playerid, PTD_Speedometer[playerid][8], 3.000000, -0.479999);
+    PlayerTextDrawTextSize(playerid, PTD_Speedometer[playerid][8], 3.000000, 0.00000);
     PlayerTextDrawAlignment(playerid, PTD_Speedometer[playerid][8], 1);
-    PlayerTextDrawColor(playerid, PTD_Speedometer[playerid][8], 12320767);
+    PlayerTextDrawColor(playerid, PTD_Speedometer[playerid][8], 0xFFA500FF);
     PlayerTextDrawSetShadow(playerid, PTD_Speedometer[playerid][8], 0);
     PlayerTextDrawSetOutline(playerid, PTD_Speedometer[playerid][8], 0);
     PlayerTextDrawBackgroundColor(playerid, PTD_Speedometer[playerid][8], 255);
@@ -150,7 +150,7 @@ stock Vehicle:ShowPlayerSpeedometer(playerid)
     PlayerTextDrawSetProportional(playerid, PTD_Speedometer[playerid][11], 0);
     PlayerTextDrawSetShadow(playerid, PTD_Speedometer[playerid][11], 0);
 
-    PTD_Speedometer[playerid][12] = CreatePlayerTextDraw(playerid, 148.988449, 406.633300, "0000000");
+    PTD_Speedometer[playerid][12] = CreatePlayerTextDraw(playerid, 148.988449, 406.633300, "0000000"); // quilometragem
     PlayerTextDrawLetterSize(playerid, PTD_Speedometer[playerid][12], 0.200822, 0.711665);
     PlayerTextDrawAlignment(playerid, PTD_Speedometer[playerid][12], 2);
     PlayerTextDrawColor(playerid, PTD_Speedometer[playerid][12], -1);
@@ -171,7 +171,7 @@ stock Vehicle:ShowPlayerSpeedometer(playerid)
     PlayerTextDrawFont(playerid, PTD_Speedometer[playerid][13], 2);
     PlayerTextDrawSetProportional(playerid, PTD_Speedometer[playerid][13], 1);
     PlayerTextDrawSetShadow(playerid, PTD_Speedometer[playerid][13], 0);
-
+    /*
     PTD_Speedometer[playerid][14] = CreatePlayerTextDraw(playerid, 166.941024, 412.600250, "012L");
     PlayerTextDrawLetterSize(playerid, PTD_Speedometer[playerid][14], 0.137881, 0.748332);
     PlayerTextDrawAlignment(playerid, PTD_Speedometer[playerid][14], 3);
@@ -192,10 +192,14 @@ stock Vehicle:ShowPlayerSpeedometer(playerid)
     PlayerTextDrawBackgroundColor(playerid, PTD_Speedometer[playerid][15], 255);
     PlayerTextDrawFont(playerid, PTD_Speedometer[playerid][15], 2);
     PlayerTextDrawSetProportional(playerid, PTD_Speedometer[playerid][15], 1);
-    PlayerTextDrawSetShadow(playerid, PTD_Speedometer[playerid][15], 0);
+    PlayerTextDrawSetShadow(playerid, PTD_Speedometer[playerid][15], 0);*/
 
-    for(new i; i < sizeof(PTD_Speedometer[]); i++){
-        PlayerTextDrawShow(playerid, PTD_Speedometer[playerid][i]);
+    for(new i; i < sizeof(PTD_Speedometer[]); i++)
+    {
+        if ( PTD_Speedometer[playerid][i] != INVALID_PLAYER_TEXT_DRAW )
+        {
+            PlayerTextDrawShow(playerid, PTD_Speedometer[playerid][i]);
+        }
     }
 
     return 1;
@@ -218,4 +222,28 @@ stock Vehicle:HidePlayerSpeedometer(playerid)
         }
     }
     return 1;
+}
+
+stock Float:Vehicle:GetFuel(vehicleid)
+{
+    if ( !IsValidVehicle(vehicleid) )return 0.0;
+    return Vehicle[vehicleid][Fuel];
+}
+
+stock Vehicle:SetFuel(vehicleid, Float:fuel)
+{
+    if ( !IsValidVehicle(vehicleid) )return 0;
+    Vehicle[vehicleid][Fuel] = fuel;
+    return 1;
+}
+
+stock Vehicle:GetMaxFuel(model)
+{
+    if ( !Vehicle:IsValidModel(model) )return -1;
+    return VehicleData[model - 400][FUEL_CAPACITY];
+}
+
+stock Vehicle:IsValidModel(model)
+{
+    return !(model < 400 || model > 611);
 }
