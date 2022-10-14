@@ -10,12 +10,17 @@ hook OnPlayerConnect(playerid)
 {
     TogglePlayerSpectating(playerid, true);
     GetPlayerName(playerid, Player[playerid][Name], MAX_PLAYER_NAME);
+    
+    new pName[MAX_PLAYER_NAME];
+    format(pName, sizeof(pName), "Player%d", playerid);
+    SetPlayerName(playerid, pName);
+
     if ( !Player[playerid][Login] )
     {
         Player[playerid][Login] = true;
 
         new query[128];
-        mysql_format(SQL_Connection, query, sizeof(query), "SELECT id FROM "TABLE_USERS" WHERE `name`='%e';", Player[playerid][Name]);
+        mysql_format(SQL_Connection, query, sizeof(query), "SELECT id FROM "TABLE_USERS" WHERE `name`='%e' OR `id`='%d';", Player[playerid][Name], Player[playerid][Name]);
         mysql_tquery(SQL_Connection, query, "OnPlayerCheckAccount", "i", playerid);
         return Y_HOOKS_CONTINUE_RETURN_1;
     }
@@ -24,7 +29,7 @@ hook OnPlayerConnect(playerid)
 
 hook OnPlayerDisconnect(playerid, reason)
 {
-    if ( Player[playerid][Logged] )
+    if ( Player:Logged(playerid) )
     {
         new query[1024];
 
@@ -65,12 +70,12 @@ hook OnPlayerDisconnect(playerid, reason)
 
 hook OnPlayerRequestClass(playerid)
 {
-    return Y_HOOKS_CONTINUE_RETURN_1;
+    return Y_HOOKS_BREAK_RETURN_0;
 }
 
 hook OnPlayerRequestSpawn(playerid)
 {
-    if ( Player[playerid][Logged] )return Y_HOOKS_CONTINUE_RETURN_1;
+    if ( Player:Logged(playerid) )return Y_HOOKS_CONTINUE_RETURN_1;
     return Y_HOOKS_BREAK_RETURN_0;
 }
 
@@ -87,7 +92,7 @@ hook OnPlayerClickTextDraw(playerid, Text:clickedid)
     {
         Player:HideRegister(playerid);
         SendClientMessage(playerid, COLOR_DARK, "Você foi desconectado do servidor por não efetuar o registro.");
-        return Y_HOOKS_CONTINUE_RETURN_1, Kick(playerid);
+        return Y_HOOKS_CONTINUE_RETURN_1, Player:Kick(playerid);
     }
     return Y_HOOKS_CONTINUE_RETURN_1;
 }
@@ -112,17 +117,21 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
     else if ( playertextid == PTD_Register[playerid][20] ) // criar conta
     {
         if ( !IsValidEmail(Player[playerid][Email]) ) {
-            NT:Send(playerid, NT_TYPE_ERROR, "Você precisa digitar um email válido!");
+            CleanChat(playerid);
+            SendClientMessage(playerid, COLOR_RED, "* {"COLOR_WHITE_EMBED"}Você precisa digitar um email válido!");
             return Y_HOOKS_BREAK_RETURN_1;
         }
 
         if ( !IsValidName(Player[playerid][Name]) ) {
-            NT:Send(playerid, NT_TYPE_ERROR, "Você precisa digitar um nome válido, com Nome e Sobrenome.~n~Exemplo: Nome_Sobrenome");
+            CleanChat(playerid);
+            SendClientMessage(playerid, COLOR_RED, "* {"COLOR_WHITE_EMBED"}Você precisa digitar um nome válido, com Nome e Sobrenome.");
+            SendClientMessage(playerid, COLOR_RED, "* {"COLOR_WHITE_EMBED"}Exemplo: Guilherme_Domingues.");
             return Y_HOOKS_BREAK_RETURN_1;
         }
 
         if ( strlen(Player[playerid][Password]) > 8 ) {
-            NT:Send(playerid, NT_TYPE_ERROR, "Você precisa digitar uma senha de pelo menos 8 caracteres.");
+            CleanChat(playerid);
+            SendClientMessage(playerid, COLOR_RED, "* {"COLOR_WHITE_EMBED"}Você precisa digitar uma senha de pelo menos 8 caracteres.");
             return Y_HOOKS_BREAK_RETURN_0;
         }
 
@@ -131,11 +140,47 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
         }
 
         SetPVarInt(playerid, "locked", gettime() + 2);
-        NT:Send(playerid, NT_TYPE_INFO, "Estamos criando sua conta, aguarde...");
+        CleanChat(playerid);
+        SendClientMessage(playerid, COLOR_BLUE, "» {"COLOR_WHITE_EMBED"}aguarde...");
         bcrypt_hash(Player[playerid][Password], BCRYPT_COST, "OnPasswordHashed", "d", playerid);
         return Y_HOOKS_BREAK_RETURN_1;
     }
 
+    else if ( playertextid == PTD_Gender[playerid][3] ) // anterior
+    {
+        new select = GetPVarInt(playerid, "SkinSelected");
+        --select;
+
+        if ( select < 0 )select = sizeof(SkinsSelect) - 1;
+
+        SetPVarInt(playerid, "SkinSelected", select);
+        PlayerTextDrawSetPreviewModel(playerid, PTD_Gender[playerid][5], SkinsSelect[select][0]);
+        PlayerTextDrawShow(playerid, PTD_Gender[playerid][5]);
+        va_PlayerTextDrawSetString(playerid, PTD_Gender[playerid][6], "Sexo: %s", SkinsSelect[select][1] == GENDER_MALE ? ("~b~~h~~h~Masculino") : ("~r~~h~~h~Feminino"));        
+        return Y_HOOKS_BREAK_RETURN_1;
+    }
+    else if ( playertextid == PTD_Gender[playerid][4] ) // próximo
+    {
+        new select = GetPVarInt(playerid, "SkinSelected");
+        ++select;
+        if ( select > sizeof(SkinsSelect) - 1 )select = 0;
+
+        SetPVarInt(playerid, "SkinSelected", select);
+        PlayerTextDrawSetPreviewModel(playerid, PTD_Gender[playerid][5], SkinsSelect[select][0]);
+        PlayerTextDrawShow(playerid, PTD_Gender[playerid][5]);
+        va_PlayerTextDrawSetString(playerid, PTD_Gender[playerid][6], "Sexo: %s", SkinsSelect[select][1] == GENDER_MALE ? ("~b~~h~~h~Masculino") : ("~r~~h~~h~Feminino"));        
+        return Y_HOOKS_BREAK_RETURN_1;
+    }
+
+    else if ( playertextid == PTD_Gender[playerid][7] ) // continua
+    {
+        new query[512], select = GetPVarInt(playerid, "SkinSelected");
+        DeletePVar(playerid, "SkinSelected");
+
+        mysql_format(SQL_Connection, query, sizeof(query), "INSERT INTO "TABLE_USERS" (`name`,`email`,`password`,`spawn_x`,`spawn_y`,`spawn_z`,`spawn_a`,`interior`,`world`,`skin`,`gender`)VALUES('%s','%e','%e','1676.2700','1459.1677','10.7745','97.8218','0','0','%d','%d');", Player[playerid][Name], Player[playerid][Email], Player[playerid][Password], SkinsSelect[select][0], SkinsSelect[select][1]);
+        mysql_tquery(SQL_Connection, query, "OnPlayerRegister", "i", playerid);
+        return Y_HOOKS_BREAK_RETURN_1;
+    }
 
     // ================================================== [ LOGIN ] ================================================== //
     
@@ -149,15 +194,16 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
     {
         if ( !IsValidName(Player[playerid][Name]) )
         {
-            NT:Send(playerid, NT_TYPE_ERROR, "Nome inválido.");
+            SendClientMessage(playerid, COLOR_RED, "* {"COLOR_WHITE_EMBED"}Nome anti-rp, você precisa escolher um Nome_Sobrenome.");
             return Y_HOOKS_BREAK_RETURN_0;
         }
 
         if ( isnull(Player[playerid][Password]) )
         {
-            NT:Send(playerid, NT_TYPE_ERROR, "Senha inválida.");
+            SendClientMessage(playerid, COLOR_RED, "* {"COLOR_WHITE_EMBED"}Senha inválida, você precisa digitar uma senha.");
             return Y_HOOKS_BREAK_RETURN_0;
         }
+
         new query[255];
         mysql_format(SQL_Connection, query, sizeof(query), "SELECT password FROM "TABLE_USERS" WHERE `name`='%e';", Player[playerid][Name]);
         new Cache:cache = mysql_query(SQL_Connection, query, true), pass_hash[BCRYPT_HASH_LENGTH];
@@ -197,6 +243,27 @@ hook OnPlayerClickMap(playerid, Float:fX, Float:fY, Float:fZ)
     return Y_HOOKS_CONTINUE_RETURN_1;
 }
 
+hook OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY, Float:fZ)
+{
+    if ( hittype == BULLET_HIT_TYPE_PLAYER )
+    {
+        if ( Player:GetAdmin(hitid) >= HELPER && Player:GetAdminWorking(hitid) )
+        {
+            CleanChat(playerid); // limpar chat
+            Player:GiveWarningKick(playerid, 1);
+
+            SendClientMessagef(playerid, COLOR_RED, "%02d/03 Você não pode disparar contra um anjo.", Player:GetWarningKick(playerid));
+            if ( Player:GetWarningKick(playerid) >= 3 )
+            {
+                SendClientMessagef(playerid, COLOR_RED, "Você foi kickado do servidor por acumular muitos avisos.");
+                Player:Kick(playerid);
+            }
+            return Y_HOOKS_CONTINUE_RETURN_0;
+        }
+    }
+    return Y_HOOKS_CONTINUE_RETURN_1;
+}
+
 public OnPlayerCheckAccount(playerid)
 {
     CleanChat(playerid);
@@ -221,10 +288,15 @@ public OnPlayerCheckAccount(playerid)
 
 public OnPasswordHashed(playerid)
 {
-    new hash[BCRYPT_HASH_LENGTH], query[512];
+    new hash[BCRYPT_HASH_LENGTH];
 	bcrypt_get_hash(hash);
-    mysql_format(SQL_Connection, query, sizeof(query), "INSERT INTO "TABLE_USERS" (`name`,`email`,`password`)VALUES('%s','%e','%e');", Player[playerid][Name], Player[playerid][Email], hash);
-    mysql_tquery(SQL_Connection, query, "OnPlayerRegister", "i", playerid);
+    
+    CleanChat(playerid);
+    SendClientMessage(playerid, COLOR_BLUE, "» {"COLOR_WHITE_EMBED"}Agora escolha a skin do seu personagem.");
+
+    format(Player[playerid][Password], MAX_PLAYER_PASSWORD, hash);
+    Player:HideRegister(playerid);
+    Player:ShowGender(playerid);
     return Y_HOOKS_BREAK_RETURN_1;
 }
 
@@ -235,7 +307,7 @@ public OnPasswordVerify(playerid)
         case 1:
         {
             new query[255];
-            mysql_format(SQL_Connection, query, sizeof(query), "SELECT *, DATE_FORMAT(`updated_at`, '%%d/%%m/%%Y - %%T') as last_login FROM "TABLE_USERS" WHERE `name`='%e';", Player[playerid][Name]);
+            mysql_format(SQL_Connection, query, sizeof(query), "SELECT *, DATE_FORMAT(`updated_at`, '%%d/%%m/%%Y - %%T') as last_login FROM "TABLE_USERS" WHERE `name`='%e' OR `id`='%d' LIMIT 1;", Player[playerid][Name], Player[playerid][Name]);
             mysql_tquery(SQL_Connection, query, "OnPlayerAttempAuth", "i", playerid);
             return 1;
         }
@@ -253,10 +325,11 @@ public OnPlayerRegister(playerid)
         return Y_HOOKS_BREAK_RETURN_1;
     }
     
-    Player:HideRegister(playerid);
+    Player:HideGender(playerid);
     Player:ShowLogin(playerid);
 
-    NT:Send(playerid, NT_TYPE_SUCCESS, "Conta criada com sucesso!");
+    CleanChat(playerid);
+    SendClientMessage(playerid, COLOR_BLUE, "» {"COLOR_WHITE_EMBED"}Conta criada com sucesso!");
     return Y_HOOKS_CONTINUE_RETURN_1;
 }
 
@@ -278,6 +351,8 @@ public OnPlayerAttempAuth(playerid)
     cache_get_value_name(0, "name", Player[playerid][Name], MAX_PLAYER_NAME);
     cache_get_value_name(0, "email", Player[playerid][Email], MAX_PLAYER_EMAIL);
     cache_get_value_name(0, "password", Player[playerid][Password], MAX_PLAYER_PASSWORD);
+    cache_get_value_name_int(0, "skin", Player[playerid][Skin]);
+    cache_get_value_name_int(0, "gender", Player[playerid][Gender]);
     cache_get_value_name_float(0, "spawn_x", Player[playerid][Spawn][X]);
     cache_get_value_name_float(0, "spawn_y", Player[playerid][Spawn][Y]);
     cache_get_value_name_float(0, "spawn_z", Player[playerid][Spawn][Z]);
@@ -299,6 +374,9 @@ public OnPlayerAttempAuth(playerid)
     SetPlayerArmour(playerid, Player[playerid][Armour]);
     Player[playerid][vAdmin] = INVALID_VEHICLE_ID;
 
+    new pName[MAX_PLAYER_NAME];
+    format(pName, MAX_PLAYER_NAME, "%03d", Player[playerid][ID]);
+    SetPlayerName(playerid, pName);
     // spawnar o jogador.
     SpawnPlayer(playerid); 
     // mensagem de sucesso!

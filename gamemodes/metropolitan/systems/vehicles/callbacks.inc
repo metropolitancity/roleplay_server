@@ -44,6 +44,8 @@ hook OnPlayerStateChange(playerid, newstate, oldstate)
 {
     if ( newstate == PLAYER_STATE_DRIVER || newstate == PLAYER_STATE_PASSENGER)
     {
+        PlayAudioStreamForPlayer(playerid, "");
+        CleanChat(playerid);
         Vehicle:ShowPlayerSpeedometer(playerid);
         return Y_HOOKS_CONTINUE_RETURN_1;
     }

@@ -561,6 +561,138 @@ stock Player:HideLogin(playerid)
     return 1;
 }
 
+stock Player:ShowGender(playerid)
+{
+    if ( GetPVarInt(playerid, "ShowGender") )return 0;
+    
+    SetPVarInt(playerid, "ShowGender", 1);
+    PTD_Gender[playerid][0] = CreatePlayerTextDraw(playerid, -1.000000, -1.000000, "box");
+    PlayerTextDrawLetterSize(playerid, PTD_Gender[playerid][0], 0.000000, 50.948745);
+    PlayerTextDrawTextSize(playerid, PTD_Gender[playerid][0], 650.000000, 0.000000);
+    PlayerTextDrawAlignment(playerid, PTD_Gender[playerid][0], 1);
+    PlayerTextDrawColor(playerid, PTD_Gender[playerid][0], 0x121212FF);
+    PlayerTextDrawUseBox(playerid, PTD_Gender[playerid][0], 1);
+    PlayerTextDrawBoxColor(playerid, PTD_Gender[playerid][0], 0x121212FF);
+    PlayerTextDrawSetShadow(playerid, PTD_Gender[playerid][0], 0);
+    PlayerTextDrawSetOutline(playerid, PTD_Gender[playerid][0], 0);
+    PlayerTextDrawBackgroundColor(playerid, PTD_Gender[playerid][0], 255);
+    PlayerTextDrawFont(playerid, PTD_Gender[playerid][0], 1);
+    PlayerTextDrawSetProportional(playerid, PTD_Gender[playerid][0], 1);
+    PlayerTextDrawSetShadow(playerid, PTD_Gender[playerid][0], 0);
+
+
+    PTD_Gender[playerid][1] = CreatePlayerTextDraw(playerid, 247.300262, 134.599914, "LD_SPAC:white");
+    PlayerTextDrawLetterSize(playerid, PTD_Gender[playerid][1], 0.000000, 0.000000);
+    PlayerTextDrawTextSize(playerid, PTD_Gender[playerid][1], 157.360351, 148.019989);
+    PlayerTextDrawAlignment(playerid, PTD_Gender[playerid][1], 1);
+    PlayerTextDrawColor(playerid, PTD_Gender[playerid][1], 0x202020FF);
+    PlayerTextDrawSetShadow(playerid, PTD_Gender[playerid][1], 0);
+    PlayerTextDrawSetOutline(playerid, PTD_Gender[playerid][1], 0);
+    PlayerTextDrawBackgroundColor(playerid, PTD_Gender[playerid][1], 255);
+    PlayerTextDrawFont(playerid, PTD_Gender[playerid][1], 4);
+    PlayerTextDrawSetProportional(playerid, PTD_Gender[playerid][1], 0);
+    PlayerTextDrawSetShadow(playerid, PTD_Gender[playerid][1], 0);
+
+    PTD_Gender[playerid][2] = CreatePlayerTextDraw(playerid, 254.314392, 128.233215, "Skin");
+    PlayerTextDrawLetterSize(playerid, PTD_Gender[playerid][2], 0.394846, 1.833335);
+    PlayerTextDrawAlignment(playerid, PTD_Gender[playerid][2], 1);
+    PlayerTextDrawColor(playerid, PTD_Gender[playerid][2], -1);
+    PlayerTextDrawSetShadow(playerid, PTD_Gender[playerid][2], 0);
+    PlayerTextDrawSetOutline(playerid, PTD_Gender[playerid][2], 1);
+    PlayerTextDrawBackgroundColor(playerid, PTD_Gender[playerid][2], 255);
+    PlayerTextDrawFont(playerid, PTD_Gender[playerid][2], 3);
+    PlayerTextDrawSetProportional(playerid, PTD_Gender[playerid][2], 1);
+    PlayerTextDrawSetShadow(playerid, PTD_Gender[playerid][2], 0);
+
+    PTD_Gender[playerid][3] = CreatePlayerTextDraw(playerid, 254.234970, 201.133148, "<");
+    PlayerTextDrawLetterSize(playerid, PTD_Gender[playerid][3], 0.429985, 2.224166);
+    PlayerTextDrawTextSize(playerid, PTD_Gender[playerid][3], 263.000000, 15.000000);
+    PlayerTextDrawAlignment(playerid, PTD_Gender[playerid][3], 1);
+    PlayerTextDrawColor(playerid, PTD_Gender[playerid][3], -1);
+    PlayerTextDrawSetShadow(playerid, PTD_Gender[playerid][3], 0);
+    PlayerTextDrawSetOutline(playerid, PTD_Gender[playerid][3], 0);
+    PlayerTextDrawBackgroundColor(playerid, PTD_Gender[playerid][3], 255);
+    PlayerTextDrawFont(playerid, PTD_Gender[playerid][3], 3);
+    PlayerTextDrawSetProportional(playerid, PTD_Gender[playerid][3], 1);
+    PlayerTextDrawSetShadow(playerid, PTD_Gender[playerid][3], 0);
+    PlayerTextDrawSetSelectable(playerid, PTD_Gender[playerid][3], true);
+
+    PTD_Gender[playerid][4] = CreatePlayerTextDraw(playerid, 389.314575, 200.549819, ">");
+    PlayerTextDrawLetterSize(playerid, PTD_Gender[playerid][4], 0.429985, 2.224166);
+    PlayerTextDrawTextSize(playerid, PTD_Gender[playerid][4], 397.000000, 15.000000);
+    PlayerTextDrawAlignment(playerid, PTD_Gender[playerid][4], 1);
+    PlayerTextDrawColor(playerid, PTD_Gender[playerid][4], -1);
+    PlayerTextDrawSetShadow(playerid, PTD_Gender[playerid][4], 0);
+    PlayerTextDrawSetOutline(playerid, PTD_Gender[playerid][4], 0);
+    PlayerTextDrawBackgroundColor(playerid, PTD_Gender[playerid][4], 255);
+    PlayerTextDrawFont(playerid, PTD_Gender[playerid][4], 3);
+    PlayerTextDrawSetProportional(playerid, PTD_Gender[playerid][4], 1);
+    PlayerTextDrawSetShadow(playerid, PTD_Gender[playerid][4], 0);
+    PlayerTextDrawSetSelectable(playerid, PTD_Gender[playerid][4], true);
+
+    PTD_Gender[playerid][5] = CreatePlayerTextDraw(playerid, 267.801300, 146.300186, "");
+    PlayerTextDrawLetterSize(playerid, PTD_Gender[playerid][5], 0.000000, 0.000000);
+    PlayerTextDrawTextSize(playerid, PTD_Gender[playerid][5], 118.000000, 133.000000);
+    PlayerTextDrawAlignment(playerid, PTD_Gender[playerid][5], 1);
+    PlayerTextDrawColor(playerid, PTD_Gender[playerid][5], -1);
+    PlayerTextDrawSetShadow(playerid, PTD_Gender[playerid][5], 0);
+    PlayerTextDrawSetOutline(playerid, PTD_Gender[playerid][5], 0);
+    PlayerTextDrawBackgroundColor(playerid, PTD_Gender[playerid][5], 0);
+    PlayerTextDrawFont(playerid, PTD_Gender[playerid][5], 5);
+    PlayerTextDrawSetProportional(playerid, PTD_Gender[playerid][5], 0);
+    PlayerTextDrawSetShadow(playerid, PTD_Gender[playerid][5], 0);
+    PlayerTextDrawSetPreviewModel(playerid, PTD_Gender[playerid][5], SkinsSelect[0][0]);
+    PlayerTextDrawSetPreviewRot(playerid, PTD_Gender[playerid][5], 0.000000, 0.000000, 0.000000, 1.000000);
+
+    PTD_Gender[playerid][6] = CreatePlayerTextDraw(playerid, 328.683624, 290.216491, "Sexo: ~b~~h~~h~Masculino");
+    PlayerTextDrawLetterSize(playerid, PTD_Gender[playerid][6], 0.273499, 1.133333);
+    PlayerTextDrawAlignment(playerid, PTD_Gender[playerid][6], 2);
+    PlayerTextDrawColor(playerid, PTD_Gender[playerid][6], -1);
+    PlayerTextDrawSetShadow(playerid, PTD_Gender[playerid][6], 0);
+    PlayerTextDrawSetOutline(playerid, PTD_Gender[playerid][6], 0);
+    PlayerTextDrawBackgroundColor(playerid, PTD_Gender[playerid][6], 255);
+    PlayerTextDrawFont(playerid, PTD_Gender[playerid][6], 1);
+    PlayerTextDrawSetProportional(playerid, PTD_Gender[playerid][6], 1);
+    PlayerTextDrawSetShadow(playerid, PTD_Gender[playerid][6], 0);
+
+    PTD_Gender[playerid][7] = CreatePlayerTextDraw(playerid, 386.203033, 138.666671, "CONTINUAR");
+    PlayerTextDrawLetterSize(playerid, PTD_Gender[playerid][7], 0.172298, 0.783333);
+    PlayerTextDrawTextSize(playerid, PTD_Gender[playerid][7], 8.000000, 32.000000);
+    PlayerTextDrawAlignment(playerid, PTD_Gender[playerid][7], 2);
+    PlayerTextDrawColor(playerid, PTD_Gender[playerid][7], -1);
+    PlayerTextDrawUseBox(playerid, PTD_Gender[playerid][7], 0);
+    PlayerTextDrawBoxColor(playerid, PTD_Gender[playerid][7], 255);
+    PlayerTextDrawSetShadow(playerid, PTD_Gender[playerid][7], 0);
+    PlayerTextDrawSetOutline(playerid, PTD_Gender[playerid][7], 0);
+    PlayerTextDrawBackgroundColor(playerid, PTD_Gender[playerid][7], 255);
+    PlayerTextDrawFont(playerid, PTD_Gender[playerid][7], 1);
+    PlayerTextDrawSetProportional(playerid, PTD_Gender[playerid][7], 1);
+    PlayerTextDrawSetShadow(playerid, PTD_Gender[playerid][7], 0);
+    PlayerTextDrawSetSelectable(playerid, PTD_Gender[playerid][7], true);
+
+    for(new i; i < sizeof(PTD_Gender[]); i++){
+        if ( IsValidPlayerTextDraw(playerid, PTD_Gender[playerid][i]) ) {
+            PlayerTextDrawShow(playerid, PTD_Gender[playerid][i]);
+        }
+    }
+    return 1;
+}
+
+stock Player:HideGender(playerid)
+{
+    if ( !GetPVarInt(playerid, "ShowGender") )return 0;
+    DeletePVar(playerid, "ShowGender");
+    for(new i; i < sizeof(PTD_Gender[]); i++)
+    {
+        if ( IsValidPlayerTextDraw(playerid, PTD_Gender[playerid][i]) )
+        {
+            PlayerTextDrawDestroy(playerid, PTD_Gender[playerid][i]);
+            PTD_Gender[playerid][i] = INVALID_PLAYER_TEXT_DRAW;
+        }
+    }
+    return 1;
+}
+
 stock Player:GetAdmin(playerid)
 {
     return Player[playerid][Admin];
@@ -568,7 +700,7 @@ stock Player:GetAdmin(playerid)
 
 stock Player:SetAdmin(playerid, level)
 {
-    if ( !Player[playerid][Logged] )return 0;
+    if ( !Player:Logged(playerid) )return 0;
     switch(level)
     {
         case CEO: Player[playerid][Admin] = CEO;
@@ -600,4 +732,17 @@ stock Player:GetAdminWorking(playerid)
 stock Player:Logged(playerid)
 {
     return Player[playerid][Logged];
+}
+
+stock Player:GiveWarningKick(playerid, quantity)
+{
+    if ( !IsPlayerConnected(playerid) )return 0;
+    Player[playerid][WarningKick] += quantity;
+    return 1;
+}
+
+stock Player:GetWarningKick(playerid)
+{
+    if ( !IsPlayerConnected(playerid) )return 0;
+    return Player[playerid][WarningKick];
 }

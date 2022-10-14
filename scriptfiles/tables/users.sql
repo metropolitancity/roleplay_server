@@ -1,9 +1,11 @@
 CREATE TABLE IF NOT EXISTS `users`(
     `id` INT(11) PRIMARY KEY AUTO_INCREMENT,
-    `name` VARCHAR(25) NOT NULL,
-    `email` VARCHAR(64) NOT NULL,
+    `name` VARCHAR(25) NOT NULL UNIQUE,
+    `email` VARCHAR(64) NOT NULL UNIQUE,
     `password` VARCHAR(64) NOT NULL,
     `admin` INT(1) DEFAULT 0,
+    `skin` INT(3) NOT NULL,
+    `gender` INT(1) NOT NULL,
     `spawn_x` FLOAT DEFAULT 0.0,
     `spawn_y` FLOAT DEFAULT 0.0,
     `spawn_z` FLOAT DEFAULT 0.0,

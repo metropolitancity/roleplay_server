@@ -19,6 +19,13 @@ enum E_COORDINATE_3D
     Float:A
 }
 
+// genero
+enum
+{
+    GENDER_MALE = 1,
+    GENDER_FEMALE
+}
+
 // leveis administrativos
 enum ( <<=1 )
 {

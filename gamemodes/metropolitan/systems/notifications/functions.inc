@@ -1,8 +1,6 @@
 stock NT:Send(playerid, E_NOTIFICATION_TYPE:type, const message[], va_args<>)
 {
     new len = strlen(message), seconds = len < 20 ? 3500 : floatround(len * 150);
-
-    nt_init:
     for(new i; i < MAX_PLAYER_NOTIFICATION; i++)
     {
         if ( Notification[playerid][i][Showed] )continue;
@@ -67,43 +65,14 @@ stock NT:Send(playerid, E_NOTIFICATION_TYPE:type, const message[], va_args<>)
         PlayerTextDrawSetProportional(playerid, PTD_Notification[playerid][i][3], 0);
         PlayerTextDrawSetShadow(playerid, PTD_Notification[playerid][i][3], 0);
 
-        for(new t; t < sizeof(PTD_Notification[][]); t++) {
-            PlayerTextDrawShow(playerid, PTD_Notification[playerid][i][t]);
+        for(new t; t < sizeof(PTD_Notification[][]); t++)
+        {
+            if ( IsValidPlayerTextDraw(playerid, PTD_Notification[playerid][i][t])) {
+                PlayerTextDrawShow(playerid, PTD_Notification[playerid][i][t]);
+            }
         }
-
-        
         Notification[playerid][i][Timer] = SetTimerEx("NT_Destroy", seconds, false, "ii", playerid, i);
         return 1;
     }
-    
-    new nt_id = -1, Float:dist = 1000.0;
-    for(new i; i < MAX_PLAYER_NOTIFICATION; i++){
-        if ( Notification[playerid][i][TD_Value] < dist ) {
-            nt_id = i;
-            dist = Notification[playerid][i][TD_Value];
-        }
-    }
-
-    if ( nt_id != -1 )
-    {
-        KillTimer(Notification[playerid][nt_id][Timer]);
-        NT:Destroy(playerid, nt_id);
-        goto nt_init;
-    }
     return 0;
-}
-
-public NT:Destroy(playerid, nt_id)
-{
-    if ( !Notification[playerid][nt_id][Showed] ) return 0;
-    Notification[playerid][nt_id][Showed] = false;
-    for(new i; i < sizeof(PTD_Notification[][]); i++)
-    {
-        if ( IsValidPlayerTextDraw(playerid, PTD_Notification[playerid][nt_id][i]) )
-        {
-            PlayerTextDrawDestroy(playerid, PTD_Notification[playerid][nt_id][i]);
-            PTD_Notification[playerid][nt_id][i] = INVALID_PLAYER_TEXT_DRAW;
-        }
-    }
-    return 1;
 }

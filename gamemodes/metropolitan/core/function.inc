@@ -10,7 +10,8 @@ stock IsValidName(const name[])
         if ( name[i] == '_') ++underlines;
     }
 
-    if ( underlines > 1 )return 0;
+    if ( underlines != 1 )return 0;
+
     return 1;
 }
 

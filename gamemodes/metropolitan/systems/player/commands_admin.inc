@@ -1,3 +1,38 @@
+cmd:staff(playerid)
+{
+    if ( Player[playerid][Admin] < HELPER )
+    {
+        return 0;
+    }
+
+    Player[playerid][StaffWorking] = !Player[playerid][StaffWorking];
+    switch(Player[playerid][StaffWorking])
+    {
+        case 0:
+        {
+            CleanChat();
+            SendClientMessageToAllf(COLOR_BLUE, ""SERVER_MESSAGE_TAG" {"COLOR_WHITE_EMBED"}Anjo %s esta {A52A2A}offilne{"COLOR_WHITE_EMBED"}.", Player[playerid][Name]);
+            NT:Send(playerid, NT_TYPE_SUCCESS, "Modo administrador: ~r~~h~Offline");
+            SetPlayerSkin(playerid, Player[playerid][Skin]);
+            SetPlayerHealth(playerid, Player[playerid][Health]);
+            SetPlayerArmour(playerid, Player[playerid][Armour]);
+            return 1;
+        }
+        case 1:
+        {
+            CleanChat();
+            SendClientMessageToAllf(COLOR_BLUE, ""SERVER_MESSAGE_TAG" {"COLOR_WHITE_EMBED"}Anjo %s esta {32CD32}online{"COLOR_WHITE_EMBED"}.", Player[playerid][Name]);
+            GetPlayerHealth(playerid, Player[playerid][Health]);
+            GetPlayerArmour(playerid, Player[playerid][Armour]);
+            SetPlayerHealth(playerid, 10000000.0);
+            NT:Send(playerid, NT_TYPE_SUCCESS, "Modo administrador: ~g~~h~Online");
+            SetPlayerSkin(playerid, 217);
+            return 1;
+        }
+    }
+    return 1;
+}
+
 flags:createvehicle(MODERATOR)
 alias:createvehicle("criarveiculo", "cv")
 cmd:createvehicle(playerid, params[])
@@ -28,6 +63,7 @@ cmd:createvehicle(playerid, params[])
     }
     
     new vehicleid = CreateVehicle(model, x, y, z, a, 0, 0, -1);
+    Vehicle:SetFuel(vehicleid, Vehicle:GetMaxFuel(GetVehicleModel(vehicleid)));
     Player[playerid][vAdmin] = vehicleid;
 
     GetVehicleName(vehicleid, vname);
@@ -102,28 +138,75 @@ cmd:setaradmin(playerid, params[])
     return 1;
 }
 
-cmd:staff(playerid)
+flags:ir(HELPER)
+alias:ir("goto")
+cmd:ir(playerid, params[])
 {
-    if ( Player[playerid][Admin] < HELPER )
+    new id;
+    if ( sscanf(params, "u", id) )
     {
+        NT:Send(playerid, NT_TYPE_ERROR, "Uso correto: /ir [passaporte / id]");
         return 0;
     }
 
-    Player[playerid][StaffWorking] = !Player[playerid][StaffWorking];
-    switch(Player[playerid][StaffWorking])
+    if ( !Player:Logged(id) )
     {
-        case 0:
-        {
-            NT:Send(playerid, NT_TYPE_SUCCESS, "Modo administrador: ~r~~h~Offline");
-            SetPlayerSkin(playerid, Player[playerid][Skin]);
-            return 1;
-        }
-        case 1:
-        {
-            NT:Send(playerid, NT_TYPE_SUCCESS, "Modo administrador: ~g~~h~Online");
-            SetPlayerSkin(playerid, 217);
-            return 1;
-        }
+        NT:Send(playerid, NT_TYPE_ERROR, "O jogador não esta conectado.");
+        return 0;
     }
+
+    if ( playerid == id )
+    {
+        NT:Send(playerid, NT_TYPE_ERROR, "Você não pode ir até você mesmo.");
+        return 0;
+    }
+
+    new Float:x, Float:y, Float:z, Float:a;
+    GetPlayerPos(id, x, y, z);
+    GetPlayerFacingAngle(id, a);
+
+    x += (3.0 * floatsin(-a, degrees));
+    y += (3.0 * floatcos(-a, degrees));
+
+    SetPlayerPos(playerid, x, y, z);
+    SetPlayerFacingAngle(playerid, a);
+    NT:Send(playerid, NT_TYPE_INFO, "Você foi até o jogador %s", Player[id][Name]);
+    NT:Send(id, NT_TYPE_INFO, "Anjo %s veio até você", Player[playerid][Name]);
+    return 1;
+}
+
+flags:trazer(HELPER)
+cmd:trazer(playerid, params[])
+{
+    new id;
+    if ( sscanf(params, "u", id) )
+    {
+        NT:Send(playerid, NT_TYPE_ERROR, "Uso correto: /trazer [passaporte / id]");
+        return 0;
+    }
+
+    if ( !Player:Logged(id) )
+    {
+        NT:Send(playerid, NT_TYPE_ERROR, "O jogador não esta conectado.");
+        return 0;
+    }
+
+    if ( playerid == id )
+    {
+        NT:Send(playerid, NT_TYPE_ERROR, "Você não pode puxar você mesmo.");
+        return 0;
+    }
+
+    new Float:x, Float:y, Float:z, Float:a;
+    GetPlayerPos(playerid, x, y, z);
+    GetPlayerFacingAngle(playerid, a);
+
+    x += (3.0 * floatsin(-a, degrees));
+    y += (3.0 * floatcos(-a, degrees));
+
+    SetPlayerPos(id, x, y, z);
+    SetPlayerFacingAngle(id, a);
+    NT:Send(playerid, NT_TYPE_INFO, "Você puxou o jogador %s.", Player[id][Name]);
+    NT:Send(id, NT_TYPE_INFO, "Anjo %s puxou você até ele.", Player[playerid][Name]);
     return 1;
 }
