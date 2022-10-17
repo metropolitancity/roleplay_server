@@ -168,3 +168,20 @@ stock cache_get_value_name_bool_fix(row_idx, const column_name[], &bool:destinat
     #define _ALS_cache_get_value_name_bool
 #endif
 #define cache_get_value_name_bool cache_get_value_name_bool_fix
+
+stock cache_get_value_name_fix(row_idx, const column_name[], destination[], max_len = sizeof(destination))
+{
+    new bool:null;
+    cache_is_value_name_null(row_idx, column_name, null);
+    if ( null ) {
+        destination[0] = EOS;
+        return 1;
+    }
+    return cache_get_value_name(row_idx, column_name, destination, max_len);
+}
+#if defined _ALS_cache_get_value_name
+    #undef cache_get_value_name
+#else
+    #define _ALS_cache_get_value_name
+#endif
+#define cache_get_value_name cache_get_value_name_fix

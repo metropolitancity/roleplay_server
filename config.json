@@ -73,7 +73,7 @@
         "time_sync_rate": 30000,
         "use_lan_mode": false
     },
-    "password": "147",
+    "password": "",
     "pawn": {
         "legacy_plugins": [ "crashdetect", "mysql", "bcrypt-samp", "discord-connector"],
         "main_scripts": [
@@ -89,6 +89,9 @@
     "sleep": 5.0,
     "use_dyn_ticks": true,
     "website": "metropolitanroleplay.com",
-    "discord_bot_token": "tyj03Jnmcqh19npsvh7kreBlllZE5DVe"
-    
+    "discord_bot_token": "tyj03Jnmcqh19npsvh7kreBlllZE5DVe",
+    "sampvoice": {
+        "threads": 5,
+        "updaterate": 30
+    }    
 }

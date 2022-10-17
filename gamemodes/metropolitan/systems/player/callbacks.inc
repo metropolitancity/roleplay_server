@@ -79,6 +79,17 @@ hook OnPlayerRequestSpawn(playerid)
     return Y_HOOKS_BREAK_RETURN_0;
 }
 
+hook OnPlayerSpawn(playerid)
+{
+    if ( !Player[playerid][Spawned] )
+    {
+        Player[playerid][Spawned] = true;
+        return Y_HOOKS_CONTINUE_RETURN_1;
+    }
+    SetPlayerSkin(playerid, GetPlayerSkin(playerid));
+    return Y_HOOKS_CONTINUE_RETURN_1;
+}
+
 hook OnPlayerText(playerid, text[])
 {
     return Y_HOOKS_BREAK_RETURN_0;
@@ -340,12 +351,10 @@ public OnPlayerAttempAuth(playerid)
         NT:Send(playerid, NT_TYPE_ERROR, "Conta não encontrada.");
         return Y_HOOKS_BREAK_RETURN_0;
     }
-    Player[playerid][Logged] = true;
 
     CancelSelectTextDraw(playerid);
     Player:HideLogin(playerid);
     
-
     // pegar informações do banco de dados.
     cache_get_value_name_int(0, "id", Player[playerid][ID]);
     cache_get_value_name(0, "name", Player[playerid][Name], MAX_PLAYER_NAME);
@@ -362,10 +371,28 @@ public OnPlayerAttempAuth(playerid)
     cache_get_value_name_float(0, "health", Player[playerid][Health]);
     cache_get_value_name_float(0, "armour", Player[playerid][Armour]);
     cache_get_value_name_int(0, "admin", Player[playerid][Admin]);
+    cache_get_value_name_int(0, "discord", Player[playerid][Discord]);
+    cache_get_value_name(0, "discord_id", Player[playerid][DiscordID], 32);
     cache_get_value_name(0, "last_login", Player[playerid][LastLogin], 30);
+
+    if ( !Player[playerid][Discord] )
+    {
+        if ( !isnull(Player[playerid][DiscordID]) )
+        {
+            CleanChat(playerid);
+            SendClientMessage(playerid, COLOR_RED, "Já foi enviado uma mensagem no privado do seu discord, verifique para prosseguir com a integração.");
+            Player:Kick(playerid);
+            return Y_HOOKS_BREAK_RETURN_1;
+        }
+
+        NT:Send(playerid, NT_TYPE_ERROR, "Você precisa adicionar seu discord para jogador em nosso servidor.");
+        DC:ShowIntegration(playerid);
+        return Y_HOOKS_BREAK_RETURN_1;
+    }
 
     // tirar o jogador de modo spectador.
     TogglePlayerSpectating(playerid, false);
+    
     // setar informações
     SetSpawnInfo(playerid, NO_TEAM, Player[playerid][Skin], Player[playerid][Spawn][X], Player[playerid][Spawn][Y], Player[playerid][Spawn][Z], Player[playerid][Spawn][A], 0, 0, 0, 0, 0, 0);
     SetPlayerInterior(playerid, Player[playerid][Interior]);
@@ -377,11 +404,14 @@ public OnPlayerAttempAuth(playerid)
     new pName[MAX_PLAYER_NAME];
     format(pName, MAX_PLAYER_NAME, "%03d", Player[playerid][ID]);
     SetPlayerName(playerid, pName);
+    
     // spawnar o jogador.
     SpawnPlayer(playerid); 
+
     // mensagem de sucesso!
-    
     CleanChat(playerid);
     SendClientMessagef(playerid, COLOR_BLUE, ""SERVER_MESSAGE_TAG" {"COLOR_WHITE_EMBED"}Bem vindo, %s, seu último login foi em {"COLOR_RED_EMBED"}%s{"COLOR_WHITE_EMBED"}.", Player[playerid][Name], Player[playerid][LastLogin]);
+    
+    Player[playerid][Logged] = true;
     return Y_HOOKS_BREAK_RETURN_1;
 }

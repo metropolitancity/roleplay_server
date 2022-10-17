@@ -14,6 +14,8 @@ CREATE TABLE IF NOT EXISTS `users`(
     `world` INT(11) DEFAULT 0,
     `health` FLOAT DEFAULT 100,
     `armour` FLOAT DEFAULT 0,
+    `whitelist` INT(1) DEFAULT 0,
+    `discord_id` VARCHAR(32) DEFAULT NULL,
     `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP(),
     `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP()
 )ENGINE = INNODB CHARSET="utf8" COLLATE="utf8_general_ci";

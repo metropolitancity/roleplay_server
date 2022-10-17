@@ -48,3 +48,4 @@ enum ( <<=1 )
 #define Player:           Player_
 #define Vehicle:          Vehicle_
 #define NT:               NT_
+#define DC:               DC_

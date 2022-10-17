@@ -49,6 +49,17 @@ stock Player:Kick(playerid, ms=100)
     return 1;
 }
 
+stock randomstring(strReturn[], strLen = sizeof(strReturn) ) // by RyDeR | link = http://forum.sa-mp.com/showthread.php?t=276913
+{
+	new 
+		strDest[128];
+
+	while(strLen--)
+		strDest[strLen] = random(2) ? (random(26) + (random(3) ? 'A' : 'a')) : (random(10) + '0');
+
+    format(strReturn, strLen, strDest);
+}
+
 forward OnPlayerKick(playerid);
 public OnPlayerKick(playerid)
 {
