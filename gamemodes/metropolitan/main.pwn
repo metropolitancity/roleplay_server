@@ -50,7 +50,7 @@ public OnGameModeInit()
 #include <core/colors>
 #include <core/function>
 #include <core/command_perfomed>
-
+#include <core/dynamic_time>
 
 // voice
 #include <voice/voice>
