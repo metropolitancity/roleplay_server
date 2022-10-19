@@ -27,7 +27,10 @@ public OnUpdateDynamicTime(playerid)
 {
     new hour, minutes;
     gettime(hour, minutes);
-    hour += 4;
-    SetPlayerTime(playerid, hour, minutes);
+    switch(hour)
+    {
+        case 0..3: SetPlayerTime(playerid, hour + 2, minutes);
+        default:   SetPlayerTime(playerid, hour + 4, minutes);
+    }
     return 1;
 }

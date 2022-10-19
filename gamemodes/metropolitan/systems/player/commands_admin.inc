@@ -210,3 +210,17 @@ cmd:trazer(playerid, params[])
     NT:Send(id, NT_TYPE_INFO, "Anjo %s puxou você até ele.", Player[playerid][Name]);
     return 1;
 }
+
+flags:flymode(MODERATOR)
+alias:flymode("nc", "noclip", "fm")
+cmd:flymode(playerid)
+{
+    if ( GetPVarInt(playerid, "FlyMode") ){
+        CallRemoteFunction("CancelFlyMode", "i", playerid);
+        NT:Send(playerid, NT_TYPE_SUCCESS, "Modo flymode ~r~desativado");
+    }else{
+        CallRemoteFunction("FlyMode", "i", playerid);
+        NT:Send(playerid, NT_TYPE_SUCCESS, "Modo flymode ~g~ativado");
+    }
+    return 1;
+}

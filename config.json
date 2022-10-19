@@ -79,7 +79,7 @@
         "main_scripts": [
             "main 1"
         ],
-        "side_scripts": []
+        "side_scripts": [ "filterscripts/flymode" ]
     },
     "rcon": {
         "allow_teleport": false,

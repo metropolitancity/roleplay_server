@@ -25,6 +25,30 @@
         "panel": "dedicated"
       },
       "problemMatcher": "$pawncc"
+    },
+    {
+      "label": "compiler-filterscript",
+      "type": "shell",
+      "command": "${workspaceRoot}\\pawno\\pawncc.exe",
+      "args": [
+        "${file}",
+        "--%",
+        "-Dfilterscripts",
+        "-;+",
+        "-(+",
+        "-d3",
+        "-Z"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "isBackground": false,
+      "presentation": {
+        "reveal": "silent",
+        "panel": "dedicated"
+      },
+      "problemMatcher": "$pawncc"
     }
   ]
 }

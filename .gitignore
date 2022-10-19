@@ -3,4 +3,5 @@ log.txt
 omp_minidump.dmp
 logs/*
 gamemodes/main.amx
+filterscripts/**.amx
 database.ini

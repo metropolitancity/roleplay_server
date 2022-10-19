@@ -11,10 +11,6 @@ hook OnPlayerConnect(playerid)
     TogglePlayerSpectating(playerid, true);
     GetPlayerName(playerid, Player[playerid][Name], MAX_PLAYER_NAME);
     
-    new pName[MAX_PLAYER_NAME];
-    format(pName, sizeof(pName), "Player%d", playerid);
-    SetPlayerName(playerid, pName);
-
     if ( !Player[playerid][Login] )
     {
         Player[playerid][Login] = true;
