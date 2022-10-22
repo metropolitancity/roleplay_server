@@ -49,3 +49,4 @@ enum ( <<=1 )
 #define Vehicle:          Vehicle_
 #define NT:               NT_
 #define DC:               DC_
+#define FSS:              Fss_

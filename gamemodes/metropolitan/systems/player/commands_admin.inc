@@ -224,3 +224,33 @@ cmd:flymode(playerid)
     }
     return 1;
 }
+
+flags:setarfss(MODERATOR)
+alias:setarfss("setfss")
+cmd:setarfss(playerid, params[])
+{
+    new id, hunger, thirst, _sleep;
+    if ( sscanf(params, "uddd", id, hunger, thirst, _sleep) )
+    {
+        NT:Send(playerid, NT_TYPE_ERROR, "Uso correto: /setarfss [id / passaporte] [fome] [sede] [sono]");
+        return 0;
+    }
+
+    if ( !Player:Logged(id) )
+    {
+        NT:Send(playerid, NT_TYPE_ERROR, "O jogador não esta conectado.");
+        return 0;
+    }
+
+    Player[playerid][Hunger] = hunger;
+    FSS:SetValue(playerid, Player[playerid][FSS_Hunger], Player[playerid][Hunger]);
+
+    Player[playerid][Thirst] = thirst;
+    FSS:SetValue(playerid, Player[playerid][FSS_Thirst], Player[playerid][Thirst]);
+
+    Player[playerid][Sleep] = _sleep;
+    FSS:SetValue(playerid, Player[playerid][FSS_Sleep], Player[playerid][Sleep]);
+    NT:Send(playerid, NT_TYPE_SUCCESS, "Você valores setados com sucesso para o jogador %s.", Player[id][Name]);
+    NT:Send(id, NT_TYPE_INFO, "O Anjo setou os valores da sua fome, sede e sono.");
+    return 1;
+}

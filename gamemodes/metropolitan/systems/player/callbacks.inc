@@ -35,7 +35,7 @@ hook OnPlayerDisconnect(playerid, reason)
         GetPlayerFacingAngle(playerid, Player[playerid][Spawn][A]);
 
         mysql_format(SQL_Connection, query, sizeof(query),
-            "UPDATE "TABLE_USERS" SET `health`='%.2f',`armour`='%.2f',`spawn_x`='%.2f',`spawn_y`='%.2f',`spawn_z`='%.2f',`spawn_a`='%.2f',`interior`='%d',`world`='%d' WHERE `id`='%d';",
+            "UPDATE "TABLE_USERS" SET `health`='%.2f',`armour`='%.2f',`spawn_x`='%.2f',`spawn_y`='%.2f',`spawn_z`='%.2f',`spawn_a`='%.2f',`interior`='%d',`world`='%d',`hunger`='%.3f',`thirst`='%.3f',`sleep`='%.3f' WHERE `id`='%d';",
             Player[playerid][Health], Player[playerid][Armour],
             Player[playerid][Spawn][X],
             Player[playerid][Spawn][Y],
@@ -43,6 +43,9 @@ hook OnPlayerDisconnect(playerid, reason)
             Player[playerid][Spawn][A],
             GetPlayerInterior(playerid),
             GetPlayerVirtualWorld(playerid),
+            Player[playerid][Hunger],
+            Player[playerid][Thirst],
+            Player[playerid][Sleep],
             Player[playerid][ID]
         );
         mysql_tquery(SQL_Connection, query);
@@ -370,6 +373,9 @@ public OnPlayerAttempAuth(playerid)
     cache_get_value_name_int(0, "discord", Player[playerid][Discord]);
     cache_get_value_name(0, "discord_id", Player[playerid][DiscordID], 32);
     cache_get_value_name(0, "last_login", Player[playerid][LastLogin], 30);
+    cache_get_value_name_float(0, "hunger", Player[playerid][Hunger]);
+    cache_get_value_name_float(0, "thirst", Player[playerid][Thirst]);
+    cache_get_value_name_float(0, "sleep", Player[playerid][Sleep]);
 
     if ( !Player[playerid][Discord] )
     {

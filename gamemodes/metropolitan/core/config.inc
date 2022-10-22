@@ -13,7 +13,7 @@ hook OnGameModeInit()
     print("Configurando informações do servidor...");
     SendRconCommandf("hostname %s %s", SERVER_NAME, SERVER_STAGE);
     SendRconCommandf("language Português Brasil");
-    SendRconCommandf("gamemodetext Roleplay | %s", SERVER_VERSION);
+    SendRconCommandf("gamemodetext RP %s", SERVER_VERSION);
     ManualVehicleEngineAndLights();
     DisableInteriorEnterExits();
     UsePlayerPedAnims();
