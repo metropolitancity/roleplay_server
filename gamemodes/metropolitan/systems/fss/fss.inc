@@ -28,14 +28,13 @@ hook OnPlayerConnect(playerid)
     return Y_HOOKS_CONTINUE_RETURN_1;
 }
 
-hook OnPlayerDisconnect(playerid, reason)
+hook OnPlayerSave(playerid, uid)
 {
-    FSS:Destroy(playerid, 0);
-    FSS:Destroy(playerid, 1);
-    FSS:Destroy(playerid, 2);
+    FSS:Destroy(playerid, Player[playerid][FSS_Hunger]);
+    FSS:Destroy(playerid, Player[playerid][FSS_Thirst]);
+    FSS:Destroy(playerid, Player[playerid][FSS_Sleep]);
     
-    if ( FSS_Time[playerid] != -1 )
-    {
+    if ( FSS_Time[playerid] != -1 ) {
         KillTimer(FSS_Time[playerid]);
         FSS_Time[playerid] = -1;
     }

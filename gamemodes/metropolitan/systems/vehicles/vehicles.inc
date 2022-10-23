@@ -24,7 +24,7 @@ new bool:PlayerLoadedVehicles[MAX_PLAYERS],
 ;
 
 // textdraws
-new PlayerText:PTD_Speedometer[MAX_PLAYERS][16] = { INVALID_PLAYER_TEXT_DRAW, ... };
+new PlayerText:PTD_Speedometer[MAX_PLAYERS][14] = { INVALID_PLAYER_TEXT_DRAW, ... };
 
 
 enum E_ENGINE_TYPE

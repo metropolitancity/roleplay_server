@@ -213,6 +213,7 @@ stock Vehicle:HidePlayerSpeedometer(playerid)
     KillTimer(TimerSpeedometer[playerid]);
     TimerSpeedometer[playerid] = 0;
 
+    new text[144];
     for(new i; i < sizeof(PTD_Speedometer[]); i++)
     {
         if ( IsValidPlayerTextDraw(playerid, PTD_Speedometer[playerid][i]) )
