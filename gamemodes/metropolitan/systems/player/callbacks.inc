@@ -8,6 +8,8 @@ hook OnGameModeInit()
 
 hook OnPlayerConnect(playerid)
 {
+    ShowServerLogo(playerid);
+
     TogglePlayerSpectating(playerid, true);
     GetPlayerName(playerid, Player[playerid][Name], MAX_PLAYER_NAME);
     
@@ -23,13 +25,14 @@ hook OnPlayerConnect(playerid)
         new query[128];
         mysql_format(SQL_Connection, query, sizeof(query), "SELECT id FROM "TABLE_USERS" WHERE `name`='%e' OR `id`='%d';", Player[playerid][Name], Player[playerid][Name]);
         mysql_tquery(SQL_Connection, query, "OnPlayerCheckAccount", "i", playerid);
-        return Y_HOOKS_CONTINUE_RETURN_1;
     }
     return Y_HOOKS_CONTINUE_RETURN_1;
 }
 
 hook OnPlayerDisconnect(playerid, reason)
 {
+    HideServerLogo(playerid);
+    
     if ( !isnull(Player[playerid][Name]) ) {
         SetPlayerName(playerid, Player[playerid][Name]);
     }

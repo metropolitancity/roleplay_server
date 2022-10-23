@@ -61,6 +61,7 @@ public OnGameModeInit()
 #include <headers/player>
 
 //
+#include <systems/logo/logo>
 #include <systems/player/player>
 #include <systems/vehicles/vehicles>
 #include <systems/notifications/nt>
