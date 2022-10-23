@@ -46,7 +46,7 @@ hook OnPlayerSpawn(playerid)
     if ( GetPVarInt(playerid, "ShowedFSS") )return Y_HOOKS_CONTINUE_RETURN_1;
     SetPVarInt(playerid, "ShowedFSS", 1);
 
-    FSS_Time[playerid] = SetTimerEx("OnUpdateFssValue", 1000, true, "i", playerid);
+    FSS_Time[playerid] = SetTimerEx("OnUpdateFssValue", 30000, true, "i", playerid);
 
     Player[playerid][FSS_Hunger] = FSS:Create(playerid, "hud:radar_burgerShot", 92.0, 344.0, 0xFFF68FFF);
     FSS:SetValue(playerid, Player[playerid][FSS_Hunger], Player[playerid][Hunger]);
@@ -69,20 +69,23 @@ public OnUpdateFssValue(playerid)
     Player[playerid][Sleep]  = Player[playerid][Sleep]  > 100.0 ? 100.0 : Player[playerid][Sleep];
 
 
-    Player[playerid][Hunger] -= 0.016; // fome 
-    Player[playerid][Thirst] -= 0.026; // sede 
-    Player[playerid][Sleep]  -= 0.010; // sono
+    Player[playerid][Hunger] -= 0.325; // fome 
+    Player[playerid][Thirst] -= 0.450; // sede 
+    Player[playerid][Sleep]  -= 0.253; // sono
 
     if ( Player[playerid][Hunger] == 0.0 ) {
+        Player[playerid][Hunger] = 0.0;
         NT:Send(playerid, NT_TYPE_ERROR, "Você desmaiou de fome.");
     }
 
 
     if ( Player[playerid][Sleep] == 0.0 ) {
+        Player[playerid][Sleep] = 0.0;
         NT:Send(playerid, NT_TYPE_ERROR, "Você desmaiou de sono.");
     }
 
     if ( Player[playerid][Thirst] == 0.0 ) {
+        Player[playerid][Thirst] = 0.0;
         NT:Send(playerid, NT_TYPE_ERROR, "Você desmaiou de sede.");
     }
 
@@ -110,7 +113,7 @@ FSS:Create(playerid, const sprite[], Float:x, Float:y, color = 0x00BBFFFF)
         PlayerTextDrawLetterSize(playerid, PTD_FSS[playerid][i][0], 0.000000, 0.000000);
         PlayerTextDrawTextSize(playerid, PTD_FSS[playerid][i][0], 15.0, 15.0);
         PlayerTextDrawAlignment(playerid, PTD_FSS[playerid][i][0], 1);
-        PlayerTextDrawColor(playerid, PTD_FSS[playerid][i][0], 303174399);
+        PlayerTextDrawColor(playerid, PTD_FSS[playerid][i][0], 150);
         PlayerTextDrawSetShadow(playerid, PTD_FSS[playerid][i][0], 0);
         PlayerTextDrawSetOutline(playerid, PTD_FSS[playerid][i][0], 0);
         PlayerTextDrawBackgroundColor(playerid, PTD_FSS[playerid][i][0], 255);
@@ -175,13 +178,8 @@ FSS:Destroy(playerid, index)
 
 FSS:ShowAll(playerid)
 {
-    for(new i; i < MAX_FSS; i++)
-    {
-        if ( !FSS_CREATED[playerid][i] )continue;
-        PlayerTextDrawShow(playerid, PTD_FSS[playerid][i][0]);
-        PlayerTextDrawShow(playerid, PTD_FSS[playerid][i][1]);
-        PlayerTextDrawShow(playerid, PTD_FSS[playerid][i][2]);
-        PlayerTextDrawShow(playerid, PTD_FSS[playerid][i][3]);
+    for(new i; i < MAX_FSS; i++) {
+        FSS:Show(playerid, i);
     }
     return 1;
 }
@@ -200,6 +198,9 @@ FSS:SetValue(playerid, index, Float:value)
 {
     if ( !FSS:IsValid(playerid, index) )return 0;
     
+    value = value < 0.0 ? 0.0 : value;
+    value = value > 100.0 ? 100.0 : value;
+
     PlayerTextDrawTextSize(playerid, PTD_FSS[playerid][index][3], ((15.0 / 100) * value), 3.0);
     PlayerTextDrawShow(playerid, PTD_FSS[playerid][index][3]);
     return 1;

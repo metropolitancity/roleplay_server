@@ -5,7 +5,8 @@
 #include <sampvoice>
 #include <Pawn.CMD>
 #include <sscanf2>
-#include <discord-connector>
+#include <streamer>
+//#include <discord-connector>
 #include <YSI_Coding\y_va>
 #include <YSI_Data\y_iterate>
 #include <easyDialog>
@@ -65,3 +66,4 @@ public OnGameModeInit()
 #include <systems/notifications/nt>
 //#include <systems/discord/discord>
 #include <systems/fss/fss>
+#include <systems/property/property>

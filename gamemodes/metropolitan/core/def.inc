@@ -2,6 +2,11 @@
 #define MAX_PLAYER_PASSWORD     (BCRYPT_HASH_LENGTH)
 #define BCRYPT_COST             (12)
 
+#define DISTANCE_RENDER_MAPICON         ( 100.0 )
+#define DISTANCE_RENDER_LABEL           ( 10.0 )
+#define DISTANCE_RENDER_PICKUP          ( 30.0 )
+
+
 // notification type
 enum E_NOTIFICATION_TYPE
 {
