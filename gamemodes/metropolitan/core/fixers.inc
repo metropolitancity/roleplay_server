@@ -61,7 +61,6 @@ stock FixText(const string[])
     return szFixed;
 } 
 
-
 stock Text:TextDrawCreate_fix(Float:x, Float:y, const text[])
 {
 	return TextDrawCreate(x, y, FixText(text));

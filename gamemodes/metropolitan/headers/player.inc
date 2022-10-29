@@ -1,3 +1,12 @@
+// forward
+forward OnPlayerCheckAccount(playerid);
+forward OnPasswordHashed(playerid);
+forward OnPasswordVerify(playerid);
+forward OnPlayerRegister(playerid);
+forward OnPlayerAttempAuth(playerid);
+forward OnPlayerSave(playerid);
+forward OnPlayerLogged(playerid);
+
 enum E_PLAYER_DATA
 {
     ID,
@@ -70,11 +79,3 @@ new SkinsSelect[][] =
     {298, 2}, {299, 1}, {300, 1}, {301, 1}, {302, 1}, {303, 1}, {304, 1}, {305, 1}, {306, 1}, {307, 1}, {308, 1}, 
     {309, 1}, {310, 1}, {311, 1}
 };
-
-// forward
-forward OnPlayerCheckAccount(playerid);
-forward OnPasswordHashed(playerid);
-forward OnPasswordVerify(playerid);
-forward OnPlayerRegister(playerid);
-forward OnPlayerAttempAuth(playerid);
-forward OnPlayerSave(playerid);

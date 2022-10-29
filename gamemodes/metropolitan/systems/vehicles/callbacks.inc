@@ -72,7 +72,7 @@ hook OnPlayerDisconnect(playerid, reason)
     return Y_HOOKS_CONTINUE_RETURN_1;
 }
 
-public OnPlayerSave(playerid)
+hook OnPlayerSave(playerid)
 {
     
     if ( PlayerLoadedVehicles[playerid] )
@@ -112,7 +112,7 @@ public OnPlayerSave(playerid)
     return 1;
 }
 
-hook OnPlayerSpawn(playerid)
+hook OnPlayerLogged(playerid)
 {
     if ( PlayerLoadedVehicles[playerid] ) return Y_HOOKS_CONTINUE_RETURN_1;
     PlayerLoadedVehicles[playerid] = true;

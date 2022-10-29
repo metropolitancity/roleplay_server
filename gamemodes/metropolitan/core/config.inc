@@ -4,9 +4,7 @@
 #define SERVER_SITE     "https://metropolitanrolelplay.com"
 #define SERVER_STAGE    "[ALPHA]"
 #define SERVER_VERSION  "v1.0.0"
-
 #define SERVER_MESSAGE_TAG          "[MP{FFFFFF}:{00BBFF}RP]"
-
 
 hook OnGameModeInit()
 {
@@ -17,6 +15,9 @@ hook OnGameModeInit()
     ManualVehicleEngineAndLights();
     DisableInteriorEnterExits();
     UsePlayerPedAnims();
+    ShowPlayerMarkers(PLAYER_MARKERS_MODE_OFF);
+    DisableCrashDetectLongCall();
+    ShowNameTags(false);
     print(" ");
     return Y_HOOKS_CONTINUE_RETURN_1;
 }

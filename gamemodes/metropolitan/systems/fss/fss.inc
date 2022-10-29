@@ -28,7 +28,7 @@ hook OnPlayerConnect(playerid)
     return Y_HOOKS_CONTINUE_RETURN_1;
 }
 
-hook OnPlayerSave(playerid, uid)
+hook OnPlayerSave(playerid)
 {
     FSS:Destroy(playerid, Player[playerid][FSS_Hunger]);
     FSS:Destroy(playerid, Player[playerid][FSS_Thirst]);
@@ -41,11 +41,8 @@ hook OnPlayerSave(playerid, uid)
     return Y_HOOKS_CONTINUE_RETURN_1;
 }
 
-hook OnPlayerSpawn(playerid)
+hook OnPlayerLogged(playerid)
 {
-    if ( GetPVarInt(playerid, "ShowedFSS") )return Y_HOOKS_CONTINUE_RETURN_1;
-    SetPVarInt(playerid, "ShowedFSS", 1);
-
     FSS_Time[playerid] = SetTimerEx("OnUpdateFssValue", 30000, true, "i", playerid);
 
     Player[playerid][FSS_Hunger] = FSS:Create(playerid, "hud:radar_burgerShot", 92.0, 344.0, 0xFFF68FFF);

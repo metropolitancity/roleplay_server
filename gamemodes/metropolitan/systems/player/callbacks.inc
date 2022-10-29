@@ -9,9 +9,17 @@ hook OnGameModeInit()
 hook OnPlayerConnect(playerid)
 {
     ShowServerLogo(playerid);
-
+    SetPlayerColor(playerid, 0xFFFFFFFF);
     TogglePlayerSpectating(playerid, true);
     GetPlayerName(playerid, Player[playerid][Name], MAX_PLAYER_NAME);
+
+    if ( !IsValidName(Player[playerid][Name]) ) {
+        NT:Send(playerid, NT_TYPE_ERROR, "Nome inválido / Anti-RP.");
+        NT:Send(playerid, NT_TYPE_ERROR, "Use: Nome_Sobrenome para definir o nome do personagem.");
+        CleanChat();
+        Player:Kick(playerid, 200);
+        return Y_HOOKS_BREAK_RETURN_1;
+    }
     
     // camuflar jogador.
     new pname[MAX_PLAYER_NAME];
@@ -32,13 +40,10 @@ hook OnPlayerConnect(playerid)
 hook OnPlayerDisconnect(playerid, reason)
 {
     HideServerLogo(playerid);
-    
-    if ( !isnull(Player[playerid][Name]) ) {
-        SetPlayerName(playerid, Player[playerid][Name]);
-    }
-
     if ( Player:Logged(playerid) )
     {
+        printf("[MP:RP] Salvando conta do jogador %s.", Player[playerid][Name]);
+
         new query[1024];
 
         GetPlayerHealth(playerid, Player[playerid][Health]);
@@ -62,21 +67,26 @@ hook OnPlayerDisconnect(playerid, reason)
         );
         mysql_tquery(SQL_Connection, query);
 
-        printf("[MP:RP] Salvando conta do jogador %s.", Player[playerid][Name]);
         if ( funcidx("OnPlayerSave") != -1 ) {
-            CallLocalFunction("OnPlayerSave", "d", playerid);
+            OnPlayerSave(playerid);
         }
 
         // destruir veiculo admin, caso haja algum criado pelo jogador
-        if ( IsValidVehicle(Player[playerid][vAdmin]) )
-        {
+        if ( IsValidVehicle(Player[playerid][vAdmin]) ) {
             DestroyVehicle(Player[playerid][vAdmin]);
             Player[playerid][vAdmin] = INVALID_VEHICLE_ID;
         }
+        SetPlayerName(playerid, Player[playerid][Name]);
     }
+
     new reset[E_PLAYER_DATA];
     Player[playerid] = reset;
     return Y_HOOKS_CONTINUE_RETURN_1;
+}
+
+public OnPlayerSave(playerid)
+{
+    return 1;
 }
 
 hook OnPlayerRequestClass(playerid)
@@ -95,6 +105,10 @@ hook OnPlayerSpawn(playerid)
     if ( !Player[playerid][Spawned] )
     {
         Player[playerid][Spawned] = true;
+        Player:CreateLabel(playerid);
+        if ( funcidx("OnPlayerLogged") != -1 ) {
+            CallLocalFunction("OnPlayerLogged", "i", playerid);
+        }
         return Y_HOOKS_CONTINUE_RETURN_1;
     }
     SetPlayerSkin(playerid, GetPlayerSkin(playerid));

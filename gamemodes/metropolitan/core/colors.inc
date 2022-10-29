@@ -18,3 +18,6 @@
 
 #define COLOR_ORANGE            0xFF8C00FF
 #define COLOR_ORANGE_EMBED      "FF8C00"
+
+#define COLOR_GREEN             0x3CB371FF
+#define COLOR_GREEN_EMBED       "3CB371"

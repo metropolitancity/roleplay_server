@@ -1,6 +1,12 @@
+//forward
+forward OnPlayerSave(playerid);
+
 #define MAX_PLAYER_EMAIL        (64)
 #define MAX_PLAYER_PASSWORD     (BCRYPT_HASH_LENGTH)
 #define BCRYPT_COST             (12)
+
+
+#define MAX_BUSINESS_DEALERSHIPS    (5)
 
 #define DISTANCE_RENDER_MAPICON         ( 100.0 )
 #define DISTANCE_RENDER_LABEL           ( 10.0 )

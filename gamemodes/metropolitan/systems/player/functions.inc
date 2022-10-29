@@ -746,3 +746,37 @@ stock Player:GetWarningKick(playerid)
     if ( !IsPlayerConnected(playerid) )return 0;
     return Player[playerid][WarningKick];
 }
+
+stock Player:CreateLabel(playerid)
+{
+    if ( !Player:Logged(playerid) || GetPVarInt(playerid, "PLAYER_NAME_LABEL") )return 0;
+
+    new str[MAX_PLAYER_NAME + 5];
+    format(str, sizeof(str), "%d(%d)", Player[playerid][ID], playerid);
+    SetPVarInt(playerid, "PLAYER_NAME_LABEL",
+        _:CreateDynamic3DTextLabel(
+            str,
+            GetPlayerColor(playerid),
+            0.0,
+            0.0,
+            0.1,
+            15.0,
+            .attachedplayer=playerid,
+            .streamdistance=15.0
+        )
+    );
+    return 1;
+}
+
+stock Player:UpdateLabel(playerid, color)
+{
+    if ( !Player:Logged(playerid) || !GetPVarInt(playerid, "PLAYER_NAME_LABEL") )return 0;
+
+    new str[MAX_PLAYER_NAME + 5];
+    format(str, sizeof(str), "%d(%d)", Player[playerid][ID], playerid);
+    UpdateDynamic3DTextLabelText(Text3D:GetPVarInt(playerid, "PLAYER_NAME_LABEL"), 
+        color,
+        str
+    );
+    return 1;
+}

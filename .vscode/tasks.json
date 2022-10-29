@@ -10,6 +10,7 @@
         "--%",
         "-Dgamemodes",
         "-i${workspaceRoot}\\gamemodes\\metropolitan",
+        "-i${workspaceRoot}\\gamemodes\\metropolitan\\systems",
         "-;+",
         "-(+",
         "-d3",

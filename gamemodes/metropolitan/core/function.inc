@@ -66,3 +66,20 @@ public OnPlayerKick(playerid)
     if ( !IsPlayerConnected(playerid) )return 0;
     return Kick(playerid), 1;
 }
+
+stock RealStr(value, const currencyCode[] = "$")
+{
+	new 
+		dest[64], str[64], count = 0;
+    strcat(dest, currencyCode, sizeof(dest));
+	format(dest, sizeof(dest), "%d", value);
+	for(new i = strlen(dest); i != 0; i--)
+	{		
+		count++;
+		if(count == 3 && i >= 2)
+			strins(dest, ".", i - 1, sizeof(dest)),count=0;
+	}
+    strcat(str, currencyCode);
+    strcat(str, dest);
+	return str;
+}
