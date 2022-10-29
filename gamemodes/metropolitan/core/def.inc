@@ -61,3 +61,4 @@ enum ( <<=1 )
 #define NT:               NT_
 #define DC:               DC_
 #define FSS:              Fss_
+#define DS:               DS_

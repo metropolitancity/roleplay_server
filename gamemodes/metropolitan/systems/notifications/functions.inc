@@ -1,5 +1,7 @@
 stock NT:Send(playerid, E_NOTIFICATION_TYPE:type, const message[], va_args<>)
 {
+    if ( !IsPlayerConnected(playerid) )return 0;
+
     new len = strlen(message), seconds = len < 20 ? 3500 : floatround(len * 150);
     for(new i; i < MAX_PLAYER_NOTIFICATION; i++)
     {

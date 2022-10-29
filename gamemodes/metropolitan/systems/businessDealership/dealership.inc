@@ -19,6 +19,8 @@ enum E_BUSINESS_DEALERSHIP
 }
 new BusinessDealership[MAX_BUSINESS_DEALERSHIPS][E_BUSINESS_DEALERSHIP], Iterator:BusinessDealership<MAX_BUSINESS_DEALERSHIPS>;
 
+new PlayerText:PTD_Dealership[MAX_PLAYERS][9] = { INVALID_PLAYER_TEXT_DRAW, ...};
 
 // ================ includes
-#include "systems/businessDealership/callbacks"
+#include "businessDealership/callbacks"
+#include "businessDealership/functions"
