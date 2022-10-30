@@ -1,3 +1,5 @@
+#define MAX_VEHICLES_PER_PAGE       (15)
+
 enum E_BDS_OWNER
 {
     ID,
@@ -19,7 +21,9 @@ enum E_BUSINESS_DEALERSHIP
 }
 new BusinessDealership[MAX_BUSINESS_DEALERSHIPS][E_BUSINESS_DEALERSHIP], Iterator:BusinessDealership<MAX_BUSINESS_DEALERSHIPS>;
 
-new PlayerText:PTD_Dealership[MAX_PLAYERS][9] = { INVALID_PLAYER_TEXT_DRAW, ...};
+new PlayerText:PTD_Dealership[MAX_PLAYERS][9] = { INVALID_PLAYER_TEXT_DRAW, ...},
+    PlayerText:PTD_DealershipVehicles[MAX_PLAYERS][MAX_VEHICLES_PER_PAGE][4]
+;
 
 // ================ includes
 #include "businessDealership/callbacks"

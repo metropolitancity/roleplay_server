@@ -73,6 +73,16 @@ hook OnGameModeInit()
     return Y_HOOKS_CONTINUE_RETURN_1;
 }
 
+hook OnPlayerConnect(playerid)
+{
+    for(new i; i < MAX_VEHICLES_PER_PAGE; i++){
+        for(new t; t < sizeof(PTD_DealershipVehicles[][]); t++){
+            PTD_DealershipVehicles[playerid][i][t] = INVALID_PLAYER_TEXT_DRAW;
+        }
+    }
+    return Y_HOOKS_CONTINUE_RETURN_1;
+}
+
 hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 {
     if ( PRESSED(KEY_YES) && !GetPVarInt(playerid, "DS:ShowDealerShip") )
@@ -81,9 +91,9 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
         {
             if ( IsPlayerInRangeOfPoint(playerid, 1.0, BusinessDealership[i][X], BusinessDealership[i][Y], BusinessDealership[i][Z]) )
             {
-                CleanChat(playerid);
+                CleanChat(playerid);                
                 SendClientMessagef(playerid, COLOR_RED, "[Concessionária] {FFFFFF}Bem vindo a %s", ret_utf8decode(BusinessDealership[i][Name]));
-                DS:ShowDealerShip(playerid, BusinessDealership[i][Name]);
+                DS:ShowDealerShip(playerid, i);
                 return Y_HOOKS_BREAK_RETURN_1;
             }
         }
@@ -109,6 +119,39 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
 
     if ( playertextid == PTD_Dealership[playerid][3] ) { // fechar
         DS:HideDealerShip(playerid);
+        return Y_HOOKS_BREAK_RETURN_1;
+    }
+
+    else if ( playertextid == PTD_Dealership[playerid][6] ) // anterior
+    {
+        new page = GetPVarInt(playerid, "DS:PAGE");
+        if ( page == 0 )return Y_HOOKS_BREAK_RETURN_0;
+
+        SetPVarInt(playerid, "DS:PAGE", page - 1);
+
+        new ds_index = DS:GetId(playerid, 2.0), vehicles = DS:GetVehicles(ds_index);
+
+        DS:HideVehicles(playerid);
+        DS:ShowVehicles(playerid, ds_index, GetPVarInt(playerid, "DS:PAGE"));
+
+        new str[20];
+        format(str, sizeof(str), "%d/%d", GetPVarInt(playerid, "DS:PAGE") + 1, 1 + (vehicles / MAX_VEHICLES_PER_PAGE) );
+        PlayerTextDrawSetString(playerid, PTD_Dealership[playerid][7], str);
+        return 1;
+    }
+    else if ( playertextid == PTD_Dealership[playerid][8] ) // próximo
+    {
+        new page = GetPVarInt(playerid, "DS:PAGE"), ds_index = DS:GetId(playerid, 2.0), vehicles = DS:GetVehicles(ds_index);
+
+        if ( page == floatround((vehicles / MAX_VEHICLES_PER_PAGE), floatround_ceil) )return Y_HOOKS_BREAK_RETURN_0;
+        SetPVarInt(playerid, "DS:PAGE", page + 1);
+
+        DS:HideVehicles(playerid);
+        DS:ShowVehicles(playerid, ds_index, GetPVarInt(playerid, "DS:PAGE"));
+
+        new str[20];
+        format(str, sizeof(str), "%d/%d", GetPVarInt(playerid, "DS:PAGE") + 1, 1 + (vehicles / MAX_VEHICLES_PER_PAGE) );
+        PlayerTextDrawSetString(playerid, PTD_Dealership[playerid][7], str);
         return Y_HOOKS_BREAK_RETURN_1;
     }
     return Y_HOOKS_CONTINUE_RETURN_1;

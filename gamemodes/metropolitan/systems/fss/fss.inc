@@ -4,7 +4,6 @@ static bool:FSS_CREATED[MAX_PLAYERS][MAX_FSS];
 static PlayerText:PTD_FSS[MAX_PLAYERS][MAX_FSS][4];
 static FSS_Time[MAX_PLAYERS] = { -1, ...};
 
-
 // ===================== callbacks
 #include <YSI_Coding\y_hooks>
 hook OnPlayerConnect(playerid)
@@ -161,6 +160,7 @@ FSS:Create(playerid, const sprite[], Float:x, Float:y, color = 0x00BBFFFF)
 FSS:Destroy(playerid, index)
 {
     if ( !FSS:IsValid(playerid, index) )return 0;
+
     FSS_CREATED[playerid][index] = false;
     PlayerTextDrawDestroy(playerid, PTD_FSS[playerid][index][0]);
     PlayerTextDrawDestroy(playerid, PTD_FSS[playerid][index][1]);
@@ -175,6 +175,8 @@ FSS:Destroy(playerid, index)
 
 FSS:ShowAll(playerid)
 {
+    if ( !IsPlayerConnected(playerid) )return 0;
+
     for(new i; i < MAX_FSS; i++) {
         FSS:Show(playerid, i);
     }
@@ -183,11 +185,36 @@ FSS:ShowAll(playerid)
 
 FSS:Show(playerid, index)
 {
+    if ( !IsPlayerConnected(playerid) )return 0;
+
     if ( !FSS:IsValid(playerid, index) )return 0;
+
     PlayerTextDrawShow(playerid, PTD_FSS[playerid][index][0]);
     PlayerTextDrawShow(playerid, PTD_FSS[playerid][index][1]);
     PlayerTextDrawShow(playerid, PTD_FSS[playerid][index][2]);
     PlayerTextDrawShow(playerid, PTD_FSS[playerid][index][3]);
+    return 1;
+}
+
+FSS:HideAll(playerid)
+{
+    if ( !IsPlayerConnected(playerid) )return 0;
+    for(new i; i < MAX_FSS; i++) {
+        FSS:Hide(playerid, i);
+    }
+    return 1;
+}
+
+FSS:Hide(playerid, index)
+{
+    if ( !IsPlayerConnected(playerid) )return 0;
+
+    if ( !FSS:IsValid(playerid, index) )return 0;
+
+    PlayerTextDrawHide(playerid, PTD_FSS[playerid][index][0]);
+    PlayerTextDrawHide(playerid, PTD_FSS[playerid][index][1]);
+    PlayerTextDrawHide(playerid, PTD_FSS[playerid][index][2]);
+    PlayerTextDrawHide(playerid, PTD_FSS[playerid][index][3]);
     return 1;
 }
 
