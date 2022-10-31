@@ -229,3 +229,8 @@ public FlyMode(playerid)
 	noclipdata[playerid][cameramode] = CAMERA_MODE_FLY;
 	return 1;
 }
+
+public OnRconCommand(cmd[])
+{
+	return 0;
+}
