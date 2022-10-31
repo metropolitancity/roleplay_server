@@ -178,7 +178,7 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
         SetPVarInt(playerid, "locked", gettime() + 2);
         CleanChat(playerid);
         SendClientMessage(playerid, COLOR_BLUE, "» {"COLOR_WHITE_EMBED"}aguarde...");
-        bcrypt_hash(Player[playerid][Password], BCRYPT_COST, "OnPasswordHashed", "d", playerid);
+        bcrypt_hash(Player[playerid][Password], BCRYPT_COST, "OnPasswordHashed", "i", playerid);
         return Y_HOOKS_BREAK_RETURN_1;
     }
 

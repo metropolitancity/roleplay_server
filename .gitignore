@@ -5,3 +5,4 @@ logs/*
 gamemodes/main.amx
 filterscripts/**.amx
 database.ini
+config.json

@@ -48,15 +48,15 @@ hook OnPlayerConnect(playerid)
     if (SvGetVersion(playerid) == SV_NULL)
     {
         NT:Send(playerid, NT_TYPE_ERROR, "Não foi encontrado o plugin sampvoice em seu GTA!");
-        Player:Kick(playerid);
-        return Y_HOOKS_BREAK_RETURN_0;
+        //Player:Kick(playerid);
+        //return Y_HOOKS_BREAK_RETURN_0;
     }
     
     else if (SvHasMicro(playerid) == SV_FALSE)
     {
         NT:Send(playerid, NT_TYPE_ERROR, "Não foi encontrado um microfone configurado!");
-        Player:Kick(playerid);
-        return Y_HOOKS_BREAK_RETURN_0;
+        //Player:Kick(playerid);
+        //return Y_HOOKS_BREAK_RETURN_0;
     }
 
     else if ((lstream[playerid] = SvCreateDLStreamAtPlayer(40.0, SV_INFINITY, playerid, 0xff0000ff, "Local")))

@@ -76,10 +76,10 @@
     "password": "",
     "pawn": {
       "legacy_plugins": [
-        "crashdetect",
-        "mysql",
-        "bcrypt-samp",
-        "streamer"
+        "crashdetect.so",
+        "mysql.so",
+        "bcrypt-samp.so",
+        "streamer.so"
       ],
       "main_scripts": [
         "main 1"

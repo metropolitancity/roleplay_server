@@ -42,7 +42,7 @@ main()
 #include <player/player>
 #include <vehicles/vehicles>
 #include <notifications/nt>
-//#include <systems/discord/discord>
+//#include <discord/discord>
 #include <fss/fss>
 #include <property/property>
 #include <businessDealership/dealership>
