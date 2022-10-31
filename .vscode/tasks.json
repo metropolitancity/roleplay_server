@@ -4,18 +4,34 @@
     {
       "label": "Compiler",
       "type": "shell",
-      "command": "${workspaceRoot}\\pawno\\pawncc.exe",
-      "args": [
-        "${workspaceRoot}\\gamemodes\\metropolitan\\main.pwn",
-        "--%",
-        "-Dgamemodes",
-        "-i${workspaceRoot}\\gamemodes\\metropolitan",
-        "-i${workspaceRoot}\\gamemodes\\metropolitan\\systems",
-        "-;+",
-        "-(+",
-        "-d3",
-        "-Z"
-      ],
+      "windows":{
+        "command": "${workspaceRoot}\\pawno\\pawncc.exe",
+        "args": [
+          "${workspaceRoot}\\gamemodes\\metropolitan\\main.pwn",
+          "--%",
+          "-Dgamemodes",
+          "-i${workspaceRoot}\\gamemodes\\metropolitan",
+          "-i${workspaceRoot}\\gamemodes\\metropolitan\\systems",
+          "-;+",
+          "-(+",
+          "-d3",
+          "-Z"
+        ]
+      },
+      "linux":{
+        "command": "pawno/pawncc",
+        "args": [
+          "metropolitan/main.pwn",
+          "-i./../pawno/include",
+          "-imetropolitan",
+          "-imetropolitan/systems",
+          "-Dgamemodes",
+          "\"-;+\"",
+          "\"-(+\"",
+          "\"-d3\"",
+          "\"-Z\""
+        ],
+      },
       "group": {
         "kind": "build",
         "isDefault": true

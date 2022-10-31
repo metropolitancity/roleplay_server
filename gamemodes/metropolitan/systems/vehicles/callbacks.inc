@@ -5,7 +5,6 @@ hook OnGameModeInit()
     mysql_query_file(SQL_Connection, "tables/"TABLE_USERS_VEHICLES".sql", false);
     return Y_HOOKS_CONTINUE_RETURN_1;
 }
-
 hook OnVehicleCreated(vehicleid)
 {
     if ( !Iter_Contains(Vehicle, vehicleid) ) {
