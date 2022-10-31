@@ -7,7 +7,7 @@ DS:ShowDealerShip(playerid, ds_index)
     PlayerTextDrawLetterSize(playerid, PTD_Dealership[playerid][0], 0.000000, 0.000000);
     PlayerTextDrawTextSize(playerid, PTD_Dealership[playerid][0], 502.000000, 302.460266);
     PlayerTextDrawAlignment(playerid, PTD_Dealership[playerid][0], 1);
-    PlayerTextDrawColor(playerid, PTD_Dealership[playerid][0], 150);
+    PlayerTextDrawColor(playerid, PTD_Dealership[playerid][0], 0x101010FF);
     PlayerTextDrawSetShadow(playerid, PTD_Dealership[playerid][0], 0);
     PlayerTextDrawSetOutline(playerid, PTD_Dealership[playerid][0], 0);
     PlayerTextDrawBackgroundColor(playerid, PTD_Dealership[playerid][0], 255);
@@ -134,6 +134,7 @@ DS:HideDealerShip(playerid)
 {
     if ( !GetPVarInt(playerid, "DS:ShowDealerShip") )return 0;
     DS:HideVehicles(playerid);
+    DS:SELECTED_SLOT[playerid] = -1;
 
     DeletePVar(playerid, "DS:ShowDealerShip");
     DeletePVar(playerid, "DS:PAGE");
@@ -165,7 +166,9 @@ DS:ShowVehicles(playerid, ds_index, page=0)
     new num_rows = cache_num_rows();
     if ( num_rows )
     {
-        new str[128], line, model, price_sell, vname[MAX_VEHICLE_NAME], Float:bX = 95.8, Float:bY = 157.9;
+        Iter_Init(BDS_VehiclesPage[playerid]);
+
+        new str[128], line, model, price_sell, vname[MAX_VEHICLE_NAME], Float:bX = 95.0, Float:bY = 158.0;
         for(new i; i < num_rows; i++)
         {
             cache_get_value_name_int(i, "price_sell", price_sell);
@@ -175,7 +178,7 @@ DS:ShowVehicles(playerid, ds_index, page=0)
             PlayerTextDrawLetterSize(playerid, PTD_DealershipVehicles[playerid][i][0], 0.000000, 0.000000);
             PlayerTextDrawTextSize(playerid, PTD_DealershipVehicles[playerid][i][0], 85.000000, 78.000000);
             PlayerTextDrawAlignment(playerid, PTD_DealershipVehicles[playerid][i][0], 1);
-            PlayerTextDrawColor(playerid, PTD_DealershipVehicles[playerid][i][0], 303174399);
+            PlayerTextDrawColor(playerid, PTD_DealershipVehicles[playerid][i][0], 0x202020FF);
             PlayerTextDrawSetShadow(playerid, PTD_DealershipVehicles[playerid][i][0], 0);
             PlayerTextDrawSetOutline(playerid, PTD_DealershipVehicles[playerid][i][0], 0);
             PlayerTextDrawBackgroundColor(playerid, PTD_DealershipVehicles[playerid][i][0], 255);
@@ -237,6 +240,8 @@ DS:ShowVehicles(playerid, ds_index, page=0)
                 bY += 85.0;
             }
 
+            Iter_Add(BDS_VehiclesPage[playerid], i);
+
             PlayerTextDrawShow(playerid, PTD_DealershipVehicles[playerid][i][0]);
             PlayerTextDrawShow(playerid, PTD_DealershipVehicles[playerid][i][1]);
             PlayerTextDrawShow(playerid, PTD_DealershipVehicles[playerid][i][2]);
@@ -251,7 +256,7 @@ DS:HideVehicles(playerid)
 {
     if ( !GetPVarInt(playerid, "DS:ShowDealerShip") )return 0;
 
-    for(new i; i < MAX_VEHICLES_PER_PAGE; i++)
+    foreach(new i: BDS_VehiclesPage[playerid])
     {
         for(new t; t < sizeof(PTD_DealershipVehicles[][]); t++){
             if ( IsValidPlayerTextDraw(playerid, PTD_DealershipVehicles[playerid][i][t]) ) {
@@ -260,6 +265,7 @@ DS:HideVehicles(playerid)
             }
         }
     }
+    Iter_Clear(BDS_VehiclesPage[playerid]);
     return 1;
 }
 

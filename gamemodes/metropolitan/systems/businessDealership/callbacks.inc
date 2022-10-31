@@ -80,6 +80,7 @@ hook OnPlayerConnect(playerid)
             PTD_DealershipVehicles[playerid][i][t] = INVALID_PLAYER_TEXT_DRAW;
         }
     }
+    DS:SELECTED_SLOT[playerid] = -1;
     return Y_HOOKS_CONTINUE_RETURN_1;
 }
 
@@ -126,6 +127,8 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
     {
         new page = GetPVarInt(playerid, "DS:PAGE");
         if ( page == 0 )return Y_HOOKS_BREAK_RETURN_0;
+        
+        DS:SELECTED_SLOT[playerid] = -1;
 
         SetPVarInt(playerid, "DS:PAGE", page - 1);
 
@@ -144,8 +147,9 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
         new page = GetPVarInt(playerid, "DS:PAGE"), ds_index = DS:GetId(playerid, 2.0), vehicles = DS:GetVehicles(ds_index);
 
         if ( page == floatround((vehicles / MAX_VEHICLES_PER_PAGE), floatround_ceil) )return Y_HOOKS_BREAK_RETURN_0;
+        DS:SELECTED_SLOT[playerid] = -1;
         SetPVarInt(playerid, "DS:PAGE", page + 1);
-
+    
         DS:HideVehicles(playerid);
         DS:ShowVehicles(playerid, ds_index, GetPVarInt(playerid, "DS:PAGE"));
 
@@ -153,6 +157,30 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
         format(str, sizeof(str), "%d/%d", GetPVarInt(playerid, "DS:PAGE") + 1, 1 + (vehicles / MAX_VEHICLES_PER_PAGE) );
         PlayerTextDrawSetString(playerid, PTD_Dealership[playerid][7], str);
         return Y_HOOKS_BREAK_RETURN_1;
+    }
+
+    foreach(new i: BDS_VehiclesPage[playerid])
+    {
+        if ( playertextid == PTD_DealershipVehicles[playerid][i][0] )
+        {
+            new index = DS:SELECTED_SLOT[playerid];
+            if ( index == -1 )
+            {
+                DS:SELECTED_SLOT[playerid] = i;
+                PlayerTextDrawColor(playerid, PTD_DealershipVehicles[playerid][i][0], COLOR_ORANGE);
+                PlayerTextDrawShow(playerid, PTD_DealershipVehicles[playerid][i][0]);
+            }
+            else if ( index != i )
+            {
+                DS:SELECTED_SLOT[playerid] = i;
+                PlayerTextDrawColor(playerid, PTD_DealershipVehicles[playerid][index][0], 0x202020FF);
+                PlayerTextDrawShow(playerid, PTD_DealershipVehicles[playerid][index][0]);
+
+                PlayerTextDrawColor(playerid, PTD_DealershipVehicles[playerid][i][0], COLOR_ORANGE);
+                PlayerTextDrawShow(playerid, PTD_DealershipVehicles[playerid][i][0]);
+            }
+            return Y_HOOKS_BREAK_RETURN_1;
+        }
     }
     return Y_HOOKS_CONTINUE_RETURN_1;
 }

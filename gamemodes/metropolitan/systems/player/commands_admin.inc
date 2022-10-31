@@ -254,3 +254,33 @@ cmd:setarfss(playerid, params[])
     NT:Send(id, NT_TYPE_INFO, "O Anjo setou os valores da sua fome, sede e sono.");
     return 1;
 }
+
+flags:dardinheiro(CEO)
+alias:dardinheiro("givemoney")
+cmd:dardinheiro(playerid, params[])
+{
+    new id, quantity;
+    if ( sscanf(params, "ud", id, quantity) )
+    {
+        NT:Send(playerid, NT_TYPE_ERROR, "Uso correto: /dardinheiro [id / passaporte] [quantidade]");
+        return 0;
+    }
+
+    if ( !Player:Logged(id) )
+    {
+        NT:Send(playerid, NT_TYPE_ERROR, "Jogador não conectado!");
+        return 0;
+    }
+
+    if ( quantity < 1 )
+    {
+        NT:Send(playerid, NT_TYPE_ERROR, "Digite um valor maior que ~g~$1~w~.");
+        return 0;
+    }
+
+    GivePlayerMoney(id, quantity);
+    NT:Send(id, NT_TYPE_INFO, "O Anjo ~b~~h~~h~~h~%s~w~ deu ~g~%s~w~ para você.", Player[playerid][Name], RealStr(quantity));
+
+    NT:Send(playerid, NT_TYPE_SUCCESS, "Você deu ~g~%s~w~ para o jogador ~b~~h~~h~~h~%s~w~.", RealStr(quantity), Player[id][Name]);
+    return 1;
+}
