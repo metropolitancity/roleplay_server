@@ -13,6 +13,7 @@
 #include <vSync>
 #include <traveled>
 #include <strlib>
+#include <cef>
 
 main()
 {
