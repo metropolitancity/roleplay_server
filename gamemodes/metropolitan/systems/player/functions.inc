@@ -731,6 +731,7 @@ stock Player:GetAdminWorking(playerid)
 
 stock Player:Logged(playerid)
 {
+    if ( !IsPlayerConnected(playerid) )return 0;
     return Player[playerid][Logged];
 }
 
