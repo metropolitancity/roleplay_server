@@ -1,4 +1,11 @@
-#define MAX_VEHICLES_PER_PAGE       (15)
+#define MAX_VEHICLES_PER_PAGE       (11)
+
+enum
+{
+    BDS_TYPE_LUXURIOUS,
+    BDS_TYPE_POPULAR,
+    BDS_TYPE_OLD
+}
 
 enum E_BDS_VEHICLES_INFO
 {
@@ -30,11 +37,12 @@ new BusinessDealership[MAX_BUSINESS_DEALERSHIPS][E_BUSINESS_DEALERSHIP], Iterato
 
 new Iterator:BDS_VehiclesPage[MAX_PLAYERS]<MAX_VEHICLES_PER_PAGE>,
     BDS_VehiclesInf[MAX_PLAYERS][MAX_VEHICLES_PER_PAGE][E_BDS_VEHICLES_INFO],
-    DS:SELECTED_SLOT[MAX_PLAYERS] = { -1, ... }
+    DS:SELECTED_SLOT[MAX_PLAYERS] = { -1, ... },
+    DS:SELECTED_VEHICLE[MAX_PLAYERS] = { INVALID_VEHICLE_ID, ... }
 ;
 
 new PlayerText:PTD_Dealership[MAX_PLAYERS][7] = { INVALID_PLAYER_TEXT_DRAW, ...},
-    PlayerText:PTD_DealershipVehicles[MAX_PLAYERS][MAX_VEHICLES_PER_PAGE][4]
+    PlayerText:PTD_DealershipVehicles[MAX_PLAYERS][MAX_VEHICLES_PER_PAGE][2]
 ;
 
 // ================ includes

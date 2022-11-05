@@ -70,8 +70,7 @@ hook OnGameModeInit()
         
     }
     cache_delete(cache);
-    CreateDynamicObject(13646, 560.73425, -1299.06799, 15.83020,   0.00000, 0.00000, 0.00000, .streamdistance=50.0);
-    CreateVehicle(400, 560.2028, -1298.9869, 18.4452, 65.9999, -1, -1, 100);
+    CreateDynamicObject(13646, 560.73425, -1299.06799, 16.0,   0.00000, 0.00000, 0.00000, .streamdistance=50.0);
     return Y_HOOKS_CONTINUE_RETURN_1;
 }
 
@@ -86,6 +85,15 @@ hook OnPlayerConnect(playerid)
     return Y_HOOKS_CONTINUE_RETURN_1;
 }
 
+hook OnPlayerDisconnect(playerid, reason)
+{
+    if ( IsValidVehicle(DS:SELECTED_VEHICLE[playerid]) ) {
+        DestroyVehicle(DS:SELECTED_VEHICLE[playerid]);
+        DS:SELECTED_VEHICLE[playerid] = INVALID_VEHICLE_ID;
+    }
+    return Y_HOOKS_CONTINUE_RETURN_1;
+}
+
 hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 {
     if ( PRESSED(KEY_YES) && !GetPVarInt(playerid, "DS:ShowDealerShip") )
@@ -94,7 +102,8 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
         {
             if ( IsPlayerInRangeOfPoint(playerid, 1.0, BusinessDealership[i][X], BusinessDealership[i][Y], BusinessDealership[i][Z]) )
             {
-                CleanChat(playerid);                
+                CleanChat(playerid);           
+                FSS:HideAll(playerid);
                 SendClientMessagef(playerid, COLOR_RED, "[Concessionária] {FFFFFF}Bem vindo a %s", ret_utf8decode(BusinessDealership[i][Name]));
                 DS:ShowDealerShip(playerid, i);
                 return Y_HOOKS_BREAK_RETURN_1;
@@ -109,7 +118,13 @@ hook OnPlayerClickTextDraw(playerid, Text:clickedid)
     if ( clickedid == INVALID_TEXT_DRAW )
     {
         if ( GetPVarInt(playerid, "DS:ShowDealerShip") ) {
+            DS:HideVehicles(playerid);
             DS:HideDealerShip(playerid);
+            FSS:ShowAll(playerid);
+            if ( IsValidVehicle(DS:SELECTED_VEHICLE[playerid]) ) {
+                DestroyVehicle(DS:SELECTED_VEHICLE[playerid]);
+                DS:SELECTED_VEHICLE[playerid] = INVALID_VEHICLE_ID;
+            }
             return Y_HOOKS_BREAK_RETURN_1;
         }
     }
@@ -119,5 +134,69 @@ hook OnPlayerClickTextDraw(playerid, Text:clickedid)
 hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
 {
     if ( !GetPVarInt(playerid, "DS:ShowDealerShip") )return Y_HOOKS_CONTINUE_RETURN_1;
+    
+    // tab veiculos luxuoso
+    if ( playertextid == PTD_Dealership[playerid][3] )
+    {
+        new ds_index = DS:GetId(playerid, 2.0);
+        
+        if ( ds_index == -1 )return Y_HOOKS_BREAK_RETURN_0;
+        DS:SELECTED_SLOT[playerid] = -1;
+        DS:HideVehicles(playerid);
+        DS:ShowVehicles(playerid, ds_index, BDS_TYPE_LUXURIOUS);
+        return Y_HOOKS_BREAK_RETURN_1;
+    }
+
+    // tab veiculos popular
+    else if ( playertextid == PTD_Dealership[playerid][4] )
+    {
+        new ds_index = DS:GetId(playerid, 2.0);
+        
+        if ( ds_index == -1 )return Y_HOOKS_BREAK_RETURN_0;
+        DS:SELECTED_SLOT[playerid] = -1;
+        DS:HideVehicles(playerid);
+        DS:ShowVehicles(playerid, ds_index, BDS_TYPE_POPULAR);
+        return Y_HOOKS_BREAK_RETURN_1;
+    }
+
+    // tab veiculos antigos
+    else if ( playertextid == PTD_Dealership[playerid][5] )
+    {
+        new ds_index = DS:GetId(playerid, 2.0);
+        
+        if ( ds_index == -1 )return Y_HOOKS_BREAK_RETURN_0;
+        DS:SELECTED_SLOT[playerid] = -1;
+        DS:HideVehicles(playerid);
+        DS:ShowVehicles(playerid, ds_index, BDS_TYPE_OLD);
+        return Y_HOOKS_BREAK_RETURN_1;
+    }
+
+    foreach(new i: BDS_VehiclesPage[playerid])
+    {
+        if ( playertextid == PTD_DealershipVehicles[playerid][i][0] )
+        {
+            new index = DS:SELECTED_SLOT[playerid];
+            if ( index == -1 ) {  
+                DS:SELECTED_SLOT[playerid] = i;
+                PlayerTextDrawColor(playerid, PTD_DealershipVehicles[playerid][i][0], COLOR_ORANGE);
+                PlayerTextDrawShow(playerid, PTD_DealershipVehicles[playerid][i][0]);
+            } else {
+                DS:SELECTED_SLOT[playerid] = i;
+                PlayerTextDrawColor(playerid, PTD_DealershipVehicles[playerid][index][0], -1);
+                PlayerTextDrawShow(playerid, PTD_DealershipVehicles[playerid][index][0]);
+
+                PlayerTextDrawColor(playerid, PTD_DealershipVehicles[playerid][i][0], COLOR_ORANGE);
+                PlayerTextDrawShow(playerid, PTD_DealershipVehicles[playerid][i][0]);
+            }
+
+            if ( IsValidVehicle(DS:SELECTED_VEHICLE[playerid]) ) {
+                DestroyVehicle(DS:SELECTED_VEHICLE[playerid]);
+            }
+
+            DS:SELECTED_VEHICLE[playerid] = CreateVehicle(BDS_VehiclesInf[playerid][i][Model], 560.2028, -1298.9869, 18.4452, 65.9999, 1, 1, -1);
+            SetVehicleVirtualWorld(DS:SELECTED_VEHICLE[playerid], playerid);
+            return Y_HOOKS_BREAK_RETURN_1;
+        }
+    }
     return Y_HOOKS_CONTINUE_RETURN_1;
 }

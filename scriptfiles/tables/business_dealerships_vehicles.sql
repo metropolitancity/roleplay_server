@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS `business_dealerships_vehicles`(
     `model` INT(3) NOT NULL,
     `price` INT(11) NOT NULL,
     `price_sell` INT(11) NOT NULL,
+    `type` INT(1) NOT NULL,
     `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP(),
     `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (`dealership`) REFERENCES `business_dealerships`(`id`),
