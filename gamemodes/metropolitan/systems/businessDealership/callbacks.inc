@@ -70,6 +70,8 @@ hook OnGameModeInit()
         
     }
     cache_delete(cache);
+    CreateDynamicObject(13646, 560.73425, -1299.06799, 15.83020,   0.00000, 0.00000, 0.00000, .streamdistance=50.0);
+    CreateVehicle(400, 560.2028, -1298.9869, 18.4452, 65.9999, -1, -1, 100);
     return Y_HOOKS_CONTINUE_RETURN_1;
 }
 
@@ -107,7 +109,7 @@ hook OnPlayerClickTextDraw(playerid, Text:clickedid)
     if ( clickedid == INVALID_TEXT_DRAW )
     {
         if ( GetPVarInt(playerid, "DS:ShowDealerShip") ) {
-            SelectTextDraw(playerid, COLOR_ORANGE);
+            DS:HideDealerShip(playerid);
             return Y_HOOKS_BREAK_RETURN_1;
         }
     }
@@ -117,70 +119,5 @@ hook OnPlayerClickTextDraw(playerid, Text:clickedid)
 hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
 {
     if ( !GetPVarInt(playerid, "DS:ShowDealerShip") )return Y_HOOKS_CONTINUE_RETURN_1;
-
-    if ( playertextid == PTD_Dealership[playerid][3] ) { // fechar
-        DS:HideDealerShip(playerid);
-        return Y_HOOKS_BREAK_RETURN_1;
-    }
-
-    else if ( playertextid == PTD_Dealership[playerid][6] ) // anterior
-    {
-        new page = GetPVarInt(playerid, "DS:PAGE");
-        if ( page == 0 )return Y_HOOKS_BREAK_RETURN_0;
-        
-        DS:SELECTED_SLOT[playerid] = -1;
-
-        SetPVarInt(playerid, "DS:PAGE", page - 1);
-
-        new ds_index = DS:GetId(playerid, 2.0), vehicles = DS:GetVehicles(ds_index);
-
-        DS:HideVehicles(playerid);
-        DS:ShowVehicles(playerid, ds_index, GetPVarInt(playerid, "DS:PAGE"));
-
-        new str[20];
-        format(str, sizeof(str), "%d/%d", GetPVarInt(playerid, "DS:PAGE") + 1, 1 + (vehicles / MAX_VEHICLES_PER_PAGE) );
-        PlayerTextDrawSetString(playerid, PTD_Dealership[playerid][7], str);
-        return 1;
-    }
-    else if ( playertextid == PTD_Dealership[playerid][8] ) // próximo
-    {
-        new page = GetPVarInt(playerid, "DS:PAGE"), ds_index = DS:GetId(playerid, 2.0), vehicles = DS:GetVehicles(ds_index);
-
-        if ( page == floatround((vehicles / MAX_VEHICLES_PER_PAGE), floatround_ceil) )return Y_HOOKS_BREAK_RETURN_0;
-        DS:SELECTED_SLOT[playerid] = -1;
-        SetPVarInt(playerid, "DS:PAGE", page + 1);
-    
-        DS:HideVehicles(playerid);
-        DS:ShowVehicles(playerid, ds_index, GetPVarInt(playerid, "DS:PAGE"));
-
-        new str[20];
-        format(str, sizeof(str), "%d/%d", GetPVarInt(playerid, "DS:PAGE") + 1, 1 + (vehicles / MAX_VEHICLES_PER_PAGE) );
-        PlayerTextDrawSetString(playerid, PTD_Dealership[playerid][7], str);
-        return Y_HOOKS_BREAK_RETURN_1;
-    }
-
-    foreach(new i: BDS_VehiclesPage[playerid])
-    {
-        if ( playertextid == PTD_DealershipVehicles[playerid][i][0] )
-        {
-            new index = DS:SELECTED_SLOT[playerid];
-            if ( index == -1 )
-            {
-                DS:SELECTED_SLOT[playerid] = i;
-                PlayerTextDrawColor(playerid, PTD_DealershipVehicles[playerid][i][0], COLOR_ORANGE);
-                PlayerTextDrawShow(playerid, PTD_DealershipVehicles[playerid][i][0]);
-            }
-            else if ( index != i )
-            {
-                DS:SELECTED_SLOT[playerid] = i;
-                PlayerTextDrawColor(playerid, PTD_DealershipVehicles[playerid][index][0], 0x202020FF);
-                PlayerTextDrawShow(playerid, PTD_DealershipVehicles[playerid][index][0]);
-
-                PlayerTextDrawColor(playerid, PTD_DealershipVehicles[playerid][i][0], COLOR_ORANGE);
-                PlayerTextDrawShow(playerid, PTD_DealershipVehicles[playerid][i][0]);
-            }
-            return Y_HOOKS_BREAK_RETURN_1;
-        }
-    }
     return Y_HOOKS_CONTINUE_RETURN_1;
 }

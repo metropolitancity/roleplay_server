@@ -109,7 +109,7 @@ hook OnPlayerSpawn(playerid)
         if ( funcidx("OnPlayerLogged") != -1 ) {
             CallLocalFunction("OnPlayerLogged", "i", playerid);
         }
-        // cef_create_browser(playerid, 0, "https://google.com", false, true);
+//        cef_create_browser(playerid, 0, "https://google.com", false, true);
         return Y_HOOKS_CONTINUE_RETURN_1;
     }
     SetPlayerSkin(playerid, GetPlayerSkin(playerid));

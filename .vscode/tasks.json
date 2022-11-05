@@ -7,11 +7,11 @@
       "windows":{
         "command": "${workspaceRoot}\\pawno\\pawncc.exe",
         "args": [
-          "${workspaceRoot}\\gamemodes\\metropolitan\\main.pwn",
+          "metropolitan\\main.pwn",
           "--%",
           "-Dgamemodes",
-          "-i${workspaceRoot}\\gamemodes\\metropolitan",
-          "-i${workspaceRoot}\\gamemodes\\metropolitan\\systems",
+          "-imetropolitan",
+          "-imetropolitan\\systems",
           "-;+",
           "-(+",
           "-d3",
