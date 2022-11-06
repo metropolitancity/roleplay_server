@@ -102,8 +102,7 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
         {
             if ( IsPlayerInRangeOfPoint(playerid, 1.0, BusinessDealership[i][X], BusinessDealership[i][Y], BusinessDealership[i][Z]) )
             {
-                CleanChat(playerid);           
-                FSS:HideAll(playerid);
+                CleanChat(playerid);
                 SendClientMessagef(playerid, COLOR_RED, "[Concessionária] {FFFFFF}Bem vindo a %s", ret_utf8decode(BusinessDealership[i][Name]));
                 DS:ShowDealerShip(playerid, i);
                 return Y_HOOKS_BREAK_RETURN_1;
@@ -120,7 +119,6 @@ hook OnPlayerClickTextDraw(playerid, Text:clickedid)
         if ( GetPVarInt(playerid, "DS:ShowDealerShip") ) {
             DS:HideVehicles(playerid);
             DS:HideDealerShip(playerid);
-            FSS:ShowAll(playerid);
             if ( IsValidVehicle(DS:SELECTED_VEHICLE[playerid]) ) {
                 DestroyVehicle(DS:SELECTED_VEHICLE[playerid]);
                 DS:SELECTED_VEHICLE[playerid] = INVALID_VEHICLE_ID;
