@@ -1,4 +1,5 @@
 #define MAX_VEHICLES_PER_PAGE       10
+#define INVALID_DEALERSHIP_ID       -1
 
 enum
 {
@@ -43,7 +44,7 @@ new Iterator:BDS_VehiclesPage[MAX_PLAYERS]<MAX_VEHICLES_PER_PAGE>,
     DS:SELECTED_VEHICLE[MAX_PLAYERS] = { INVALID_VEHICLE_ID, ... }
 ;
 
-new PlayerText:PTD_Dealership[MAX_PLAYERS][10] = { INVALID_PLAYER_TEXT_DRAW, ...},
+new PlayerText:PTD_Dealership[MAX_PLAYERS][13] = { INVALID_PLAYER_TEXT_DRAW, ...},
     PlayerText:PTD_DealershipVehicles[MAX_PLAYERS][MAX_VEHICLES_PER_PAGE][2]
 ;
 

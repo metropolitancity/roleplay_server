@@ -128,6 +128,45 @@ DS:ShowDealerShip(playerid, ds_index)
     PlayerTextDrawSetProportional(playerid, PTD_Dealership[playerid][9], 0);
     PlayerTextDrawSetShadow(playerid, PTD_Dealership[playerid][9], 0);
     PlayerTextDrawSetSelectable(playerid, PTD_Dealership[playerid][9], true);
+    
+    PTD_Dealership[playerid][10] = CreatePlayerTextDraw(playerid, 7.781875, 366.166595, "LD_SPAC:white");
+    PlayerTextDrawLetterSize(playerid, PTD_Dealership[playerid][10], 0.000000, 0.000000);
+    PlayerTextDrawTextSize(playerid, PTD_Dealership[playerid][10], 55.949985, 23.000000);
+    PlayerTextDrawAlignment(playerid, PTD_Dealership[playerid][10], 1);
+    PlayerTextDrawColor(playerid, PTD_Dealership[playerid][10], 303174399);
+    PlayerTextDrawSetShadow(playerid, PTD_Dealership[playerid][10], 0);
+    PlayerTextDrawSetOutline(playerid, PTD_Dealership[playerid][10], 0);
+    PlayerTextDrawBackgroundColor(playerid, PTD_Dealership[playerid][10], 255);
+    PlayerTextDrawFont(playerid, PTD_Dealership[playerid][10], 4);
+    PlayerTextDrawSetProportional(playerid, PTD_Dealership[playerid][10], 0);
+    PlayerTextDrawSetShadow(playerid, PTD_Dealership[playerid][10], 0);
+
+    PTD_Dealership[playerid][11] = CreatePlayerTextDraw(playerid, 9.824370, 378.866943, "box");
+    PlayerTextDrawLetterSize(playerid, PTD_Dealership[playerid][11], 0.000000, 0.903394);
+    PlayerTextDrawTextSize(playerid, PTD_Dealership[playerid][11], 62.169818, 0.000000);
+    PlayerTextDrawAlignment(playerid, PTD_Dealership[playerid][11], 1);
+    PlayerTextDrawColor(playerid, PTD_Dealership[playerid][11], -1);
+    PlayerTextDrawUseBox(playerid, PTD_Dealership[playerid][11], 1);
+    PlayerTextDrawBoxColor(playerid, PTD_Dealership[playerid][11], 150);
+    PlayerTextDrawSetShadow(playerid, PTD_Dealership[playerid][11], 0);
+    PlayerTextDrawSetOutline(playerid, PTD_Dealership[playerid][11], 0);
+    PlayerTextDrawBackgroundColor(playerid, PTD_Dealership[playerid][11], 255);
+    PlayerTextDrawFont(playerid, PTD_Dealership[playerid][11], 1);
+    PlayerTextDrawSetProportional(playerid, PTD_Dealership[playerid][11], 1);
+    PlayerTextDrawSetShadow(playerid, PTD_Dealership[playerid][11], 0);
+
+    PTD_Dealership[playerid][12] = CreatePlayerTextDraw(playerid, 10.761383, 371.016601, "COMPRAR");
+    PlayerTextDrawLetterSize(playerid, PTD_Dealership[playerid][12], 0.261317, 1.319999);
+    PlayerTextDrawTextSize(playerid, PTD_Dealership[playerid][12], 60.0, 10.0);
+    PlayerTextDrawAlignment(playerid, PTD_Dealership[playerid][12], 1);
+    PlayerTextDrawColor(playerid, PTD_Dealership[playerid][12], -1);
+    PlayerTextDrawSetShadow(playerid, PTD_Dealership[playerid][12], 0);
+    PlayerTextDrawSetOutline(playerid, PTD_Dealership[playerid][12], 0);
+    PlayerTextDrawBackgroundColor(playerid, PTD_Dealership[playerid][12], 255);
+    PlayerTextDrawFont(playerid, PTD_Dealership[playerid][12], 2);
+    PlayerTextDrawSetProportional(playerid, PTD_Dealership[playerid][12], 1);
+    PlayerTextDrawSetShadow(playerid, PTD_Dealership[playerid][12], 0);
+    PlayerTextDrawSetSelectable(playerid, PTD_Dealership[playerid][12], true);
 
     for(new i; i < sizeof(PTD_Dealership[]); i++)
     {
@@ -147,10 +186,24 @@ DS:ShowDealerShip(playerid, ds_index)
 DS:HideDealerShip(playerid)
 {
     if ( !GetPVarInt(playerid, "DS:ShowDealerShip") )return 0;
-    DeletePVar(playerid, "DS:ShowDealerShip");
+
+    DS:HideVehicles(playerid);
+
     SetPlayerVirtualWorld(playerid, 0);
     TogglePlayerControllable(playerid, true);
     SetCameraBehindPlayer(playerid);
+
+    
+    DeletePVar(playerid, "DS:OFFSET");
+    DeletePVar(playerid, "DS:TYPE");
+    DeletePVar(playerid, "DS:ShowDealerShip");
+
+    DS:SELECTED_SLOT[playerid] = -1;
+    if ( IsValidVehicle(DS:SELECTED_VEHICLE[playerid]) ) {
+        DestroyVehicle(DS:SELECTED_VEHICLE[playerid]);
+        DS:SELECTED_VEHICLE[playerid] = INVALID_VEHICLE_ID;
+    }
+
     for(new i; i < sizeof(PTD_Dealership[]); i++){
         if ( IsValidPlayerTextDraw(playerid, PTD_Dealership[playerid][i]) ){
             PlayerTextDrawDestroy(playerid, PTD_Dealership[playerid][i]);
@@ -310,7 +363,7 @@ DS:GetId(playerid, Float:range=1.0)
             return i;
         }
     }
-    return -1;
+    return INVALID_DEALERSHIP_ID;
 }
 
 DS:GetCountVehicles(ds_index, type)

@@ -117,14 +117,7 @@ hook OnPlayerClickTextDraw(playerid, Text:clickedid)
     if ( clickedid == INVALID_TEXT_DRAW )
     {
         if ( GetPVarInt(playerid, "DS:ShowDealerShip") ) {
-            DS:HideVehicles(playerid);
             DS:HideDealerShip(playerid);
-            DeletePVar(playerid, "DS:OFFSET");
-            DeletePVar(playerid, "DS:TYPE");
-            if ( IsValidVehicle(DS:SELECTED_VEHICLE[playerid]) ) {
-                DestroyVehicle(DS:SELECTED_VEHICLE[playerid]);
-                DS:SELECTED_VEHICLE[playerid] = INVALID_VEHICLE_ID;
-            }
             return Y_HOOKS_BREAK_RETURN_1;
         }
     }
@@ -135,10 +128,17 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
 {
     if ( !GetPVarInt(playerid, "DS:ShowDealerShip") )return Y_HOOKS_CONTINUE_RETURN_1;
     
+    new ds_index = DS:GetId(playerid, 2.0);
+    if ( ds_index == INVALID_DEALERSHIP_ID )
+    {
+        DS:HideDealerShip(playerid);
+        NT:Send(playerid, NT_TYPE_ERROR, "Você não esta em uma concessionária.");
+        return Y_HOOKS_BREAK_RETURN_0;
+    }
+
     // tab veiculos luxuoso
     if ( playertextid == PTD_Dealership[playerid][3] )
     {
-        new ds_index = DS:GetId(playerid, 2.0);
         DeletePVar(playerid, "DS:OFFSET");
         if ( ds_index == -1 )return Y_HOOKS_BREAK_RETURN_0;
         DS:SELECTED_SLOT[playerid] = -1;
@@ -151,9 +151,10 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
     // tab veiculos popular
     else if ( playertextid == PTD_Dealership[playerid][4] )
     {
-        new ds_index = DS:GetId(playerid, 2.0);
         DeletePVar(playerid, "DS:OFFSET");
+
         if ( ds_index == -1 )return Y_HOOKS_BREAK_RETURN_0;
+
         DS:SELECTED_SLOT[playerid] = -1;
         DS:HideVehicles(playerid);
         DS:ShowVehicles(playerid, ds_index, BDS_TYPE_POPULAR);
@@ -165,9 +166,9 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
     else if ( playertextid == PTD_Dealership[playerid][5] )
     {
         DeletePVar(playerid, "DS:OFFSET");
-        new ds_index = DS:GetId(playerid, 2.0);
         
         if ( ds_index == -1 )return Y_HOOKS_BREAK_RETURN_0;
+
         DS:SELECTED_SLOT[playerid] = -1;
         DS:HideVehicles(playerid);
         DS:ShowVehicles(playerid, ds_index, BDS_TYPE_OLD);
@@ -182,7 +183,6 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
 
         DS:HideVehicles(playerid);
         SetPVarInt(playerid, "DS:OFFSET", GetPVarInt(playerid, "DS:OFFSET") - MAX_VEHICLES_PER_PAGE);
-        new ds_index = DS:GetId(playerid, 2.0);
         DS:ShowVehicles(playerid, ds_index, GetPVarInt(playerid, "DS:TYPE"), GetPVarInt(playerid, "DS:OFFSET"));
         return Y_HOOKS_BREAK_RETURN_1;
     }
@@ -190,7 +190,6 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
     // próxima página
     else if ( playertextid == PTD_Dealership[playerid][9] )
     {
-        new ds_index = DS:GetId(playerid, 2.0);
         new vehicles = DS:GetCountVehicles(ds_index, GetPVarInt(playerid, "DS:TYPE"));
         
         if ( (GetPVarInt(playerid, "DS:OFFSET") + MAX_VEHICLES_PER_PAGE) > vehicles )return Y_HOOKS_BREAK_RETURN_0;
@@ -198,6 +197,19 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
         DS:HideVehicles(playerid);
         SetPVarInt(playerid, "DS:OFFSET", GetPVarInt(playerid, "DS:OFFSET") + MAX_VEHICLES_PER_PAGE);
         DS:ShowVehicles(playerid, ds_index, GetPVarInt(playerid, "DS:TYPE"), GetPVarInt(playerid, "DS:OFFSET"));
+        return Y_HOOKS_BREAK_RETURN_1;
+    }
+
+    // comprar veiculo
+    else if ( playertextid == PTD_Dealership[playerid][12] )
+    {
+        new index = DS:SELECTED_SLOT[playerid];
+
+        if ( index == -1 )return Y_HOOKS_BREAK_RETURN_0;
+
+        new vname[MAX_VEHICLE_NAME];
+        GetVehicleModelName(BDS_VehiclesInf[playerid][index][Model], vname);
+        NT:Send(playerid, NT_TYPE_SUCCESS, "Você comprou o carro %s", vname);
         return Y_HOOKS_BREAK_RETURN_1;
     }
 
