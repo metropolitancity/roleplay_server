@@ -66,7 +66,7 @@ DS:ShowDealerShip(playerid, ds_index)
     PlayerTextDrawSetShadow(playerid, PTD_Dealership[playerid][4], 0);
     PlayerTextDrawSetSelectable(playerid, PTD_Dealership[playerid][4], true);
 
-    PTD_Dealership[playerid][5] = CreatePlayerTextDraw(playerid, 107.916915, 164.350021, "usados");
+    PTD_Dealership[playerid][5] = CreatePlayerTextDraw(playerid, 107.916915, 164.350021, "antigos");
     PlayerTextDrawLetterSize(playerid, PTD_Dealership[playerid][5], 0.181200, 0.952499);
     PlayerTextDrawTextSize(playerid, PTD_Dealership[playerid][5], 140.0, 8.5);
     PlayerTextDrawAlignment(playerid, PTD_Dealership[playerid][5], 1);
@@ -79,11 +79,11 @@ DS:ShowDealerShip(playerid, ds_index)
     PlayerTextDrawSetShadow(playerid, PTD_Dealership[playerid][5], 0);
     PlayerTextDrawSetSelectable(playerid, PTD_Dealership[playerid][5], true);
 
-    PTD_Dealership[playerid][6] = CreatePlayerTextDraw(playerid, 148.317779, 179.666580, "LD_SPAC:white");
+    PTD_Dealership[playerid][6] = CreatePlayerTextDraw(playerid, 148.00000, 190.00000, "LD_SPAC:white");
     PlayerTextDrawLetterSize(playerid, PTD_Dealership[playerid][6], 0.000000, 0.000000);
-    PlayerTextDrawTextSize(playerid, PTD_Dealership[playerid][6], 5.360002, 183.010055);
+    PlayerTextDrawTextSize(playerid, PTD_Dealership[playerid][6], 5.3, 158.600000);
     PlayerTextDrawAlignment(playerid, PTD_Dealership[playerid][6], 1);
-    PlayerTextDrawColor(playerid, PTD_Dealership[playerid][6], 134744319);
+    PlayerTextDrawColor(playerid, PTD_Dealership[playerid][6], 0x000000FF);
     PlayerTextDrawSetShadow(playerid, PTD_Dealership[playerid][6], 0);
     PlayerTextDrawSetOutline(playerid, PTD_Dealership[playerid][6], 0);
     PlayerTextDrawBackgroundColor(playerid, PTD_Dealership[playerid][6], 255);
@@ -91,11 +91,11 @@ DS:ShowDealerShip(playerid, ds_index)
     PlayerTextDrawSetProportional(playerid, PTD_Dealership[playerid][6], 0);
     PlayerTextDrawSetShadow(playerid, PTD_Dealership[playerid][6], 0);
 
-    PTD_Dealership[playerid][7] = CreatePlayerTextDraw(playerid, 148.517700, 179.566574, "LD_SPAC:white");
+    PTD_Dealership[playerid][7] = CreatePlayerTextDraw(playerid, 148.00000, 190.00000, "LD_SPAC:white");
     PlayerTextDrawLetterSize(playerid, PTD_Dealership[playerid][7], 0.000000, 0.000000);
-    PlayerTextDrawTextSize(playerid, PTD_Dealership[playerid][7], 5.360002, 10.959888);
+    PlayerTextDrawTextSize(playerid, PTD_Dealership[playerid][7], 5.3, 0.000000);
     PlayerTextDrawAlignment(playerid, PTD_Dealership[playerid][7], 1);
-    PlayerTextDrawColor(playerid, PTD_Dealership[playerid][7], 808464639);
+    PlayerTextDrawColor(playerid, PTD_Dealership[playerid][7], 0x505050FF);
     PlayerTextDrawSetShadow(playerid, PTD_Dealership[playerid][7], 0);
     PlayerTextDrawSetOutline(playerid, PTD_Dealership[playerid][7], 0);
     PlayerTextDrawBackgroundColor(playerid, PTD_Dealership[playerid][7], 255);
@@ -160,8 +160,13 @@ DS:HideDealerShip(playerid)
     return 1;
 }
 
-DS:ShowVehicles(playerid, ds_index, type=BDS_TYPE_LUXURIOUS, page=0)
+DS:ShowVehicles(playerid, ds_index, type=BDS_TYPE_LUXURIOUS, offset=0)
 {
+    PlayerTextDrawHide(playerid, PTD_Dealership[playerid][6]);
+    PlayerTextDrawHide(playerid, PTD_Dealership[playerid][7]);
+    PlayerTextDrawHide(playerid, PTD_Dealership[playerid][8]);
+    PlayerTextDrawHide(playerid, PTD_Dealership[playerid][9]);
+
     new query[1024];
     mysql_format(
         SQL_Connection,
@@ -171,7 +176,7 @@ DS:ShowVehicles(playerid, ds_index, type=BDS_TYPE_LUXURIOUS, page=0)
         BusinessDealership[ds_index][ID],
         type,
         MAX_VEHICLES_PER_PAGE,
-        (page * MAX_VEHICLES_PER_PAGE)
+        offset
     );
     new Cache:cache = mysql_query(SQL_Connection, query, true);
     switch(type)
@@ -217,13 +222,27 @@ DS:ShowVehicles(playerid, ds_index, type=BDS_TYPE_LUXURIOUS, page=0)
     if ( num_rows )
     {
         Iter_Init(BDS_VehiclesPage[playerid]);
+        
+        new vehicles = DS:GetCountVehicles(ds_index, type);
+        if ( vehicles > MAX_VEHICLES_PER_PAGE )
+        {
+            new size_parts = floatround(float(vehicles) / float(MAX_VEHICLES_PER_PAGE), floatround_ceil);
+            new pages = floatround(float(offset) / float(MAX_VEHICLES_PER_PAGE), floatround_ceil);
+            new Float:size = 158.6 / size_parts;
+            new Float:posY = 190.0 + (size * pages);
+            PlayerTextDrawSetPos(playerid, PTD_Dealership[playerid][7], 148.3, posY);
+            PlayerTextDrawTextSize(playerid, PTD_Dealership[playerid][7], 5.3, size);
+            PlayerTextDrawShow(playerid, PTD_Dealership[playerid][7]);
+        }
 
         new vname[MAX_VEHICLE_NAME], Float:bX = 12.0, Float:bY = 180.0;
         for(new i; i < num_rows; i++)
         {
             cache_get_value_name_int(i, "id", BDS_VehiclesInf[playerid][i][ID]);
-            cache_get_value_name_int(i, "price_sell", BDS_VehiclesInf[playerid][i][PriceSell]);
+            cache_get_value_name_int(i, "price", BDS_VehiclesInf[playerid][i][Price]);
             cache_get_value_name_int(i, "model", BDS_VehiclesInf[playerid][i][Model]);
+            cache_get_value_name_int(i, "color1", BDS_VehiclesInf[playerid][i][Color1]);
+            cache_get_value_name_int(i, "color2", BDS_VehiclesInf[playerid][i][Color2]);
             
             GetVehicleModelName(BDS_VehiclesInf[playerid][i][Model], vname);
 
@@ -241,7 +260,7 @@ DS:ShowVehicles(playerid, ds_index, type=BDS_TYPE_LUXURIOUS, page=0)
             PlayerTextDrawSetShadow(playerid, PTD_DealershipVehicles[playerid][i][0], 0);
             PlayerTextDrawSetSelectable(playerid, PTD_DealershipVehicles[playerid][i][0], true);
 
-            PTD_DealershipVehicles[playerid][i][1] = CreatePlayerTextDraw(playerid, bX + 135.0, bY, RealStr(BDS_VehiclesInf[playerid][i][PriceSell]));
+            PTD_DealershipVehicles[playerid][i][1] = CreatePlayerTextDraw(playerid, bX + 135.0, bY, RealStr(BDS_VehiclesInf[playerid][i][Price]));
             PlayerTextDrawLetterSize(playerid, PTD_DealershipVehicles[playerid][i][1], 0.198535, 1.040000);
             PlayerTextDrawAlignment(playerid, PTD_DealershipVehicles[playerid][i][1], 3);
             PlayerTextDrawColor(playerid, PTD_DealershipVehicles[playerid][i][1], COLOR_GREEN);
@@ -283,28 +302,6 @@ DS:HideVehicles(playerid)
     return 1;
 }
 
-DS:GetVehicles(ds_index)
-{
-    new Cache:tmp = MYSQL_INVALID_CACHE;
-    if ( cache_is_any_active() )
-    {
-        tmp = cache_save();
-    }
-
-    new query[128], count = 0;
-    mysql_format(SQL_Connection, query, sizeof(query), "SELECT count(*) as quantity FROM "TABLE_BDS_VEHICLES" WHERE `dealership`='%d';", BusinessDealership[ds_index][ID]);
-    new Cache:cache = mysql_query(SQL_Connection, query, true);
-    if ( cache_num_rows() ) {
-        cache_get_value_name_int(0, "quantity", count);
-    }
-    cache_delete(cache);
-
-    if ( tmp == MYSQL_INVALID_CACHE ) {
-        cache_set_active(tmp);
-    }
-    return count;
-}
-
 DS:GetId(playerid, Float:range=1.0)
 {
     foreach(new i: BusinessDealership)
@@ -314,4 +311,26 @@ DS:GetId(playerid, Float:range=1.0)
         }
     }
     return -1;
+}
+
+DS:GetCountVehicles(ds_index, type)
+{
+    new Cache:tmp = MYSQL_INVALID_CACHE;
+    if ( cache_is_any_active() ) {
+        tmp = cache_save();
+    }
+
+    new query[128], count;
+    mysql_format(SQL_Connection, query, sizeof(query), "SELECT count(id) as num FROM "TABLE_BDS_VEHICLES" WHERE `dealership`='%d' AND `type`='%d';", BusinessDealership[ds_index][ID], type);
+    new Cache:cache = mysql_query(SQL_Connection, query, true);
+    
+    if ( cache_num_rows() ) {
+        cache_get_value_name_int(0, "num", count);
+    }
+    cache_delete(cache);
+
+    if ( tmp != MYSQL_INVALID_CACHE ) {
+        cache_set_active(tmp);
+    }
+    return count;
 }

@@ -1,4 +1,4 @@
-#define MAX_VEHICLES_PER_PAGE       (11)
+#define MAX_VEHICLES_PER_PAGE       10
 
 enum
 {
@@ -11,7 +11,9 @@ enum E_BDS_VEHICLES_INFO
 {
     ID,
     Model,
-    PriceSell
+    Price,
+    Color1,
+    Color2
 }
 
 enum E_BDS_OWNER
