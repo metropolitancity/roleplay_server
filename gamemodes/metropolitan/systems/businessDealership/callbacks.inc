@@ -207,6 +207,33 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
 
         if ( index == -1 )return Y_HOOKS_BREAK_RETURN_0;
 
+        if ( BDS_VehiclesInf[playerid][index][Price] > GetPlayerMoney(playerid) )
+        {
+            NT:Send(playerid, NT_TYPE_ERROR, "Você não tem dinheiro suficiente.");
+            return Y_HOOKS_BREAK_RETURN_0;
+        }
+
+        new query[1024];
+        mysql_format(SQL_Connection, query, sizeof(query),
+            "INSERT INTO "TABLE_USERS_VEHICLES" \
+            (user_id,model,spawn_x,spawn_y,spawn_z,spawn_a,interior,world,color1,color2,fuel,km,health)\
+            VALUES('%d','%d','%.2f','%.2f','%.2f','%.2f','%d','%d','%d','%d','20.0','0','1000.0');",
+            Player[playerid][ID],
+            BDS_VehiclesInf[playerid][index][Model],
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0,
+            0,
+            BDS_VehiclesInf[playerid][index][Color1],
+            BDS_VehiclesInf[playerid][index][Color2]
+        );
+        mysql_tquery(SQL_Connection, query);
+
+        mysql_format(SQL_Connection, query, sizeof(query), "DELETE FROM "TABLE_BDS_VEHICLES" WHERE `id`='%d';", BDS_VehiclesInf[playerid][index][ID]);
+        mysql_tquery(SQL_Connection, query);
+
         new vname[MAX_VEHICLE_NAME];
         GetVehicleModelName(BDS_VehiclesInf[playerid][index][Model], vname);
         NT:Send(playerid, NT_TYPE_SUCCESS, "Você comprou o carro %s", vname);
