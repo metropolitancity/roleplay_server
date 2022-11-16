@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `users_vehicles`(
-    `id` VARCHAR(64) PRIMARY KEY,
+    `id` CHAR(36) PRIMARY KEY,
     `user_id` INT(11) NOT NULL,
     `model` INT(3) NOT NULL,
     `spawn_x` FLOAT NOT NULL,
@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS `users_vehicles`(
     `fuel` FLOAT NOT NULL,
     `km` FLOAT DEFAULT 0,
     `health` FLOAT DEFAULT 1000,
+    `in_ds` BOOLEAN NOT NULL,
     `damage_panels` INT(11) DEFAULT 0,
     `damage_doors` INT(11) DEFAULT 0,
     `damage_tires` INT(11) DEFAULT 0,

@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS `users`(
     `name` VARCHAR(25) NOT NULL UNIQUE,
     `email` VARCHAR(64) NOT NULL UNIQUE,
     `password` VARCHAR(64) NOT NULL,
+    `money` INT(11) DEFAULT 0,
     `admin` INT(1) DEFAULT 0,
     `skin` INT(3) NOT NULL,
     `gender` INT(1) NOT NULL,

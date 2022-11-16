@@ -1,32 +1,45 @@
-cmd:staff(playerid)
+cmd:staff(playerid, params[])
 {
     if ( Player[playerid][Admin] < HELPER )
     {
         return 0;
     }
 
+    new quiet;
+    sscanf(params, "D(1)", quiet);
+
     Player[playerid][StaffWorking] = !Player[playerid][StaffWorking];
     switch(Player[playerid][StaffWorking])
     {
         case 0:
         {
-            CleanChat();
-            SendClientMessageToAllf(COLOR_BLUE, ""SERVER_MESSAGE_TAG" {"COLOR_WHITE_EMBED"}Anjo %s esta {A52A2A}offilne{"COLOR_WHITE_EMBED"}.", Player[playerid][Name]);
+            if (quiet)
+            {
+                CleanChat();
+                SendClientMessageToAllf(COLOR_BLUE, ""SERVER_MESSAGE_TAG" {"COLOR_WHITE_EMBED"}Anjo %s esta {A52A2A}offilne{"COLOR_WHITE_EMBED"}.", Player[playerid][Name]);
+            }
             NT:Send(playerid, NT_TYPE_SUCCESS, "Modo administrador: ~r~~h~Offline");
             SetPlayerSkin(playerid, Player[playerid][Skin]);
             SetPlayerHealth(playerid, Player[playerid][Health]);
             SetPlayerArmour(playerid, Player[playerid][Armour]);
+            RemovePlayerAttachedObject(playerid, _:ATTACHED_OBJECT_ANGEL);
             return 1;
         }
         case 1:
         {
-            CleanChat();
-            SendClientMessageToAllf(COLOR_BLUE, ""SERVER_MESSAGE_TAG" {"COLOR_WHITE_EMBED"}Anjo %s esta {32CD32}online{"COLOR_WHITE_EMBED"}.", Player[playerid][Name]);
+            // 
+            
+            if (quiet)
+            {
+                CleanChat();
+                SendClientMessageToAllf(COLOR_BLUE, ""SERVER_MESSAGE_TAG" {"COLOR_WHITE_EMBED"}%s %s esta {32CD32}online{"COLOR_WHITE_EMBED"}.",  Player[playerid][Admin] >= CEO ? ("deus") : ("anjo"), Player[playerid][Name]);
+            }
             GetPlayerHealth(playerid, Player[playerid][Health]);
             GetPlayerArmour(playerid, Player[playerid][Armour]);
             SetPlayerHealth(playerid, 10000000.0);
             NT:Send(playerid, NT_TYPE_SUCCESS, "Modo administrador: ~g~~h~Online");
             SetPlayerSkin(playerid, 217);
+            SetPlayerAttachedObject(playerid, _:ATTACHED_OBJECT_ANGEL, 1316, 2, 0.305999, 0.017000, 0.000000, 0.000000, 91.299964, 0.000000, 0.079000, 0.068999, 0.042000);
             return 1;
         }
     }
@@ -63,7 +76,7 @@ cmd:createvehicle(playerid, params[])
     }
     
     new vehicleid = CreateVehicle(model, x, y, z, a, 0, 0, -1);
-    Vehicle:SetFuel(vehicleid, Vehicle:GetMaxFuel(GetVehicleModel(vehicleid)));
+    //Vehicle:SetFuel(vehicleid, Vehicle:GetMaxFuel(GetVehicleModel(vehicleid)));
     Player[playerid][vAdmin] = vehicleid;
 
     GetVehicleName(vehicleid, vname);

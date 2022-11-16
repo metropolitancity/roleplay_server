@@ -7,12 +7,18 @@ forward OnPlayerAttempAuth(playerid);
 forward OnPlayerSave(playerid);
 forward OnPlayerLogged(playerid);
 
+enum E_ATTACHED
+{
+    ATTACHED_OBJECT_ANGEL = 0,
+}
+
 enum E_PLAYER_DATA
 {
     ID,
     Name[MAX_PLAYER_NAME],
     Email[MAX_PLAYER_EMAIL],
     Password[MAX_PLAYER_PASSWORD],
+    Money,
     Gender,
     Skin,
     Float:Spawn[E_COORDINATE_3D],

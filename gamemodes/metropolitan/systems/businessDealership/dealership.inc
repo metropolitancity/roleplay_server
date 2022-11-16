@@ -10,7 +10,7 @@ enum
 
 enum E_BDS_VEHICLES_INFO
 {
-    ID,
+    ID[40],
     Model,
     Price,
     Color1,
@@ -32,8 +32,12 @@ enum E_BUSINESS_DEALERSHIP
     Float:X,
     Float:Y,
     Float:Z,
-    Pickup,
-    Text3D:Label,
+    Float:vSpawnX,
+    Float:vSpawnY,
+    Float:vSpawnZ,
+    Float:vSpawnA,
+    Pickup[2],
+    Text3D:Label[2],
     MapIcon,
 }
 new BusinessDealership[MAX_BUSINESS_DEALERSHIPS][E_BUSINESS_DEALERSHIP], Iterator:BusinessDealership<MAX_BUSINESS_DEALERSHIPS>;

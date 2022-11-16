@@ -291,7 +291,7 @@ DS:ShowVehicles(playerid, ds_index, type=BDS_TYPE_LUXURIOUS, offset=0)
         new vname[MAX_VEHICLE_NAME], Float:bX = 12.0, Float:bY = 180.0;
         for(new i; i < num_rows; i++)
         {
-            cache_get_value_name_int(i, "id", BDS_VehiclesInf[playerid][i][ID]);
+            cache_get_value_name(i, "id", BDS_VehiclesInf[playerid][i][ID], 40);
             cache_get_value_name_int(i, "price", BDS_VehiclesInf[playerid][i][Price]);
             cache_get_value_name_int(i, "model", BDS_VehiclesInf[playerid][i][Model]);
             cache_get_value_name_int(i, "color1", BDS_VehiclesInf[playerid][i][Color1]);
@@ -339,11 +339,8 @@ DS:ShowVehicles(playerid, ds_index, type=BDS_TYPE_LUXURIOUS, offset=0)
 DS:HideVehicles(playerid)
 {
     if ( !GetPVarInt(playerid, "DS:ShowDealerShip") )return 0;
-    new reset[E_BDS_VEHICLES_INFO];
-    
     foreach(new i: BDS_VehiclesPage[playerid])
     {
-        BDS_VehiclesInf[playerid][i] = reset;
         for(new t; t < sizeof(PTD_DealershipVehicles[][]); t++){
             if ( IsValidPlayerTextDraw(playerid, PTD_DealershipVehicles[playerid][i][t]) ) {
                 PlayerTextDrawDestroy(playerid, PTD_DealershipVehicles[playerid][i][t]);

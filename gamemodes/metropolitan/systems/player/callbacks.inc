@@ -52,7 +52,7 @@ hook OnPlayerDisconnect(playerid, reason)
         GetPlayerFacingAngle(playerid, Player[playerid][Spawn][A]);
 
         mysql_format(SQL_Connection, query, sizeof(query),
-            "UPDATE "TABLE_USERS" SET `health`='%.2f',`armour`='%.2f',`spawn_x`='%.2f',`spawn_y`='%.2f',`spawn_z`='%.2f',`spawn_a`='%.2f',`interior`='%d',`world`='%d',`hunger`='%.3f',`thirst`='%.3f',`sleep`='%.3f' WHERE `id`='%d';",
+            "UPDATE "TABLE_USERS" SET `health`='%.2f',`armour`='%.2f',`spawn_x`='%.2f',`spawn_y`='%.2f',`spawn_z`='%.2f',`spawn_a`='%.2f',`interior`='%d',`world`='%d',`hunger`='%.3f',`thirst`='%.3f',`sleep`='%.3f',`money`='%d' WHERE `id`='%d';",
             Player[playerid][Health], Player[playerid][Armour],
             Player[playerid][Spawn][X],
             Player[playerid][Spawn][Y],
@@ -63,6 +63,7 @@ hook OnPlayerDisconnect(playerid, reason)
             Player[playerid][Hunger],
             Player[playerid][Thirst],
             Player[playerid][Sleep],
+            GetPlayerMoney(playerid),
             Player[playerid][ID]
         );
         mysql_tquery(SQL_Connection, query);
@@ -386,6 +387,7 @@ public OnPlayerAttempAuth(playerid)
     cache_get_value_name(0, "name", Player[playerid][Name], MAX_PLAYER_NAME);
     cache_get_value_name(0, "email", Player[playerid][Email], MAX_PLAYER_EMAIL);
     cache_get_value_name(0, "password", Player[playerid][Password], MAX_PLAYER_PASSWORD);
+    cache_get_value_name_int(0, "money", Player[playerid][Money]);
     cache_get_value_name_int(0, "skin", Player[playerid][Skin]);
     cache_get_value_name_int(0, "gender", Player[playerid][Gender]);
     cache_get_value_name_float(0, "spawn_x", Player[playerid][Spawn][X]);
@@ -430,6 +432,8 @@ public OnPlayerAttempAuth(playerid)
     SetPlayerVirtualWorld(playerid, Player[playerid][World]);
     SetPlayerHealth(playerid, Player[playerid][Health]);
     SetPlayerArmour(playerid, Player[playerid][Armour]);
+    ResetPlayerMoney(playerid);
+    GivePlayerMoney(playerid, Player[playerid][Money]);
     Player[playerid][vAdmin] = INVALID_VEHICLE_ID;
 
     new pName[MAX_PLAYER_NAME];

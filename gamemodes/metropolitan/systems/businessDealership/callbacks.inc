@@ -24,12 +24,25 @@ hook OnGameModeInit()
             cache_get_value_name_float(i, "y", BusinessDealership[i][Y]);
             cache_get_value_name_float(i, "z", BusinessDealership[i][Z]);
 
-            BusinessDealership[i][Pickup] = CreateDynamicPickup(
+            cache_get_value_name_float(i, "vspawn_x", BusinessDealership[i][vSpawnX]);
+            cache_get_value_name_float(i, "vspawn_y", BusinessDealership[i][vSpawnY]);
+            cache_get_value_name_float(i, "vspawn_z", BusinessDealership[i][vSpawnZ]);
+            cache_get_value_name_float(i, "vspawn_a", BusinessDealership[i][vSpawnA]);
+
+            BusinessDealership[i][Pickup][0] = CreateDynamicPickup(
                 19197, 
                 23,
                 BusinessDealership[i][X],
                 BusinessDealership[i][Y],
                 BusinessDealership[i][Z] - 1.1
+            );
+
+            BusinessDealership[i][Pickup][1] = CreateDynamicPickup(
+                19134, 
+                23,
+                BusinessDealership[i][vSpawnX],
+                BusinessDealership[i][vSpawnY],
+                BusinessDealership[i][vSpawnZ]
             );
 
             BusinessDealership[i][MapIcon] = CreateDynamicMapIcon(
@@ -51,12 +64,25 @@ hook OnGameModeInit()
                 ret_utf8decode(BusinessDealership[i][Name]),
                 RealStr(BusinessDealership[i][Price], "¢")
             );
-            BusinessDealership[i][Label] = CreateDynamic3DTextLabel(
+            BusinessDealership[i][Label][0] = CreateDynamic3DTextLabel(
                 str,
                 -1,
                 BusinessDealership[i][X],
                 BusinessDealership[i][Y],
                 BusinessDealership[i][Z],
+                DISTANCE_RENDER_LABEL,
+                .worldid=0,
+                .interiorid=0,
+                .streamdistance=DISTANCE_RENDER_LABEL
+            );
+
+            format(str, sizeof(str), "%s\n{"COLOR_WHITE_EMBED"}Garagem", ret_utf8decode(BusinessDealership[i][Name]));
+            BusinessDealership[i][Label][1] = CreateDynamic3DTextLabel(
+                str,
+                COLOR_RED,
+                BusinessDealership[i][vSpawnX],
+                BusinessDealership[i][vSpawnY],
+                BusinessDealership[i][vSpawnZ],
                 DISTANCE_RENDER_LABEL,
                 .worldid=0,
                 .interiorid=0,
@@ -105,6 +131,17 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
                 CleanChat(playerid);
                 SendClientMessagef(playerid, COLOR_RED, "[Concessionária] {FFFFFF}Bem vindo a %s", ret_utf8decode(BusinessDealership[i][Name]));
                 DS:ShowDealerShip(playerid, i);
+                return Y_HOOKS_BREAK_RETURN_1;
+            }
+
+            else if ( IsPlayerInRangeOfPoint(playerid, 1.0, BusinessDealership[i][vSpawnX], BusinessDealership[i][vSpawnY], BusinessDealership[i][vSpawnZ]) )
+            {
+                if ( GetPVarInt(playerid, "DS_GETTING_VEHICLE") > gettime() )return Y_HOOKS_BREAK_RETURN_0;
+                SetPVarInt(playerid, "DS_GETTING_VEHICLE", gettime() + 3);
+
+                new query[320];
+                mysql_format(SQL_Connection, query, sizeof(query), "SELECT v.*, u.name as user_name FROM "TABLE_USERS_VEHICLES" as v LEFT JOIN "TABLE_USERS" as u ON u.id = v.user_id WHERE `user_id`='%d' AND `in_ds`='1';", Player[playerid][ID]);
+                mysql_tquery(SQL_Connection, query, "OnPlayerLoadVehicle", "i", playerid);
                 return Y_HOOKS_BREAK_RETURN_1;
             }
         }
@@ -213,30 +250,26 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
             return Y_HOOKS_BREAK_RETURN_0;
         }
 
-        new query[1024];
+        CancelSelectTextDraw(playerid);
+        DS:HideDealerShip(playerid);
+
+        new query[1024], ds_id = DS:GetId(playerid, 2.0);
         mysql_format(SQL_Connection, query, sizeof(query),
             "INSERT INTO "TABLE_USERS_VEHICLES" \
-            (user_id,model,spawn_x,spawn_y,spawn_z,spawn_a,interior,world,color1,color2,fuel,km,health)\
-            VALUES('%d','%d','%.2f','%.2f','%.2f','%.2f','%d','%d','%d','%d','20.0','0','1000.0');",
+            (id,user_id,model,spawn_x,spawn_y,spawn_z,spawn_a,interior,world,color1,color2,fuel,km,health)\
+            VALUES(uuid(),'%d','%d','%.2f','%.2f','%.2f','%.2f','%d','%d','%d','%d','20.0','0','1000.0');",
             Player[playerid][ID],
             BDS_VehiclesInf[playerid][index][Model],
-            0.0,
-            0.0,
-            0.0,
-            0.0,
+            BusinessDealership[ds_id][vSpawnX],
+            BusinessDealership[ds_id][vSpawnY],
+            BusinessDealership[ds_id][vSpawnZ],
+            BusinessDealership[ds_id][vSpawnA],
             0,
             0,
             BDS_VehiclesInf[playerid][index][Color1],
             BDS_VehiclesInf[playerid][index][Color2]
         );
-        mysql_tquery(SQL_Connection, query);
-
-        mysql_format(SQL_Connection, query, sizeof(query), "DELETE FROM "TABLE_BDS_VEHICLES" WHERE `id`='%d';", BDS_VehiclesInf[playerid][index][ID]);
-        mysql_tquery(SQL_Connection, query);
-
-        new vname[MAX_VEHICLE_NAME];
-        GetVehicleModelName(BDS_VehiclesInf[playerid][index][Model], vname);
-        NT:Send(playerid, NT_TYPE_SUCCESS, "Você comprou o carro %s", vname);
+        mysql_tquery(SQL_Connection, query, "OnPlayerBuyingVehicle", "iis", playerid, BDS_VehiclesInf[playerid][index][Price], BDS_VehiclesInf[playerid][index][ID]);
         return Y_HOOKS_BREAK_RETURN_1;
     }
 
@@ -268,4 +301,29 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
         }
     }
     return Y_HOOKS_CONTINUE_RETURN_1;
+}
+
+
+forward OnPlayerBuyingVehicle(playerid, price, vID[]);
+public OnPlayerBuyingVehicle(playerid, price, vID[])
+{
+    if ( cache_affected_rows() )
+    {
+        GivePlayerMoney(playerid, -price);
+
+        new query[300];
+        mysql_format(SQL_Connection, query, sizeof(query), "UPDATE "TABLE_USERS" SET `money`='%d' WHERE `id`='%d';", GetPlayerMoney(playerid), Player[playerid][ID]);
+        mysql_tquery(SQL_Connection, query);
+        
+        /*
+        mysql_format(SQL_Connection, query, sizeof(query), "DELETE FROM "TABLE_BDS_VEHICLES" WHERE `id`='%s';", vID);
+        mysql_tquery(SQL_Connection, query);*/
+
+        NT:Send(playerid, NT_TYPE_SUCCESS, "Veiculo comprado com sucesso!");
+        CleanChat(playerid);
+        SendClientMessagef(playerid, COLOR_ORANGE, "[!] {"COLOR_WHITE_EMBED"}Seu veiculo está na garagem da concessionária.");
+        return 1;
+    }
+    NT:Send(playerid, NT_TYPE_ERROR, "Não foi possível comprar seu veiculo.");
+    return 0;
 }

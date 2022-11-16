@@ -30,6 +30,7 @@ main()
 #include <core/function>
 #include <core/command_perfomed>
 #include <core/dynamic_time>
+#include <core/vehicles>
 
 // voice
 #include <voice/voice>
@@ -38,10 +39,9 @@ main()
 // Sistemas
 #include <headers/player>
 
-//
+// systems
 #include <logo/logo>
 #include <player/player>
-#include <vehicles/vehicles>
 #include <notifications/nt>
 //#include <discord/discord>
 #include <fss/fss>

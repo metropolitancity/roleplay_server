@@ -3,3 +3,4 @@
 #include <systems/player/functions>
 #include <systems/player/dialogs>
 #include <systems/player/commands>
+#include <systems/player/vehicles>
