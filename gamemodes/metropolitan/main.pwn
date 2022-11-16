@@ -13,7 +13,7 @@
 #include <vSync>
 #include <traveled>
 #include <strlib>
-#include <cef>
+//#include <cef>
 
 main()
 {
@@ -34,7 +34,6 @@ main()
 
 // voice
 #include <voice/voice>
-
 
 // Sistemas
 #include <headers/player>
