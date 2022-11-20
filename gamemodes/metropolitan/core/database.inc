@@ -26,6 +26,14 @@ hook OnGameModeExit()
     return Y_HOOKS_CONTINUE_RETURN_1;
 }
 
+hook OnQueryError(errorid, const error[], const callback[], const query[], MySQL:handle)
+{
+    print("=====================[ QUERY ERROR ]=====================");
+    printf("%s » %s", query, error);
+    print("=========================================================");
+    return Y_HOOKS_CONTINUE_RETURN_1;
+}
+
 // =================================== [ TABELAS ] =================================== //
 #define TABLE_USERS                         "users"
 #define TABLE_USERS_VEHICLES                ""TABLE_USERS"_vehicles"
