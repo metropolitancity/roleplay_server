@@ -5,6 +5,7 @@ hook OnGameModeInit()
     mysql_query_file(SQL_Connection, "tables/"TABLE_BUSINESS_DEALERSHIP".sql", false);
     mysql_query_file(SQL_Connection, "tables/"TABLE_BDS_VEHICLES".sql", false);
 
+    print("[MP:RP] Carregando concessionárias.");
     new Cache:cache = mysql_query(SQL_Connection, "SELECT d.*, u.name as user_name FROM "TABLE_BUSINESS_DEALERSHIP" as d LEFT JOIN "TABLE_USERS" as u ON d.user_id = u.id WHERE 1;", true);
     new num_rows = cache_num_rows();
     
@@ -122,26 +123,29 @@ hook OnPlayerDisconnect(playerid, reason)
 
 hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 {
+    if ( IsPlayerInAnyVehicle(playerid) ) return Y_HOOKS_CONTINUE_RETURN_1;
+
     if ( PRESSED(KEY_YES) && !GetPVarInt(playerid, "DS:ShowDealerShip") )
     {
         foreach(new i: BusinessDealership)
         {
             if ( IsPlayerInRangeOfPoint(playerid, 1.0, BusinessDealership[i][X], BusinessDealership[i][Y], BusinessDealership[i][Z]) )
             {
-                CleanChat(playerid);
-                SendClientMessagef(playerid, COLOR_RED, "[Concessionária] {FFFFFF}Bem vindo a %s", ret_utf8decode(BusinessDealership[i][Name]));
                 DS:ShowDealerShip(playerid, i);
                 return Y_HOOKS_BREAK_RETURN_1;
             }
 
             else if ( IsPlayerInRangeOfPoint(playerid, 1.0, BusinessDealership[i][vSpawnX], BusinessDealership[i][vSpawnY], BusinessDealership[i][vSpawnZ]) )
             {
-                if ( GetPVarInt(playerid, "DS_GETTING_VEHICLE") > gettime() )return Y_HOOKS_BREAK_RETURN_0;
+                if ( GetPVarInt(playerid, "DS_GETTING_VEHICLE") > gettime() ) return Y_HOOKS_BREAK_RETURN_0;
                 SetPVarInt(playerid, "DS_GETTING_VEHICLE", gettime() + 3);
 
-                new query[320];
-                mysql_format(SQL_Connection, query, sizeof(query), "SELECT v.*, u.name as user_name FROM "TABLE_USERS_VEHICLES" as v LEFT JOIN "TABLE_USERS" as u ON u.id = v.user_id WHERE `user_id`='%d' AND `in_ds`='1';", Player[playerid][ID]);
-                mysql_tquery(SQL_Connection, query, "OnPlayerLoadVehicle", "i", playerid);
+                new query[1024];
+                mysql_format(SQL_Connection, query, sizeof(query),
+                    "SELECT v.*, u.name as user_name FROM "TABLE_USERS_VEHICLES" as v LEFT JOIN "TABLE_USERS" as u ON v.user_id = u.id WHERE `user_id`='%d' AND `in_garage_ds`=1;",
+                    Player[playerid][ID]
+                );
+                mysql_tquery(SQL_Connection, query, "OnLoadPlayerVehicle", "i", playerid);
                 return Y_HOOKS_BREAK_RETURN_1;
             }
         }
@@ -250,6 +254,24 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
             return Y_HOOKS_BREAK_RETURN_0;
         }
 
+        new _query[128];
+        mysql_format(SQL_Connection, _query, sizeof(_query), "SELECT * FROM "TABLE_USERS_VEHICLES" WHERE `user_id`='%d' AND `in_garage_ds`=1;", Player[playerid][ID]);
+        new Cache:c = mysql_query(SQL_Connection, _query, true);
+
+        if ( cache_num_rows() )
+        {
+            cache_delete(c);
+            NT:Send(playerid, NT_TYPE_ERROR, "Você já tem um veiculo na garagem da concessionária.");
+            return Y_HOOKS_BREAK_RETURN_0;
+        }
+        cache_delete(c);
+
+        if ( GetPlayerVehiclesCount(playerid) >= 2)
+        {
+            NT:Send(playerid, NT_TYPE_ERROR, "Você não pode comprar mais veiculos.");
+            return Y_HOOKS_BREAK_RETURN_0;
+        }
+
         CancelSelectTextDraw(playerid);
         DS:HideDealerShip(playerid);
 
@@ -315,15 +337,41 @@ public OnPlayerBuyingVehicle(playerid, price, vID[])
         mysql_format(SQL_Connection, query, sizeof(query), "UPDATE "TABLE_USERS" SET `money`='%d' WHERE `id`='%d';", GetPlayerMoney(playerid), Player[playerid][ID]);
         mysql_tquery(SQL_Connection, query);
         
-        /*
         mysql_format(SQL_Connection, query, sizeof(query), "DELETE FROM "TABLE_BDS_VEHICLES" WHERE `id`='%s';", vID);
-        mysql_tquery(SQL_Connection, query);*/
+        mysql_tquery(SQL_Connection, query);
 
         NT:Send(playerid, NT_TYPE_SUCCESS, "Veiculo comprado com sucesso!");
+        
         CleanChat(playerid);
         SendClientMessagef(playerid, COLOR_ORANGE, "[!] {"COLOR_WHITE_EMBED"}Seu veiculo está na garagem da concessionária.");
         return 1;
     }
     NT:Send(playerid, NT_TYPE_ERROR, "Não foi possível comprar seu veiculo.");
+    return 0;
+}
+
+
+forward OnLoadPlayerVehicle(playerid);
+public OnLoadPlayerVehicle(playerid)
+{
+    if ( GetPVarInt(playerid, "DS_GARAGE_LOAD_VEHICLE") > gettime() )return 0;
+    SetPVarInt(playerid, "DS_GARAGE_LOAD_VEHICLE", gettime() + 5);
+
+    if ( cache_num_rows() )
+    {    
+        new vname[MAX_VEHICLE_NAME];
+        new vehicleid = CreatePlayerVehicle();
+        GetVehicleName(vehicleid, vname);
+        NT:Send(playerid, NT_TYPE_SUCCESS, "Veiculo ~b~%s~w~ carregado.", vname);
+
+        new query[255], vehicleDataID[40];
+        GetVehicleDataId(vehicleid, vehicleDataID);
+
+        mysql_format(SQL_Connection, query, sizeof(query), "UPDATE "TABLE_USERS_VEHICLES" SET `in_garage_ds`=0 WHERE `id`='%e';", vehicleDataID);
+        mysql_tquery(SQL_Connection, query);
+
+        return 1;
+    }
+    NT:Send(playerid, NT_TYPE_ERROR, "Não há veiculos seus na garagem.");
     return 0;
 }
