@@ -563,7 +563,7 @@ hook OnVehicleUpdateFuel()
                 if ( GetVehicleFuel(vehicleid) <= 0.0000 ) {
                     SetVehicleFuel(vehicleid, 0.0000);
                     SetVehicleParams(vehicleid, VEHICLE_TYPE_ENGINE, false);
-                    NT:Send(GetVehicleDriver(vehicleid), NT_TYPE_ERROR, "Veiculo sem combustível.");
+                    NT:Send(GetVehicleDriver(vehicleid), NT_TYPE_ERROR, "Motor parou de funcionar.");
 
                 }
             }
