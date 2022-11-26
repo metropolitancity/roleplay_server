@@ -360,7 +360,7 @@ public OnLoadPlayerVehicle(playerid)
     if ( cache_num_rows() )
     {    
         new vname[MAX_VEHICLE_NAME];
-        new vehicleid = CreatePlayerVehicle();
+        new vehicleid = CreatePlayerVehicle(playerid);
         GetVehicleName(vehicleid, vname);
         NT:Send(playerid, NT_TYPE_SUCCESS, "Veiculo ~b~%s~w~ carregado.", vname);
 

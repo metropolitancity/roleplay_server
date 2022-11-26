@@ -1,4 +1,3 @@
-
 // ============================== [ ENUM / VAR ] ==============================
 
 static enum E_VEHICLE_DATA
@@ -9,8 +8,21 @@ static enum E_VEHICLE_DATA
 new Vehicle[MAX_VEHICLES][E_VEHICLE_DATA];
 
 // ============================== [ FUNCTIONS ] ==============================
+SetVehicleFuel(vehicleid, Float:fuel)
+{
+    if ( !IsValidVehicle(vehicleid) ) return 0;
+    Vehicle[vehicleid][Fuel] = fuel;
+    return 1;
+}
+
+stock Float:GetVehicleFuel(vehicleid){
+    if ( !IsValidVehicle(vehicleid) )return 0.0;
+    return Vehicle[vehicleid][Fuel];
+}
+
 // ============================== [ CALLBACKS ] ==============================
 #include <YSI_Coding\y_hooks>
+
 hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 {
     if ( IsPlayerInAnyVehicle(playerid) )

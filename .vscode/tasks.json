@@ -47,7 +47,7 @@
       "label": "compiler-filterscript",
       "type": "shell",
       "windows":{
-        "command": "${workspaceRoot}\\pawno\\pawncc",
+        "command": "${workspaceRoot}\\pawno\\pawncc.exe",
         "args": [
           "${file}",
           "--%",

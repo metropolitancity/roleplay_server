@@ -44,13 +44,56 @@ hook OnPlayerLogged(playerid)
     return Y_HOOKS_CONTINUE_RETURN_1;
 }
 
+hook OnPlayerDisconnect(playerid, reason)
+{
+    if ( Iter_Count(VehiclesPlayer[playerid]) )
+    {
+        new reset[E_PLAYER_VEHICLE_DATA], query[512], Float:health, Float:x, Float:y, Float:z, Float:a, tires, panels, lights, doors;
+        foreach(new vehicleid: VehiclesPlayer[playerid])
+        {
+            if ( !IsValidVehicle(vehicleid) )continue;
+
+            GetVehicleHealth(vehicleid, health);
+            GetVehicleDamageStatus(vehicleid, panels, doors, lights, tires);
+            GetVehiclePos(vehicleid, x, y, z);
+            GetVehicleZAngle(vehicleid, a);
+
+            mysql_format(SQL_Connection,
+                query,
+                sizeof(query),
+                "UPDATE "TABLE_USERS_VEHICLES" SET `health`='%.3f',`km`='%f',`fuel`='%.3f',`spawn_x`='%.3f',`spawn_y`='%.3f',`spawn_z`='%.3f',`spawn_a`='%.3f',`interior`='%d',`world`='%d',`damage_tires`='%d',`damage_panels`='%d',`damage_lights`='%d',`damage_doors`='%d' WHERE `id`='%s';",
+                health,
+                GetDistanceTraveled(vehicleid),
+                GetVehicleFuel(vehicleid),
+                x, y, z, a,
+                GetVehicleInterior(vehicleid),
+                GetVehicleVirtualWorld(vehicleid),
+                tires,
+                panels,
+                lights,
+                doors,
+                pVehicle[vehicleid][ID]
+            );
+            mysql_tquery(SQL_Connection, query, "OnVehicleSave", "i", pVehicle[vehicleid][ID]);
+
+            DestroyVehicle(vehicleid);
+            pVehicle[vehicleid] = reset;
+
+            Iter_Remove(pVehicle, vehicleid);
+            Iter_SafeRemove(VehiclesPlayer[playerid], vehicleid, vehicleid);
+        }
+    }
+    return Y_HOOKS_CONTINUE_RETURN_1;
+}
+
 hook OnVehicleLoad(playerid)
 {
     new num_rows = cache_num_rows();
     if ( num_rows )
     {
+        Iter_Init(VehiclesPlayer[playerid]);
         for(new i; i < num_rows; i++) {
-           CreatePlayerVehicle(i);
+           CreatePlayerVehicle(playerid, i);
         }
         printf("%s carregou %d veiculos", Player[playerid][Name], Iter_Count(pVehicle));
         return 1;
@@ -58,7 +101,7 @@ hook OnVehicleLoad(playerid)
     return 0;
 }
 
-stock CreatePlayerVehicle(index=0)
+stock CreatePlayerVehicle(playerid, index=0)
 {
     new model, Float:spawn_x, Float:spawn_y, Float:spawn_z, Float:spawn_a, interiorid, worldid, color1, color2, Float:km, Float:fuel;
     cache_get_value_name_int(index, "model", model);
@@ -77,12 +120,15 @@ stock CreatePlayerVehicle(index=0)
     // criar veiculo
     new vehicleid = CreateVehicle(model, spawn_x, spawn_y, spawn_z, spawn_a, color1, color2, -1, 0);
 
-    cache_get_value_name(index, "id", pVehicle[vehicleid][ID]);
+    cache_get_value_name(index, "id", pVehicle[vehicleid][ID], 40);
     cache_get_value_name_int(index, "user_id", pVehicle[vehicleid][Owner][ID]);
     cache_get_value_name(index, "user_name", pVehicle[vehicleid][Owner][Name]);
 
     SetVehicleDistanceTravaled(vehicleid, km);
+    SetVehicleFuel(vehicleid, fuel);
+
     Iter_Add(pVehicle, vehicleid);
+    Iter_Add(VehiclesPlayer[playerid], vehicleid);
     return vehicleid;
 }
 

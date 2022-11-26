@@ -1,5 +1,6 @@
 #include <a_samp>
 
+#pragma dynamic 600000
 
 #define MOVE_SPEED              100.0
 #define ACCEL_RATE              0.03
