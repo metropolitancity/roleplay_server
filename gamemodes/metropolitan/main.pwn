@@ -20,7 +20,7 @@ main()
     print("[MP:RP] Servidor iniciado com sucesso!");
     return 1;
 }
-
+ 
 // core
 #include <core/fixers>
 #include <core/def>

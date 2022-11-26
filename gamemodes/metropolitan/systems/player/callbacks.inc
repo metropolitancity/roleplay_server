@@ -8,6 +8,12 @@ hook OnGameModeInit()
 
 hook OnPlayerConnect(playerid)
 {
+    RemovePlayerAllAtacheds(playerid);
+    
+    // resetar variável.
+    new reset[E_PLAYER_DATA];
+    Player[playerid] = reset;
+
     ShowServerLogo(playerid);
     SetPlayerColor(playerid, 0xFFFFFFFF);
     TogglePlayerSpectating(playerid, true);
@@ -69,7 +75,7 @@ hook OnPlayerDisconnect(playerid, reason)
         mysql_tquery(SQL_Connection, query);
 
         if ( funcidx("OnPlayerSave") != -1 ) {
-            OnPlayerSave(playerid);
+            CallLocalFunction("OnPlayerSave", "i", playerid);
         }
 
         // destruir veiculo admin, caso haja algum criado pelo jogador
@@ -83,11 +89,6 @@ hook OnPlayerDisconnect(playerid, reason)
     new reset[E_PLAYER_DATA];
     Player[playerid] = reset;
     return Y_HOOKS_CONTINUE_RETURN_1;
-}
-
-public OnPlayerSave(playerid)
-{
-    return 1;
 }
 
 hook OnPlayerRequestClass(playerid)

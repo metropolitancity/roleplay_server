@@ -46,16 +46,31 @@
     {
       "label": "compiler-filterscript",
       "type": "shell",
-      "command": "${workspaceRoot}\\pawno\\pawncc.exe",
-      "args": [
-        "${file}",
-        "--%",
-        "-Dfilterscripts",
-        "-;+",
-        "-(+",
-        "-d3",
-        "-Z"
-      ],
+      "windows":{
+        "command": "${workspaceRoot}\\pawno\\pawncc",
+        "args": [
+          "${file}",
+          "--%",
+          "-Dfilterscripts",
+          "-;+",
+          "-(+",
+          "-d3",
+          "-Z"
+        ]
+      },
+      "linux":{
+        "command": "pawno/pawncc",
+        "args": [
+          "${file}",
+          "-Dfilterscripts",
+          "-i./../pawno/include",
+          "\"-;+\"",
+          "\"-(+\"",
+          "\"-d3\"",
+          "\"-Z\""
+        ]
+      },
+      
       "group": {
         "kind": "build",
         "isDefault": true

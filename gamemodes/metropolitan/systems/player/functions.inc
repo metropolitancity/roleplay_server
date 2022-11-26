@@ -781,3 +781,13 @@ stock Player:UpdateLabel(playerid, color)
     );
     return 1;
 }
+
+stock RemovePlayerAllAtacheds(playerid)
+{
+    for(new i; i < 100; i++){
+        if ( IsPlayerAttachedObjectSlotUsed(playerid, i) ){
+            RemovePlayerAttachedObject(playerid, i);
+        }
+    }
+    return 1;
+}
