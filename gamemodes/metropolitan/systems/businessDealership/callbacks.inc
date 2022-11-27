@@ -29,6 +29,8 @@ hook OnGameModeInit()
             cache_get_value_name_float(i, "vspawn_y", BusinessDealership[i][vSpawnY]);
             cache_get_value_name_float(i, "vspawn_z", BusinessDealership[i][vSpawnZ]);
             cache_get_value_name_float(i, "vspawn_a", BusinessDealership[i][vSpawnA]);
+            
+            Iter_Add(BusinessDealership, i);
 
             BusinessDealership[i][Pickup][0] = CreateDynamicPickup(
                 19197, 
@@ -61,9 +63,10 @@ hook OnGameModeInit()
             format(
                 str,
                 sizeof(str),
-                "{"COLOR_RED_EMBED"}%s{FFFFFF}\nPreço: {"COLOR_GREEN_EMBED"}%s{FFFFFF}\nEstoque: {c1c1c1}0",
+                "{"COLOR_RED_EMBED"}%s{FFFFFF}\nPreço: {"COLOR_GREEN_EMBED"}%s{FFFFFF}\nEstoque: {c1c1c1}%d",
                 ret_utf8decode(BusinessDealership[i][Name]),
-                RealStr(BusinessDealership[i][Price], "¢")
+                RealStr(BusinessDealership[i][Price], "¢"),
+                DS:GetVehiclesInStock(i)
             );
             BusinessDealership[i][Label][0] = CreateDynamic3DTextLabel(
                 str,
@@ -89,8 +92,6 @@ hook OnGameModeInit()
                 .interiorid=0,
                 .streamdistance=DISTANCE_RENDER_LABEL
             );
-
-            Iter_Add(BusinessDealership, i);
         }
         printf("[MP:RP] Foram carregados %d empresas do tipo concessionária.", Iter_Count(BusinessDealership));
         print(" ");

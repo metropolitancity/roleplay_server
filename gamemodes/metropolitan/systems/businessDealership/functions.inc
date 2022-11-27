@@ -384,3 +384,25 @@ DS:GetCountVehicles(ds_index, type)
     }
     return count;
 }
+
+DS:GetVehiclesInStock(ds_id)
+{
+    if ( !Iter_Contains(BusinessDealership, ds_id) )return 0;
+
+    new Cache:tmp = MYSQL_INVALID_CACHE;
+    if ( cache_is_any_active() )
+    {
+        tmp = cache_save();
+    }
+
+    new query[255];
+    mysql_format(SQL_Connection, query, sizeof(query), "SELECT id FROM "TABLE_BDS_VEHICLES" WHERE `dealership`='%d';", BusinessDealership[ds_id][ID]);
+    new Cache:cache = mysql_query(SQL_Connection, query, true), rows = cache_num_rows();
+    cache_delete(cache);
+
+    if ( tmp != MYSQL_INVALID_CACHE )
+    {
+        cache_set_active(tmp);
+    }
+    return rows;
+}
