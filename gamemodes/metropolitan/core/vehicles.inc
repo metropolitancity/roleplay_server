@@ -521,13 +521,18 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
             if ( !Vehicle[vehicleid][StartingEngine] && !GetVehicleParams(vehicleid, VEHICLE_TYPE_ENGINE))
             {
                 Vehicle[vehicleid][StartingEngine] = true;
+                NT:Send(playerid, NT_TYPE_INFO, "Ligando motor...");
                 SetTimerEx("OnVehicleStaringEngine", 2000, false, "i", vehicleid);
             }else{
+                NT:Send(playerid, NT_TYPE_INFO, "Motor ~r~desligado");
                 SetVehicleParams(vehicleid, VEHICLE_TYPE_ENGINE, false);
             }
         }
-        else if ( PRESSED(KEY_NO) ){
-            SetVehicleParams(vehicleid, VEHICLE_TYPE_LIGHTS, !GetVehicleParams(vehicleid, VEHICLE_TYPE_LIGHTS));
+        else if ( PRESSED(KEY_NO) ) {
+            new bool:status = !GetVehicleParams(vehicleid, VEHICLE_TYPE_LIGHTS);
+            if ( status )NT:Send(playerid, NT_TYPE_INFO, "Faról ~g~ligado");
+            else NT:Send(playerid, NT_TYPE_INFO, "Faról ~r~desligado");
+            SetVehicleParams(vehicleid, VEHICLE_TYPE_LIGHTS, status);
         }
     }
     return Y_HOOKS_CONTINUE_RETURN_1;
@@ -545,6 +550,7 @@ hook OnVehicleStaringEngine(vehicleid)
         return Y_HOOKS_CONTINUE_RETURN_1;
     }
 
+    NT:Send(GetVehicleDriver(vehicleid), NT_TYPE_INFO, "Motor ~g~ligado");
     SetVehicleParams(vehicleid, VEHICLE_TYPE_ENGINE, true);   
     return Y_HOOKS_CONTINUE_RETURN_1;
 }
