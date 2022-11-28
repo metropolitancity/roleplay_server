@@ -55,3 +55,5 @@ new PlayerText:PTD_Dealership[MAX_PLAYERS][13] = { INVALID_PLAYER_TEXT_DRAW, ...
 // ================ includes
 #include "businessDealership/callbacks"
 #include "businessDealership/functions"
+#include "businessDealership/commands"
+#include "businessDealership/dialogs"

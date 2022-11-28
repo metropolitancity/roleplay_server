@@ -63,8 +63,9 @@ hook OnGameModeInit()
             format(
                 str,
                 sizeof(str),
-                "{"COLOR_RED_EMBED"}%s{FFFFFF}\nPreço: {"COLOR_GREEN_EMBED"}%s{FFFFFF}\nEstoque: {c1c1c1}%d",
+                "{"COLOR_RED_EMBED"}%s{FFFFFF}\nProprietário: {c1c1c1}%s{"COLOR_WHITE_EMBED"}\nPreço: {"COLOR_ORANGE_EMBED"}%s{FFFFFF}\nEstoque: {c1c1c1}%d",
                 ret_utf8decode(BusinessDealership[i][Name]),
+                BusinessDealership[i][Owner][Name],
                 RealStr(BusinessDealership[i][Price], "¢"),
                 DS:GetVehiclesInStock(i)
             );
