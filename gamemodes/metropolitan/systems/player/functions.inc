@@ -791,3 +791,39 @@ stock RemovePlayerAllAtacheds(playerid)
     }
     return 1;
 }
+
+stock Player:GetCoins(playerid)
+{
+    if ( !Player:Logged(playerid) )return 0;
+
+    new Cache:tmp = MYSQL_INVALID_CACHE;
+    if ( cache_is_any_active() )
+    {
+        tmp = cache_save();
+    }
+
+    new query[128];
+    mysql_format(SQL_Connection, query, sizeof(query), "SELECT coins FROM "TABLE_USERS" WHERE `id`='%d';", Player[playerid][ID]);
+    new Cache:c = mysql_query(SQL_Connection, query, true), coins;
+
+    if ( cache_num_rows() ) {
+        cache_get_value_name_int(0, "coins", coins);
+    }
+    cache_delete(c);
+
+    if ( tmp != MYSQL_INVALID_CACHE )
+    {
+        cache_set_active(tmp);
+    }
+    return coins;
+}
+
+stock Player:SetCoins(playerid, coins)
+{
+    if ( !Player:Logged(playerid) )return 0;
+    
+    new query[128];
+    mysql_format(SQL_Connection, query, sizeof(query), "UPDATE "TABLE_USERS" SET `coins`='%d' WHERE `id`='%d';", coins, Player[playerid][ID]);
+    mysql_tquery(SQL_Connection, query);
+    return 1;
+}

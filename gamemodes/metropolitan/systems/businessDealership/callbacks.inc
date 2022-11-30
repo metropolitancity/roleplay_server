@@ -18,6 +18,7 @@ hook OnGameModeInit()
             cache_get_value_name(i, "name", BusinessDealership[i][Name], 32);
             cache_get_value_name_int(i, "price", BusinessDealership[i][Price]);
             cache_get_value_name_int(i, "user_id", BusinessDealership[i][Owner][ID]);
+            format(BusinessDealership[i][Owner][Name], MAX_PLAYER_NAME, "Ninguém");
             if ( BusinessDealership[i][Owner][ID] ) {
                 cache_get_value_name(i, "user_name", BusinessDealership[i][Owner][Name], MAX_PLAYER_NAME);
             }
@@ -375,5 +376,41 @@ public OnLoadPlayerVehicle(playerid)
         return 1;
     }
     NT:Send(playerid, NT_TYPE_ERROR, "Não há veiculos seus na garagem.");
+    return 0;
+}
+
+forward OnPlayerBuyBusinessDealership(playerid, ds_index);
+public OnPlayerBuyBusinessDealership(playerid, ds_index)
+{
+    if ( cache_affected_rows() )
+    {
+        if ( Player:GetCoins(playerid) < BusinessDealership[ds_index][Price] )
+        {
+            NT:Send(playerid, NT_TYPE_ERROR, "Você não tem coins suficiente.");
+            return 0;
+        }
+
+        // re-render label
+
+        new str[255];
+        
+        BusinessDealership[ds_index][Owner][ID] = Player[playerid][ID];
+        format(BusinessDealership[ds_index][Owner][Name], MAX_PLAYER_NAME, Player[playerid][Name]);
+
+        format(
+            str,
+            sizeof(str),
+            "{"COLOR_RED_EMBED"}%s{FFFFFF}\nProprietário: {c1c1c1}%s{"COLOR_WHITE_EMBED"}\nPreço: {"COLOR_ORANGE_EMBED"}%s{FFFFFF}\nEstoque: {c1c1c1}%d",
+            ret_utf8decode(BusinessDealership[ds_index][Name]),
+            BusinessDealership[ds_index][Owner][Name],
+            RealStr(BusinessDealership[ds_index][Price], "¢"),
+            DS:GetVehiclesInStock(ds_index)
+        );
+        UpdateDynamic3DTextLabelText(BusinessDealership[ds_index][Label][0], COLOR_WHITE, str);
+        Player:SetCoins(playerid, Player:GetCoins(playerid) - BusinessDealership[ds_index][Price]);
+        NT:Send(playerid, NT_TYPE_SUCCESS, "Concessionária adquirida com ~g~~h~~h~sucesso!");
+        return 1;
+    }
+    NT:Send(playerid, NT_TYPE_ERROR, "Não foi possível comprar a concessionária.");
     return 0;
 }

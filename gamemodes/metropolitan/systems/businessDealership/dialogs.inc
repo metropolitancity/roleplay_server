@@ -11,6 +11,18 @@ Dialog:BUY_DEALERSHIP(playerid, response, listitem, inputtext[])
             return 0;
         }
 
+        if ( DS:IsPlayerIsOwner(playerid) )
+        {
+            NT:Send(playerid, NT_TYPE_ERROR, "Você já é dono de uma concessionária.");
+            return 0;
+        }
+
+        if ( Player:GetCoins(playerid) < BusinessDealership[ds_id][Price] )
+        {
+            NT:Send(playerid, NT_TYPE_ERROR, "Você não tem coins suficiente.");
+            return 0;
+        }
+
         new query[255];
         mysql_format(SQL_Connection,
             query,
@@ -19,9 +31,7 @@ Dialog:BUY_DEALERSHIP(playerid, response, listitem, inputtext[])
             Player[playerid][ID],
             BusinessDealership[ds_id][ID]
         );
-        mysql_tquery(SQL_Connection, query);
-
-        NT:Send(playerid, NT_TYPE_SUCCESS, "Propriedade adquirida com sucesso!");
+        mysql_tquery(SQL_Connection, query, "OnPlayerBuyBusinessDealership", "ii", playerid, ds_id);
         return 1;
     }
     return 0;

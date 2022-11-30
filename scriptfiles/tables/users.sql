@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS `users`(
     `admin` INT(1) DEFAULT 0,
     `skin` INT(3) NOT NULL,
     `gender` INT(1) NOT NULL,
+    `coins` INT(11) DEFAULT 0,
     `spawn_x` FLOAT DEFAULT 0.0,
     `spawn_y` FLOAT DEFAULT 0.0,
     `spawn_z` FLOAT DEFAULT 0.0,

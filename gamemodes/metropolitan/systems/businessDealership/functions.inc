@@ -406,3 +406,23 @@ DS:GetVehiclesInStock(ds_id)
     }
     return rows;
 }
+
+DS:IsPlayerIsOwner(playerid)
+{
+    new Cache:tmp = MYSQL_INVALID_CACHE;
+    if ( cache_is_any_active() )
+    {
+        tmp = cache_save();
+    }
+
+    new query[128];
+    mysql_format(SQL_Connection, query, sizeof(query), "SELECT id FROM "TABLE_BUSINESS_DEALERSHIP" WHERE `user_id`='%d';", Player[playerid][ID]);
+    new Cache:c = mysql_query(SQL_Connection, query, true), rows = cache_num_rows();
+    cache_delete(c);
+
+    if ( tmp != MYSQL_INVALID_CACHE )
+    {
+        cache_set_active(tmp);
+    }
+    return rows;
+}

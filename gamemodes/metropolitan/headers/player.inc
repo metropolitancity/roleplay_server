@@ -42,7 +42,7 @@ enum E_PLAYER_DATA
     FSS_Sleep,
     Discord,
     DiscordID[32],
-    LastLogin[30],
+    LastLogin[30]
 }
 new Player[MAX_PLAYERS][E_PLAYER_DATA];
 
