@@ -4,20 +4,11 @@ cmd:staff(playerid, params[])
     {
         return 0;
     }
-
-    new quiet;
-    sscanf(params, "D(1)", quiet);
-
     Player[playerid][StaffWorking] = !Player[playerid][StaffWorking];
     switch(Player[playerid][StaffWorking])
     {
         case 0:
         {
-            if (quiet)
-            {
-                CleanChat();
-                SendClientMessageToAllf(COLOR_BLUE, ""SERVER_MESSAGE_TAG" {"COLOR_WHITE_EMBED"}Anjo %s esta {A52A2A}offilne{"COLOR_WHITE_EMBED"}.", Player[playerid][Name]);
-            }
             NT:Send(playerid, NT_TYPE_SUCCESS, "Modo administrador: ~r~~h~Offline");
             SetPlayerSkin(playerid, Player[playerid][Skin]);
             SetPlayerHealth(playerid, Player[playerid][Health]);
@@ -27,13 +18,6 @@ cmd:staff(playerid, params[])
         }
         case 1:
         {
-            // 
-            
-            if (quiet)
-            {
-                CleanChat();
-                SendClientMessageToAllf(COLOR_BLUE, ""SERVER_MESSAGE_TAG" {"COLOR_WHITE_EMBED"}%s %s esta {32CD32}online{"COLOR_WHITE_EMBED"}.",  Player[playerid][Admin] >= CEO ? ("deus") : ("anjo"), Player[playerid][Name]);
-            }
             GetPlayerHealth(playerid, Player[playerid][Health]);
             GetPlayerArmour(playerid, Player[playerid][Armour]);
             SetPlayerHealth(playerid, 10000000.0);
@@ -76,7 +60,7 @@ cmd:createvehicle(playerid, params[])
     }
     
     new vehicleid = CreateVehicle(model, x, y, z, a, 0, 0, -1);
-    //Vehicle:SetFuel(vehicleid, Vehicle:GetMaxFuel(GetVehicleModel(vehicleid)));
+    SetVehicleFuel(vehicleid, GetVehicleMaxFuel(GetVehicleModel(vehicleid)));
     Player[playerid][vAdmin] = vehicleid;
 
     GetVehicleName(vehicleid, vname);

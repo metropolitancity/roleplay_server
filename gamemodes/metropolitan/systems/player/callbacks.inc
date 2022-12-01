@@ -450,3 +450,13 @@ public OnPlayerAttempAuth(playerid)
     Player[playerid][Logged] = true;
     return Y_HOOKS_BREAK_RETURN_1;
 }
+
+hook OnPlayerEnterDynamicCP(playerid, STREAMER_TAG_CP:checkpointid)
+{
+    if ( checkpointid == GetPVarInt(playerid, "PLAYER_MARK_GPS") )
+    {
+        DestroyDynamicCP(GetPVarInt(playerid, "PLAYER_MARK_GPS"));
+        DeletePVar(playerid, "PLAYER_MARK_GPS");
+    }
+    return Y_HOOKS_CONTINUE_RETURN_1;
+}

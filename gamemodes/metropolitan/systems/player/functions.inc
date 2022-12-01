@@ -827,3 +827,11 @@ stock Player:SetCoins(playerid, coins)
     mysql_tquery(SQL_Connection, query);
     return 1;
 }
+
+stock Player:MarkCP(playerid, Float:x, Float:y, Float:z, Float:size)
+{
+    if ( IsValidDynamicCP(GetPVarInt(playerid, "PLAYER_MARK_GPS")) ) DestroyDynamicCP(GetPVarInt(playerid, "PLAYER_MARK_GPS"));
+    new cp = CreateDynamicCP(x, y, z, size, .streamdistance=9999.9, .worldid=0, .interiorid=0, .playerid=playerid);
+    SetPVarInt(playerid, "PLAYER_MARK_GPS", cp);
+    return 1;
+}

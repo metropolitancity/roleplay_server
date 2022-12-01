@@ -38,6 +38,7 @@ main()
 
 // Sistemas
 #include <headers/player>
+#include <headers/property>
 
 // systems
 #include <logo/logo>
