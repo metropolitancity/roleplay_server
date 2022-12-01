@@ -36,3 +36,31 @@ Dialog:BUY_DEALERSHIP(playerid, response, listitem, inputtext[])
     }
     return 0;
 }
+
+Dialog:SELL_DEALERSHIP(playerid, response, listitem, inputtext[])
+{
+    new ds_id = GetPVarInt(playerid, "IN_DEALERSHIP");
+    DeletePVar(playerid, "IN_DEALERSHIP");
+
+    if ( response )
+    {
+        if ( BusinessDealership[ds_id][Owner][ID] != Player[playerid][ID] )
+        {
+            NT:Send(playerid, NT_TYPE_ERROR, "Você não é proprietário desta concessionária.");
+            return 0;
+        }
+
+        NT:Send(playerid, NT_TYPE_INFO, "Processando a venda, por favor aguarde...");
+
+        new query[255];
+        mysql_format(SQL_Connection,
+            query,
+            sizeof(query),
+            "UPDATE "TABLE_BUSINESS_DEALERSHIP" SET `user_id`=NULL WHERE `id`='%d';",
+            BusinessDealership[ds_id][ID]
+        );
+        mysql_tquery(SQL_Connection, query, "OnPlayerSellBusinessDealership", "ii", playerid, ds_id);
+        return 1;
+    }
+    return 1;
+}

@@ -414,3 +414,36 @@ public OnPlayerBuyBusinessDealership(playerid, ds_index)
     NT:Send(playerid, NT_TYPE_ERROR, "Não foi possível comprar a concessionária.");
     return 0;
 }
+
+forward OnPlayerSellBusinessDealership(playerid, ds_index);
+public OnPlayerSellBusinessDealership(playerid, ds_index)
+{
+    if ( cache_affected_rows() )
+    {
+        new str[255];
+        
+        BusinessDealership[ds_index][Owner][ID] = 0;
+        format(BusinessDealership[ds_index][Owner][Name], MAX_PLAYER_NAME, "Ninguém");
+
+        format(
+            str,
+            sizeof(str),
+            "{"COLOR_RED_EMBED"}%s{FFFFFF}\nProprietário: {c1c1c1}%s{"COLOR_WHITE_EMBED"}\nPreço: {"COLOR_ORANGE_EMBED"}%s{FFFFFF}\nEstoque: {c1c1c1}%d",
+            ret_utf8decode(BusinessDealership[ds_index][Name]),
+            BusinessDealership[ds_index][Owner][Name],
+            RealStr(BusinessDealership[ds_index][Price], "¢"),
+            DS:GetVehiclesInStock(ds_index)
+        );
+        UpdateDynamic3DTextLabelText(BusinessDealership[ds_index][Label][0], COLOR_WHITE, str);
+
+        new price = floatround(BusinessDealership[ds_index][Price] / 2);
+        Player:SetCoins(playerid, Player:GetCoins(playerid) + price);
+        
+        NT:Send(playerid, NT_TYPE_SUCCESS, "Concessionária vendida com sucesso!");
+        CleanChat(playerid, 50);
+        SendClientMessagef(playerid, COLOR_BLUE, "» {"COLOR_WHITE_EMBED"}Você recebeu {"COLOR_ORANGE_EMBED"}¢%d{"COLOR_WHITE_EMBED"} pela venda de sua conessionária.", price);
+        return 1;
+    }
+    NT:Send(playerid, NT_TYPE_ERROR, "Não foi possível vender sua concessionária.");
+    return 0;
+}
