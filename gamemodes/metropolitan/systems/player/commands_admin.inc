@@ -281,3 +281,32 @@ cmd:dardinheiro(playerid, params[])
     NT:Send(playerid, NT_TYPE_SUCCESS, "Você deu ~g~%s~w~ para o jogador ~b~~h~~h~~h~%s~w~.", RealStr(quantity), Player[id][Name]);
     return 1;
 }
+
+flags:setarcombustivel(MODERATOR)
+alias:setarcombustivel("setcombustivel", "setfuel")
+cmd:setarcombustivel(playerid, params[])
+{
+    if ( !IsPlayerInAnyVehicle(playerid) )
+    {
+        Player:SendError(playerid, "Você precisa esta em um veículo para usar este comando.");
+        return 0;
+    }
+
+    new Float:fuel;
+    if ( sscanf(params, "f", fuel) )
+    {
+        Player:SendError(playerid, "Uso correto ~r~/setarcombustivel~w~ (~y~quantidade~w~)");
+        return 0;
+    }
+
+    new vehicleid = GetPlayerVehicleID(playerid), modelid = GetVehicleModel(vehicleid), Float:max_fuel = GetVehicleMaxFuel(modelid);
+
+    fuel = fuel > max_fuel ? max_fuel : fuel;
+
+    SetVehicleFuel(vehicleid, fuel);
+    NT:Send(playerid, NT_TYPE_SUCCESS, "Combustível setado para o veículo.");
+    
+    CleanChat(playerid);
+    SendClientMessagef(playerid, COLOR_BLUE, "» {"COLOR_WHITE_EMBED"}Você setou {"COLOR_ORANGE_EMBED"}%.2f{"COLOR_WHITE_EMBED"} de combustível para o veiculo.", fuel);
+    return 1;
+}

@@ -835,3 +835,54 @@ stock Player:MarkCP(playerid, Float:x, Float:y, Float:z, Float:size)
     SetPVarInt(playerid, "PLAYER_MARK_GPS", cp);
     return 1;
 }
+
+stock Player:SendError(playerid, const message[], va_args<>)
+{
+    if ( GetPVarInt(playerid, "PLAYER:NOTIFY_ERROR_TIMER") ){
+        KillTimer(GetPVarInt(playerid, "PLAYER:NOTIFY_ERROR_TIMER"));
+    }
+
+    if ( GetPVarInt(playerid, "PLAYER:NOTIFY_ERROR") ) {
+        if ( IsValidPlayerTextDraw(playerid, PTD_ErrorNotify[playerid][0]) ){
+            PlayerTextDrawDestroy(playerid, PTD_ErrorNotify[playerid][0]);
+        }
+
+        if ( IsValidPlayerTextDraw(playerid, PTD_ErrorNotify[playerid][1]) ){
+            PlayerTextDrawDestroy(playerid, PTD_ErrorNotify[playerid][1]);
+        }
+    }
+
+    SetPVarInt(playerid, "PLAYER:NOTIFY_ERROR", 1);
+
+    new message_f[128];
+    va_format(message_f, sizeof(message_f), message, va_start<2>);
+
+    PTD_ErrorNotify[playerid][0] = CreatePlayerTextDraw(playerid, 164.736450, 152.666702, "ld_chat:badchat");
+    PlayerTextDrawLetterSize(playerid, PTD_ErrorNotify[playerid][0], 0.000000, 0.000000);
+    PlayerTextDrawTextSize(playerid, PTD_ErrorNotify[playerid][0], 10.000000, 10.000000);
+    PlayerTextDrawAlignment(playerid, PTD_ErrorNotify[playerid][0], 1);
+    PlayerTextDrawColor(playerid, PTD_ErrorNotify[playerid][0], -1);
+    PlayerTextDrawSetShadow(playerid, PTD_ErrorNotify[playerid][0], 0);
+    PlayerTextDrawSetOutline(playerid, PTD_ErrorNotify[playerid][0], 0);
+    PlayerTextDrawBackgroundColor(playerid, PTD_ErrorNotify[playerid][0], 255);
+    PlayerTextDrawFont(playerid, PTD_ErrorNotify[playerid][0], 4);
+    PlayerTextDrawSetProportional(playerid, PTD_ErrorNotify[playerid][0], 0);
+    PlayerTextDrawSetShadow(playerid, PTD_ErrorNotify[playerid][0], 0);
+
+    PTD_ErrorNotify[playerid][1] = CreatePlayerTextDraw(playerid, 178.123428, 151.650177, message_f);
+    PlayerTextDrawLetterSize(playerid, PTD_ErrorNotify[playerid][1], 0.297862, 1.104166);
+    PlayerTextDrawAlignment(playerid, PTD_ErrorNotify[playerid][1], 1);
+    PlayerTextDrawColor(playerid, PTD_ErrorNotify[playerid][1], -1);
+    PlayerTextDrawSetShadow(playerid, PTD_ErrorNotify[playerid][1], -1);
+    PlayerTextDrawSetOutline(playerid, PTD_ErrorNotify[playerid][1], 0);
+    PlayerTextDrawBackgroundColor(playerid, PTD_ErrorNotify[playerid][1], 255);
+    PlayerTextDrawFont(playerid, PTD_ErrorNotify[playerid][1], 1);
+    PlayerTextDrawSetProportional(playerid, PTD_ErrorNotify[playerid][1], 1);
+    PlayerTextDrawSetShadow(playerid, PTD_ErrorNotify[playerid][1], -1);
+
+    PlayerTextDrawShow(playerid, PTD_ErrorNotify[playerid][0]);
+    PlayerTextDrawShow(playerid, PTD_ErrorNotify[playerid][1]);
+
+    SetPVarInt(playerid, "PLAYER:NOTIFY_ERROR_TIMER", SetTimerEx("PlayerDestroyNotifyError", 8000, false, "i", playerid));
+    return 1;
+}

@@ -247,13 +247,19 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
     // comprar veiculo
     else if ( playertextid == PTD_Dealership[playerid][12] )
     {
-        new index = DS:SELECTED_SLOT[playerid];
+        new index = DS:SELECTED_SLOT[playerid], ds_id = DS:GetId(playerid, 2.0);
 
         if ( index == -1 )return Y_HOOKS_BREAK_RETURN_0;
 
         if ( BDS_VehiclesInf[playerid][index][Price] > GetPlayerMoney(playerid) )
         {
-            NT:Send(playerid, NT_TYPE_ERROR, "Você não tem dinheiro suficiente.");
+            Player:SendError(playerid, "Você não tem dinheiro suficiente.");
+            return Y_HOOKS_BREAK_RETURN_0;
+        }
+
+        if ( !BusinessDealership[ds_id][Owner][ID] )
+        {
+            Player:SendError(playerid, "Essa concessionária não tem um proprietário.");
             return Y_HOOKS_BREAK_RETURN_0;
         }
 
@@ -264,21 +270,21 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
         if ( cache_num_rows() )
         {
             cache_delete(c);
-            NT:Send(playerid, NT_TYPE_ERROR, "Você já tem um veiculo na garagem da concessionária.");
+            Player:SendError(playerid, "Você já tem um veículo na garagem da concessionária.");
             return Y_HOOKS_BREAK_RETURN_0;
         }
         cache_delete(c);
 
         if ( GetPlayerVehiclesCount(playerid) >= 2)
         {
-            NT:Send(playerid, NT_TYPE_ERROR, "Você não pode comprar mais veiculos.");
+            Player:SendError(playerid, "Você não pode comprar mais veículos.");
             return Y_HOOKS_BREAK_RETURN_0;
         }
 
         CancelSelectTextDraw(playerid);
         DS:HideDealerShip(playerid);
 
-        new query[1024], ds_id = DS:GetId(playerid, 2.0);
+        new query[1024];
         mysql_format(SQL_Connection, query, sizeof(query),
             "INSERT INTO "TABLE_USERS_VEHICLES" \
             (id,user_id,model,spawn_x,spawn_y,spawn_z,spawn_a,interior,world,color1,color2,fuel,km,health)\

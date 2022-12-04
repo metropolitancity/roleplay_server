@@ -40,6 +40,10 @@ hook OnPlayerConnect(playerid)
         mysql_format(SQL_Connection, query, sizeof(query), "SELECT id FROM "TABLE_USERS" WHERE `name`='%e' OR `id`='%d';", Player[playerid][Name], Player[playerid][Name]);
         mysql_tquery(SQL_Connection, query, "OnPlayerCheckAccount", "i", playerid);
     }
+
+    PTD_ErrorNotify[playerid][0] = INVALID_PLAYER_TEXT_DRAW;
+    PTD_ErrorNotify[playerid][1] = INVALID_PLAYER_TEXT_DRAW;
+
     return Y_HOOKS_CONTINUE_RETURN_1;
 }
 
@@ -459,4 +463,23 @@ hook OnPlayerEnterDynamicCP(playerid, STREAMER_TAG_CP:checkpointid)
         DeletePVar(playerid, "PLAYER_MARK_GPS");
     }
     return Y_HOOKS_CONTINUE_RETURN_1;
+}
+
+forward PlayerDestroyNotifyError(playerid);
+public PlayerDestroyNotifyError(playerid)
+{
+    if ( !IsPlayerConnected(playerid) )return 0;
+    
+    if ( IsValidPlayerTextDraw(playerid, PTD_ErrorNotify[playerid][0]) ){
+        PlayerTextDrawDestroy(playerid, PTD_ErrorNotify[playerid][0]);
+        PTD_ErrorNotify[playerid][0] = INVALID_PLAYER_TEXT_DRAW;
+    }
+
+    if ( IsValidPlayerTextDraw(playerid, PTD_ErrorNotify[playerid][1]) ){
+        PlayerTextDrawDestroy(playerid, PTD_ErrorNotify[playerid][1]);
+        PTD_ErrorNotify[playerid][1] = INVALID_PLAYER_TEXT_DRAW;
+    }
+    DeletePVar(playerid, "PLAYER:NOTIFY_ERROR");
+    DeletePVar(playerid, "PLAYER:NOTIFY_ERROR_TIMER");
+    return 1;
 }

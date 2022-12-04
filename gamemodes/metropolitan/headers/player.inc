@@ -50,7 +50,8 @@ new Player[MAX_PLAYERS][E_PLAYER_DATA];
 // textdraw de registro
 new PlayerText:PTD_Register[MAX_PLAYERS][22] = { INVALID_PLAYER_TEXT_DRAW, ... },
     PlayerText:PTD_Login[MAX_PLAYERS][19] = { INVALID_PLAYER_TEXT_DRAW, ...},
-    PlayerText:PTD_Gender[MAX_PLAYERS][8] = { INVALID_PLAYER_TEXT_DRAW, ...}
+    PlayerText:PTD_Gender[MAX_PLAYERS][8] = { INVALID_PLAYER_TEXT_DRAW, ...},
+    PlayerText:PTD_ErrorNotify[MAX_PLAYERS][2] = { INVALID_PLAYER_TEXT_DRAW, ... }
 ;
 
 new SkinsSelect[][] = 
