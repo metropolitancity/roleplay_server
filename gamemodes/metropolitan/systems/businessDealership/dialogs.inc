@@ -11,7 +11,7 @@ Dialog:BUY_DEALERSHIP(playerid, response, listitem, inputtext[])
             return 0;
         }
 
-        if ( DS:IsPlayerIsOwner(playerid) )
+        if ( DS:IsPlayerOwner(playerid) )
         {
             NT:Send(playerid, NT_TYPE_ERROR, "Você já é dono de uma concessionária.");
             return 0;

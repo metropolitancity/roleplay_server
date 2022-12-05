@@ -407,7 +407,7 @@ DS:GetVehiclesInStock(ds_id)
     return rows;
 }
 
-DS:IsPlayerIsOwner(playerid)
+DS:IsPlayerOwner(playerid)
 {
     new Cache:tmp = MYSQL_INVALID_CACHE;
     if ( cache_is_any_active() )

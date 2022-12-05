@@ -52,6 +52,8 @@ new PlayerText:PTD_Dealership[MAX_PLAYERS][13] = { INVALID_PLAYER_TEXT_DRAW, ...
     PlayerText:PTD_DealershipVehicles[MAX_PLAYERS][MAX_VEHICLES_PER_PAGE][2]
 ;
 
+new CP_BUY_VEHICLE_DS = INVALID_STREAMER_ID;
+
 // ================ includes
 #include "businessDealership/callbacks"
 #include "businessDealership/functions"

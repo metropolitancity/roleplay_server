@@ -101,6 +101,11 @@ hook OnGameModeInit()
     }
     cache_delete(cache);
     CreateDynamicObject(13646, 560.73425, -1299.06799, 16.0,   0.00000, 0.00000, 0.00000, .streamdistance=50.0);
+
+    // comprar veiculos para concessionária.
+    CP_BUY_VEHICLE_DS = CreateDynamicCP(-1573.3845, 79.5847, 3.5547, 1.0, .worldid=0, .interiorid=0, .streamdistance=50.0);
+    CreateDynamic3DTextLabel("Importação de veículos.", COLOR_WHITE, -1573.3845, 79.5847, 3.5547, 20.0, .streamdistance=30.0, .interiorid=0, .worldid=0);
+    CreateDynamicMapIcon(-1573.3845, 79.5847, 3.5547, 55, COLOR_WHITE, .worldid=0, .interiorid=0);
     return Y_HOOKS_CONTINUE_RETURN_1;
 }
 
@@ -120,6 +125,21 @@ hook OnPlayerDisconnect(playerid, reason)
     if ( IsValidVehicle(DS:SELECTED_VEHICLE[playerid]) ) {
         DestroyVehicle(DS:SELECTED_VEHICLE[playerid]);
         DS:SELECTED_VEHICLE[playerid] = INVALID_VEHICLE_ID;
+    }
+    return Y_HOOKS_CONTINUE_RETURN_1;
+}
+
+hook OnPlayerEnterDynamicCP(playerid, STREAMER_TAG_CP:checkpointid)
+{
+    if ( checkpointid == CP_BUY_VEHICLE_DS )
+    {
+        if ( !DS:IsPlayerOwner(playerid) )
+        {
+            Player:SendError(playerid, "Você esta no menu para comprar veiculos para sua conessionária.");
+            return Y_HOOKS_BREAK_RETURN_0;
+        }
+        ShowPlayerDialog(playerid, 0, DIALOG_STYLE_TABLIST_HEADERS, "IMPORTAR VEICULOS", "Veiculo\tPreço\nSultan\t{"COLOR_GREEN_EMBED"}R$200.000\n", "Importar", "Sair");
+        return Y_HOOKS_BREAK_RETURN_0;
     }
     return Y_HOOKS_CONTINUE_RETURN_1;
 }
