@@ -19,10 +19,10 @@ hook OnPlayerConnect(playerid)
     TogglePlayerSpectating(playerid, true);
     GetPlayerName(playerid, Player[playerid][Name], MAX_PLAYER_NAME);
 
-    if ( !IsValidName(Player[playerid][Name]) ) {
-        NT:Send(playerid, NT_TYPE_ERROR, "Nome inválido / Anti-RP.");
-        NT:Send(playerid, NT_TYPE_ERROR, "Use: Nome_Sobrenome para definir o nome do personagem.");
+    if ( !IsValidName(Player[playerid][Name]) )
+    {
         CleanChat();
+        Player:SendError(playerid, "Não permitimos que conecta-se no servidor com nome Anti-RP.");
         Player:Kick(playerid, 200);
         return Y_HOOKS_BREAK_RETURN_1;
     }

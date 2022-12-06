@@ -2,6 +2,7 @@
 
 hook OnGameModeInit()
 {
+    mysql_query_file(SQL_Connection, "tables/"TABLE_IMPORT_VEHICLES".sql", false);
     mysql_query_file(SQL_Connection, "tables/"TABLE_BUSINESS_DEALERSHIP".sql", false);
     mysql_query_file(SQL_Connection, "tables/"TABLE_BDS_VEHICLES".sql", false);
 
@@ -138,7 +139,8 @@ hook OnPlayerEnterDynamicCP(playerid, STREAMER_TAG_CP:checkpointid)
             Player:SendError(playerid, "Você esta no menu para comprar veiculos para sua conessionária.");
             return Y_HOOKS_BREAK_RETURN_0;
         }
-        ShowPlayerDialog(playerid, 0, DIALOG_STYLE_TABLIST_HEADERS, "IMPORTAR VEICULOS", "Veiculo\tPreço\nSultan\t{"COLOR_GREEN_EMBED"}R$200.000\n", "Importar", "Sair");
+        //new str[1024 * 2], vname[MAX_VEHICLE_NAME];
+
         return Y_HOOKS_BREAK_RETURN_0;
     }
     return Y_HOOKS_CONTINUE_RETURN_1;
