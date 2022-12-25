@@ -136,11 +136,10 @@ hook OnPlayerEnterDynamicCP(playerid, STREAMER_TAG_CP:checkpointid)
     {
         if ( !DS:IsPlayerOwner(playerid) )
         {
-            Player:SendError(playerid, "Você esta no menu para comprar veiculos para sua conessionária.");
+            Player:SendError(playerid, "Você não é proprietário de uma concessionária.");
             return Y_HOOKS_BREAK_RETURN_0;
         }
-        //new str[1024 * 2], vname[MAX_VEHICLE_NAME];
-
+        DS:ShowMenuImportVehicles(playerid, 1);
         return Y_HOOKS_BREAK_RETURN_0;
     }
     return Y_HOOKS_CONTINUE_RETURN_1;
@@ -473,5 +472,49 @@ public OnPlayerSellBusinessDealership(playerid, ds_index)
         return 1;
     }
     NT:Send(playerid, NT_TYPE_ERROR, "Não foi possível vender sua concessionária.");
+    return 0;
+}
+
+forward OnMenuBuyVehicle(playerid);
+public OnMenuBuyVehicle(playerid)
+{
+    new rows = cache_num_rows();
+    if ( rows )
+    {
+        new str[1024],
+            caption[64],
+            number_vehicles = DS:CountVehiclesImports(),
+            actual_page = GetPVarInt(playerid, "IMPORT_VEHICLES_PAGE"),
+            number_pages = floatround(float(number_vehicles) / float(MAX_IMPORT_VEHICLES_PER_PAGE), floatround_ceil),
+            vname[MAX_VEHICLE_NAME],
+            model,
+            price,
+            quantity
+        ;
+
+        format(caption, sizeof(caption), "IMPORTAR VEICULOS [%d/%d]", actual_page, number_pages);
+
+        format(str, sizeof(str), "Nome\tPreço\tQuantidade\n");
+
+        for(new i; i < rows; i++){
+            cache_get_value_name_int(i, "model", model);
+            cache_get_value_name_int(i, "price", price);
+            cache_get_value_name_int(i, "quantity", quantity);
+            GetVehicleModelName(model, vname);
+            format(str, sizeof(str), "%s{"COLOR_BLUE_EMBED"}%s\t{"COLOR_GREEN_EMBED"}%s\t{"COLOR_RED_EMBED"}%d\n", str, vname, RealStr(price), quantity);
+        }
+
+        if ( actual_page != 1 ) {
+            strcat(str, "{"COLOR_RED_EMBED"}<<\n");
+        }
+
+        if ( number_pages > 1 && number_pages != actual_page) {
+            strcat(str, "{"COLOR_RED_EMBED"}>>");
+        }
+        
+        Dialog_Show(playerid, IMPORT_VEHICLES, DIALOG_STYLE_TABLIST_HEADERS, caption, str, "Comprar", "Fechar");
+        return 1;
+    }
+    NT:Send(playerid, NT_TYPE_ERROR, "Não há veiculo em estoque para comprar.");
     return 0;
 }

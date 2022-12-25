@@ -1,5 +1,6 @@
-#define MAX_VEHICLES_PER_PAGE       10
-#define INVALID_DEALERSHIP_ID       -1
+#define MAX_VEHICLES_PER_PAGE        10
+#define INVALID_DEALERSHIP_ID        -1
+#define MAX_IMPORT_VEHICLES_PER_PAGE  9
 
 enum
 {

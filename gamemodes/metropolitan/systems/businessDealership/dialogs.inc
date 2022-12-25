@@ -64,3 +64,34 @@ Dialog:SELL_DEALERSHIP(playerid, response, listitem, inputtext[])
     }
     return 1;
 }
+
+Dialog:IMPORT_VEHICLES(playerid, response, listitem, inputtext[])
+{
+    new page = GetPVarInt(playerid, "IMPORT_VEHICLES_PAGE");
+    DeletePVar(playerid, "IMPORT_VEHICLES_PAGE");
+
+    if ( !response )return 0;
+
+    if ( page == 1 && !strcmp(inputtext, "<<", true) )
+    {
+        DS:ShowMenuImportVehicles(playerid, 1);
+        return 0;
+    }
+
+    if ( page == DS:CountVehiclesImports() && !strcmp(inputtext, ">>", true) )
+    {
+        DS:ShowMenuImportVehicles(playerid, page);
+        return 0;
+    }
+
+    if ( !strcmp(inputtext, "<<", true) ) {
+        --page;
+    }
+
+    else if ( !strcmp(inputtext, ">>", true) ) {
+        ++page;
+    }
+
+    DS:ShowMenuImportVehicles(playerid, page);
+    return 1;
+}

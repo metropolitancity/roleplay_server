@@ -178,6 +178,7 @@ DS:ShowDealerShip(playerid, ds_index)
     DS:ShowVehicles(playerid, ds_index);
     SelectTextDraw(playerid, COLOR_ORANGE);
 
+    //SetPlayerPos(playerid, 551.2551, -1298.5815, 19.1398);
     SetPlayerCameraPos(playerid, 551.2551, -1298.5815, 19.1398);
     SetPlayerCameraLookAt(playerid, 552.2607, -1298.6003, 18.9232);
     return 1;
@@ -420,6 +421,44 @@ DS:IsPlayerOwner(playerid)
     new Cache:c = mysql_query(SQL_Connection, query, true), rows = cache_num_rows();
     cache_delete(c);
 
+    if ( tmp != MYSQL_INVALID_CACHE )
+    {
+        cache_set_active(tmp);
+    }
+    return rows;
+}
+
+DS:ShowMenuImportVehicles(playerid, page)
+{
+    new Cache:tmp = MYSQL_INVALID_CACHE;
+    if ( cache_is_any_active() )
+    {
+        tmp = cache_save();
+    }
+    SetPVarInt(playerid, "IMPORT_VEHICLES_PAGE", page);
+    
+    new query[128];
+    mysql_format(SQL_Connection, query, sizeof(query), "SELECT * FROM "TABLE_IMPORT_VEHICLES" WHERE quantity > 0 LIMIT %d OFFSET %d;", MAX_IMPORT_VEHICLES_PER_PAGE, ((page-1) * MAX_IMPORT_VEHICLES_PER_PAGE) );
+    mysql_tquery(SQL_Connection, query, "OnMenuBuyVehicle", "i", playerid);
+
+    if ( tmp != MYSQL_INVALID_CACHE )
+    {
+        cache_set_active(tmp);
+    }
+    return 1;
+}
+
+DS:CountVehiclesImports()
+{
+    new Cache:tmp = MYSQL_INVALID_CACHE;
+    if ( cache_is_any_active() )
+    {
+        tmp = cache_save();
+    }
+    new Cache:cache = mysql_query(SQL_Connection, "SELECT id FROM "TABLE_IMPORT_VEHICLES" WHERE quantity > 0", true), 
+        rows = cache_num_rows();
+    
+    cache_delete(cache);
     if ( tmp != MYSQL_INVALID_CACHE )
     {
         cache_set_active(tmp);

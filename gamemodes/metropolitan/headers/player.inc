@@ -1,9 +1,4 @@
 // forward
-forward OnPlayerCheckAccount(playerid);
-forward OnPasswordHashed(playerid);
-forward OnPasswordVerify(playerid);
-forward OnPlayerRegister(playerid);
-forward OnPlayerAttempAuth(playerid);
 forward OnPlayerSave(playerid);
 forward OnPlayerLogged(playerid);
 

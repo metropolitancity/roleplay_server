@@ -36,6 +36,15 @@ native GameTextForPlayerf(playerid, displaytime, style, const message[], {Float,
 native SendPlayerMessageToPlayerf(playerid, senderid, const message[], {Float,_}:...);
 native RemovePlayerWeapon(playerid, weaponid);
 native HidePlayerDialog(playerid);
+native bool:IsPlayerUsingOfficialClient(playerid);
+
+#if !defined AllowPlayerTeleport
+  native bool:AllowPlayerTeleport(playerid, bool:allow);
+#endif
+
+native bool:IsPlayerTeleportAllowed(playerid);
+native bool:AllowPlayerWeapons(playerid, bool:allow);
+native bool:ArePlayerWeaponsAllowed(playerid);
 
 // Textdraw - Global
 native IsValidTextDraw(Text:textdrawid);
@@ -269,3 +278,17 @@ native GetRunningTimers();
 native GetVehicles(outputVehicles[], size = sizeof outputVehicles);
 native GetPlayers(outputPlayers[], size = sizeof outputPlayers);
 native GetActors(outputActors[], size = sizeof outputActors);
+
+#if !defined AllowAdminTeleport
+  native AllowAdminTeleport(bool:allow);
+#endif
+
+native bool:IsAdminTeleportAllowed();
+
+#if !defined AllowInteriorWeapons
+  native AllowInteriorWeapons(bool:allow);
+#endif
+
+native bool:AreInteriorWeaponsAllowed();
+native bool:AreAllAnimationsEnabled();
+native void:EnableAllAnimations(bool:enable);

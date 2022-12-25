@@ -184,7 +184,7 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
         SetPVarInt(playerid, "locked", gettime() + 2);
         CleanChat(playerid);
         SendClientMessage(playerid, COLOR_BLUE, "» {"COLOR_WHITE_EMBED"}aguarde...");
-        bcrypt_hash(Player[playerid][Password], BCRYPT_COST, "OnPasswordHashed", "i", playerid);
+        bcrypt_hash(Player[playerid][Password], BCRYPT_COST, "OnPasswordHashed", "d", playerid);
         return Y_HOOKS_BREAK_RETURN_1;
     }
 
@@ -306,6 +306,7 @@ hook OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY, 
     return Y_HOOKS_CONTINUE_RETURN_1;
 }
 
+forward OnPlayerCheckAccount(playerid);
 public OnPlayerCheckAccount(playerid)
 {
     CleanChat(playerid);
@@ -328,6 +329,7 @@ public OnPlayerCheckAccount(playerid)
     return Y_HOOKS_BREAK_RETURN_0;
 }
 
+forward OnPasswordHashed(playerid);
 public OnPasswordHashed(playerid)
 {
     new hash[BCRYPT_HASH_LENGTH];
@@ -342,6 +344,7 @@ public OnPasswordHashed(playerid)
     return Y_HOOKS_BREAK_RETURN_1;
 }
 
+forward OnPasswordVerify(playerid);
 public OnPasswordVerify(playerid)
 {
     switch(_:bcrypt_is_equal())
@@ -358,6 +361,7 @@ public OnPasswordVerify(playerid)
     return 0;
 }
 
+forward OnPlayerRegister(playerid);
 public OnPlayerRegister(playerid)
 {
     new id = cache_insert_id();
@@ -375,6 +379,7 @@ public OnPlayerRegister(playerid)
     return Y_HOOKS_CONTINUE_RETURN_1;
 }
 
+forward OnPlayerAttempAuth(playerid);
 public OnPlayerAttempAuth(playerid)
 {
     if ( !cache_num_rows() )
