@@ -494,14 +494,14 @@ public OnMenuBuyVehicle(playerid)
 
         format(caption, sizeof(caption), "IMPORTAR VEICULOS [%d/%d]", actual_page, number_pages);
 
-        format(str, sizeof(str), "Nome\tPreço\tQuantidade\n");
+        format(str, sizeof(str), "Modelo\tNome\tPreço\tQuantidade\n");
 
         for(new i; i < rows; i++){
             cache_get_value_name_int(i, "model", model);
             cache_get_value_name_int(i, "price", price);
             cache_get_value_name_int(i, "quantity", quantity);
             GetVehicleModelName(model, vname);
-            format(str, sizeof(str), "%s{"COLOR_BLUE_EMBED"}%s\t{"COLOR_GREEN_EMBED"}%s\t{"COLOR_RED_EMBED"}%d\n", str, vname, RealStr(price), quantity);
+            format(str, sizeof(str), "%s%d\t{"COLOR_BLUE_EMBED"}%s\t{"COLOR_GREEN_EMBED"}%s\t{"COLOR_RED_EMBED"}%d\n", str, model, vname, RealStr(price), quantity);
         }
 
         if ( actual_page != 1 ) {

@@ -1,6 +1,10 @@
 // forward
 forward OnPlayerSave(playerid);
 forward OnPlayerLogged(playerid);
+forward OnPlayerAttempAuth(playerid);
+forward OnPasswordVerify(playerid);
+forward OnPlayerRegister(playerid);
+forward PlayerDestroyNotifyError(playerid);
 
 enum E_ATTACHED
 {

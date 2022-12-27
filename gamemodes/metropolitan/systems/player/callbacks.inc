@@ -344,15 +344,15 @@ public OnPasswordHashed(playerid)
     return Y_HOOKS_BREAK_RETURN_1;
 }
 
-forward OnPasswordVerify(playerid);
 public OnPasswordVerify(playerid)
 {
+    SendClientMessage(playerid, -1, "TESTE");
     switch(_:bcrypt_is_equal())
     {
         case 1:
         {
             new query[255];
-            mysql_format(SQL_Connection, query, sizeof(query), "SELECT *, DATE_FORMAT(`updated_at`, '%%d/%%m/%%Y - %%T') as last_login FROM "TABLE_USERS" WHERE `name`='%e' OR `id`='%d' LIMIT 1;", Player[playerid][Name], Player[playerid][Name]);
+            mysql_format(SQL_Connection, query, sizeof(query), "SELECT *, DATE_FORMAT(`updated_at`, '%%d/%%m/%%Y - %%T') as last_login FROM "TABLE_USERS" WHERE `name`='%e' LIMIT 1;'", Player[playerid][Name]);
             mysql_tquery(SQL_Connection, query, "OnPlayerAttempAuth", "i", playerid);
             return 1;
         }
@@ -361,7 +361,6 @@ public OnPasswordVerify(playerid)
     return 0;
 }
 
-forward OnPlayerRegister(playerid);
 public OnPlayerRegister(playerid)
 {
     new id = cache_insert_id();
@@ -379,7 +378,7 @@ public OnPlayerRegister(playerid)
     return Y_HOOKS_CONTINUE_RETURN_1;
 }
 
-forward OnPlayerAttempAuth(playerid);
+
 public OnPlayerAttempAuth(playerid)
 {
     if ( !cache_num_rows() )
@@ -470,7 +469,6 @@ hook OnPlayerEnterDynamicCP(playerid, STREAMER_TAG_CP:checkpointid)
     return Y_HOOKS_CONTINUE_RETURN_1;
 }
 
-forward PlayerDestroyNotifyError(playerid);
 public PlayerDestroyNotifyError(playerid)
 {
     if ( !IsPlayerConnected(playerid) )return 0;
