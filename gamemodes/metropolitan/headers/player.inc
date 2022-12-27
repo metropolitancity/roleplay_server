@@ -5,6 +5,7 @@ forward OnPlayerAttempAuth(playerid);
 forward OnPasswordVerify(playerid);
 forward OnPlayerRegister(playerid);
 forward PlayerDestroyNotifyError(playerid);
+forward OnPasswordHashed(playerid);
 
 enum E_ATTACHED
 {

@@ -7,3 +7,4 @@ filterscripts/**.amx
 database.ini
 config.json
 server.cfg
+bcrypt_log.txt

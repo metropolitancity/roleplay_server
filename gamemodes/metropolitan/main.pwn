@@ -17,6 +17,7 @@
 
 main()
 {
+    bcrypt_set_thread_limit(2);
     print("[MP:RP] Servidor iniciado com sucesso!");
     return 1;
 }

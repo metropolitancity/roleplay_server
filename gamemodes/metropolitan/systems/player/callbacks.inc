@@ -254,7 +254,7 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
             cache_get_value_name(0, "password", pass_hash);
         }
         cache_delete(cache);
-        bcrypt_check(Player[playerid][Password], pass_hash, "OnPasswordVerify", "d", playerid);
+        bcrypt_check(Player[playerid][Password], pass_hash, "OnPasswordVerify", "i", playerid);
         return Y_HOOKS_BREAK_RETURN_1;
     }
     return Y_HOOKS_CONTINUE_RETURN_1;
@@ -329,7 +329,6 @@ public OnPlayerCheckAccount(playerid)
     return Y_HOOKS_BREAK_RETURN_0;
 }
 
-forward OnPasswordHashed(playerid);
 public OnPasswordHashed(playerid)
 {
     new hash[BCRYPT_HASH_LENGTH];
@@ -346,7 +345,6 @@ public OnPasswordHashed(playerid)
 
 public OnPasswordVerify(playerid)
 {
-    SendClientMessage(playerid, -1, "TESTE");
     switch(_:bcrypt_is_equal())
     {
         case 1:
