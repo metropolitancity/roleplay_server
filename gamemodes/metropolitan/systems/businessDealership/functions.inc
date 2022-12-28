@@ -465,3 +465,55 @@ DS:CountVehiclesImports()
     }
     return rows;
 }
+
+DS:GetVehicleImportPrice(modelid)
+{
+    if ( !IsValidVehicleModel(modelid) )return 0;
+
+    new Cache:tmp = MYSQL_INVALID_CACHE;
+    if ( cache_is_any_active() )
+    {
+        tmp = cache_save();
+    }
+
+    new query[255], Cache:cache = MYSQL_INVALID_CACHE, price;
+    mysql_format(SQL_Connection, query, sizeof(query), "SELECT price FROM "TABLE_IMPORT_VEHICLES" WHERE model='%d';", modelid);
+    cache = mysql_query(SQL_Connection, query, true);
+
+    if ( cache_num_rows() ) {
+        cache_get_value_name_int(0, "price", price);
+    }
+    
+    cache_delete(cache);
+    if ( tmp != MYSQL_INVALID_CACHE )
+    {
+        cache_set_active(tmp);
+    }
+    return price;
+}
+
+DS:GetVehicleImportQuantity(modelid)
+{
+    if ( !IsValidVehicleModel(modelid) )return 0;
+
+    new Cache:tmp = MYSQL_INVALID_CACHE;
+    if ( cache_is_any_active() )
+    {
+        tmp = cache_save();
+    }
+
+    new query[255], Cache:cache = MYSQL_INVALID_CACHE, quantity;
+    mysql_format(SQL_Connection, query, sizeof(query), "SELECT quantity FROM "TABLE_IMPORT_VEHICLES" WHERE model='%d';", modelid);
+    cache = mysql_query(SQL_Connection, query, true);
+
+    if ( cache_num_rows() ) {
+        cache_get_value_name_int(0, "quantity", quantity);
+    }
+    
+    cache_delete(cache);
+    if ( tmp != MYSQL_INVALID_CACHE )
+    {
+        cache_set_active(tmp);
+    }
+    return quantity;
+}

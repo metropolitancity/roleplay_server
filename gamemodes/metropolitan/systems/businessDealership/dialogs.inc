@@ -92,6 +92,48 @@ Dialog:IMPORT_VEHICLES(playerid, response, listitem, inputtext[])
         ++page;
     }
 
-    DS:ShowMenuImportVehicles(playerid, page);
+    new modelid = strval(inputtext);
+    if ( !IsValidVehicleModel(modelid) ) {
+        DS:ShowMenuImportVehicles(playerid, page);
+        return 0;
+    }
+
+    SetPVarInt(playerid, "IMPORT_VEHICLE_MODELID", modelid);
+
+    new vname[MAX_VEHICLE_NAME];
+    GetVehicleModelName(modelid, vname);
+    Dialog_Show(playerid, IMPORT_VEHICLES_QUANTITY, DIALOG_STYLE_INPUT, "IMPORTAR VEICULO {c1c1c1}»{ffffff} QUANTIDADE", "{ffffff}Digite a quantidade de {"COLOR_RED_EMBED"}%s{ffffff} que queira importar.\nQuantidade Disponível: {"COLOR_BLUE_EMBED"}%d{"COLOR_WHITE_EMBED"}.", "Próximo", "Voltar", vname, DS:GetVehicleImportQuantity(modelid));
     return 1;
+}
+
+Dialog:IMPORT_VEHICLES_QUANTITY(playerid, response, listitem, inputtext[])
+{
+    new modelid = GetPVarInt(playerid, "IMPORT_VEHICLE_MODELID");
+    if ( response )
+    {
+        if ( !IsNumeric(inputtext) )
+        {
+            DeletePVar(playerid, "IMPORT_VEHICLE_MODELID");
+
+            new vname[MAX_VEHICLE_NAME];
+            GetVehicleModelName(modelid, vname);
+            Dialog_Show(playerid, IMPORT_VEHICLES_QUANTITY, DIALOG_STYLE_INPUT, "IMPORTAR VEICULO {c1c1c1}»{ffffff} QUANTIDADE", "{ffffff}Digite a quantidade de {"COLOR_RED_EMBED"}%s's{ffffff} que queira importar.\nQuantidade Disponível: {"COLOR_BLUE_EMBED"}%d{"COLOR_WHITE_EMBED"}.", "Próximo", "Voltar", vname, DS:GetVehicleImportQuantity(modelid));
+            return 0;
+        }
+
+        new quantity = strval(inputtext);
+
+        if ( quantity > DS:GetVehicleImportQuantity(modelid) )
+        {
+            DeletePVar(playerid, "IMPORT_VEHICLE_MODELID");
+            NT:Send(playerid, NT_TYPE_ERROR, "Não há essa quantidade disponível no momento, tente mais tarde.");
+            return 0;
+        }
+
+        SetPVarInt(playerid, "IMPORT_VEHICLE_QUANTITY", quantity);
+        Dialog_Show(playerid, IMPORT_VEHICLE_QUANTITY, DIALOG_STYLE_INPUT, "IMPORTAR VEICULO {c1c1c1}»{FFFFFF} QUANTIDADE", "{ffffff}Digite o id da cor do veículo.\n\n\tPara saber as cores dos veiculos acesse nosso discord em {"COLOR_ORANGE_EMBED"}https://discord.gg/mprp{"COLOR_WHITE_EMBED"}.", "Próximo", "Voltar");
+        return 1;
+    }
+    DS:ShowMenuImportVehicles(playerid, 0);
+    return 0;
 }
