@@ -364,6 +364,20 @@ DS:GetId(playerid, Float:range=1.0)
     return INVALID_DEALERSHIP_ID;
 }
 
+DS:GetOwnerRowId(playerid)
+{
+    if ( !Player:Logged(playerid) )return INVALID_DEALERSHIP_ID;
+
+    foreach(new i: BusinessDealership)
+    {
+        if ( BusinessDealership[i][Owner][ID] == Player[playerid][ID] )
+        {
+            return BusinessDealership[i][ID];
+        }
+    }
+    return INVALID_DEALERSHIP_ID;
+}
+
 DS:GetCountVehicles(ds_index, type)
 {
     new Cache:tmp = MYSQL_INVALID_CACHE;

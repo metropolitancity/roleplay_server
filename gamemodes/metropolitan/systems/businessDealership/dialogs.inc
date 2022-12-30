@@ -137,3 +137,37 @@ Dialog:IMPORT_VEHICLES_QUANTITY(playerid, response, listitem, inputtext[])
     DS:ShowMenuImportVehicles(playerid, 0);
     return 0;
 }
+
+Dialog:IMPORT_VEHICLE_QUANTITY(playerid, response, listitem, inputtext[])
+{
+    if ( response )
+    {
+        if ( !IsNumeric(inputtext) )
+        {
+            NT:Send(playerid, NT_TYPE_ERROR, "Digite uma cor válida.");
+            return 0;
+        }
+
+        new query[1024], modelid = GetPVarInt(playerid, "IMPORT_VEHICLE_MODELID"), quantity = GetPVarInt(playerid, "IMPORT_VEHICLE_QUANTITY"), color = strval(inputtext);
+        
+        DeletePVar(playerid, "IMPORT_VEHICLE_MODELID");
+        DeletePVar(playerid, "IMPORT_VEHICLE_QUANTITY");
+
+        for(new i; i < quantity; i++)
+        {
+            mysql_format(SQL_Connection, query, sizeof(query), "INSERT INTO "TABLE_BDS_VEHICLES"(dealership,model,price,color1,color2,type)VALUES('%d','%d','%d','%d','%d','%d');",
+                DS:GetOwnerRowId(playerid),
+                modelid,
+                DS:GetVehicleImportPrice(modelid),
+                color, color, 0
+            );
+            mysql_tquery(SQL_Connection, query);
+            
+        }
+        
+        CleanChat(playerid);
+        SendClientMessage(playerid, COLOR_BLUE, "Compra realizada.");
+        return 1;
+    }
+    return 0;
+}
