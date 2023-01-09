@@ -1334,7 +1334,7 @@ native GetPlayerCustomSkin(playerid);
 /**
  * <library>omp_player</library>
  */
-native GetPlayerSkillLevel(playerid, skill);
+native GetPlayerSkillLevel(playerid, WEAPONSKILL:skill);
 
 /**
  * <library>omp_player</library>
@@ -1675,7 +1675,7 @@ native bool:IsPlayerConnected(playerid);
  * <remarks>You can't see your own chatbubbles.  The same applies to attached 3D text labels.</remarks>
  * <remarks>You can use colour embedding for multiple colours in the message.</remarks>
  */
-native bool:SetPlayerChatBubble(playerid, const text[], colour, Float:drawDistance, expireTime);
+native bool:SetPlayerChatBubble(playerid, const text[], colour, Float:drawDistance, expireTime, OPEN_MP_TAGS:...);
 
 /**
  * <library>omp_player</library>
@@ -1735,8 +1735,22 @@ native bool:GetPlayerKeys(playerid, &KEY:keys, &KEY:updown, &KEY:leftright);
  * <seealso name="LimitPlayerMarkerRadius" />
  * <seealso name="SetPlayerColor" />
  * <seealso name="ShowPlayerNameTagForPlayer" />
+ * <seealso name="GetPlayerMarkerForPlayer" />
  */
 native bool:SetPlayerMarkerForPlayer(playerid, targetid, colour);
+
+/**
+ * <library>omp_player</library>
+ * <summary>Get the colour of a player's <b>nametag</b> and <b>radar blip</b> for another player.</summary>
+ * <param name="playerid">The player that can see the player's changed blip/nametag colour</param>
+ * <param name="targetid">The player whose colour was be changed</param>
+ * <seealso name="ShowPlayerMarkers" />
+ * <seealso name="LimitPlayerMarkerRadius" />
+ * <seealso name="SetPlayerColor" />
+ * <seealso name="ShowPlayerNameTagForPlayer" />
+ * <seealso name="SetPlayerMarkerForPlayer" />
+ */
+native GetPlayerMarkerForPlayer(playerid, targetid);
 
 /**
  * <library>omp_player</library>
