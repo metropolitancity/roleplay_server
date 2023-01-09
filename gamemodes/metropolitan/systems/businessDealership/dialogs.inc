@@ -121,12 +121,26 @@ Dialog:IMPORT_VEHICLES_QUANTITY(playerid, response, listitem, inputtext[])
             return 0;
         }
 
-        new quantity = strval(inputtext);
+        new quantity = strval(inputtext), price = quantity * DS:GetVehicleImportPrice(modelid);
+
+        if ( quantity < 1 )
+        {
+            DeletePVar(playerid, "IMPORT_VEHICLE_MODELID");
+            NT:Send(playerid, NT_TYPE_ERROR, "Digite uma quantidade maior que 0.");
+            return 0;
+        }
 
         if ( quantity > DS:GetVehicleImportQuantity(modelid) )
         {
             DeletePVar(playerid, "IMPORT_VEHICLE_MODELID");
             NT:Send(playerid, NT_TYPE_ERROR, "Não há essa quantidade disponível no momento, tente mais tarde.");
+            return 0;
+        }
+
+        if ( GetPlayerMoney(playerid) < price )
+        {
+            DeletePVar(playerid, "IMPORT_VEHICLE_MODELID");
+            NT:Send(playerid, NT_TYPE_ERROR, "Você não tem dinheiro suficiente para comprar esse(s) veiculo(s).");
             return 0;
         }
 
@@ -148,8 +162,28 @@ Dialog:IMPORT_VEHICLE_QUANTITY(playerid, response, listitem, inputtext[])
             return 0;
         }
 
-        new query[1024], modelid = GetPVarInt(playerid, "IMPORT_VEHICLE_MODELID"), quantity = GetPVarInt(playerid, "IMPORT_VEHICLE_QUANTITY"), color = strval(inputtext);
+        new query[1024],
+            modelid = GetPVarInt(playerid, "IMPORT_VEHICLE_MODELID"),
+            quantity = GetPVarInt(playerid, "IMPORT_VEHICLE_QUANTITY"),
+            price = quantity * DS:GetVehicleImportPrice(modelid), 
+            color = strval(inputtext);
         
+        if ( quantity > DS:GetVehicleImportQuantity(modelid) )
+        {
+            DeletePVar(playerid, "IMPORT_VEHICLE_MODELID");
+            DeletePVar(playerid, "IMPORT_VEHICLE_QUANTITY");
+            NT:Send(playerid, NT_TYPE_ERROR, "Não há essa quantidade disponível no momento, tente mais tarde.");
+            return 0;
+        }
+        
+        if ( GetPlayerMoney(playerid) < price )
+        {
+            DeletePVar(playerid, "IMPORT_VEHICLE_MODELID");
+            DeletePVar(playerid, "IMPORT_VEHICLE_QUANTITY");
+            NT:Send(playerid, NT_TYPE_ERROR, "Você não tem dinheiro suficiente para comprar esse(s) veiculo(s).");
+            return 0;
+        }
+
         DeletePVar(playerid, "IMPORT_VEHICLE_MODELID");
         DeletePVar(playerid, "IMPORT_VEHICLE_QUANTITY");
 
@@ -162,11 +196,14 @@ Dialog:IMPORT_VEHICLE_QUANTITY(playerid, response, listitem, inputtext[])
                 color, color, 0
             );
             mysql_tquery(SQL_Connection, query);
-            
         }
+
+        mysql_format(SQL_Connection, query, sizeof(query), "UPDATE "TABLE_IMPORT_VEHICLES" SET `quantity`=`quantity`-'%d' WHERE `model`='%d';", quantity, modelid);
+        mysql_tquery(SQL_Connection, query);
         
+        GivePlayerMoney(playerid, -price);
         CleanChat(playerid);
-        SendClientMessage(playerid, COLOR_BLUE, "Compra realizada.");
+        NT:Send(playerid, NT_TYPE_SUCCESS, "Compra realizada!~n~Veiculos adicionado em sua concessionária.");
         return 1;
     }
     return 0;
