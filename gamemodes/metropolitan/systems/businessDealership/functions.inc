@@ -10,10 +10,10 @@ DS:ShowDealerShip(playerid, ds_index)
     PlayerTextDrawLetterSize(playerid, PTD_Dealership[playerid][0], 0.000000, 0.000000);
     PlayerTextDrawTextSize(playerid, PTD_Dealership[playerid][0], 146.400177, 217.000000);
     PlayerTextDrawAlignment(playerid, PTD_Dealership[playerid][0], 1);
-    PlayerTextDrawColor(playerid, PTD_Dealership[playerid][0], 0x121212FF);
+    PlayerTextDrawColour(playerid, PTD_Dealership[playerid][0], 0x121212FF);
     PlayerTextDrawSetShadow(playerid, PTD_Dealership[playerid][0], 0);
     PlayerTextDrawSetOutline(playerid, PTD_Dealership[playerid][0], 0);
-    PlayerTextDrawBackgroundColor(playerid, PTD_Dealership[playerid][0], 255);
+    PlayerTextDrawBackgroundColour(playerid, PTD_Dealership[playerid][0], 255);
     PlayerTextDrawFont(playerid, PTD_Dealership[playerid][0], 4);
     PlayerTextDrawSetProportional(playerid, PTD_Dealership[playerid][0], 0);
     PlayerTextDrawSetShadow(playerid, PTD_Dealership[playerid][0], 0);
@@ -22,10 +22,10 @@ DS:ShowDealerShip(playerid, ds_index)
     PlayerTextDrawLetterSize(playerid, PTD_Dealership[playerid][1], 0.000000, 0.000000);
     PlayerTextDrawTextSize(playerid, PTD_Dealership[playerid][1], 146.280441, 14.980029);
     PlayerTextDrawAlignment(playerid, PTD_Dealership[playerid][1], 1);
-    PlayerTextDrawColor(playerid, PTD_Dealership[playerid][1], 0xBA55D3FF);
+    PlayerTextDrawColour(playerid, PTD_Dealership[playerid][1], 0xBA55D3FF);
     PlayerTextDrawSetShadow(playerid, PTD_Dealership[playerid][1], 0);
     PlayerTextDrawSetOutline(playerid, PTD_Dealership[playerid][1], 0);
-    PlayerTextDrawBackgroundColor(playerid, PTD_Dealership[playerid][1], 255);
+    PlayerTextDrawBackgroundColour(playerid, PTD_Dealership[playerid][1], 255);
     PlayerTextDrawFont(playerid, PTD_Dealership[playerid][1], 4);
     PlayerTextDrawSetProportional(playerid, PTD_Dealership[playerid][1], 0);
     PlayerTextDrawSetShadow(playerid, PTD_Dealership[playerid][1], 0);
@@ -33,10 +33,10 @@ DS:ShowDealerShip(playerid, ds_index)
     PTD_Dealership[playerid][2] = CreatePlayerTextDraw(playerid, 80.546775, 146.383300, ret_utf8decode(BusinessDealership[ds_index][Name]));
     PlayerTextDrawLetterSize(playerid, PTD_Dealership[playerid][2], 0.230395, 1.389999);
     PlayerTextDrawAlignment(playerid, PTD_Dealership[playerid][2], 2);
-    PlayerTextDrawColor(playerid, PTD_Dealership[playerid][2], -1);
+    PlayerTextDrawColour(playerid, PTD_Dealership[playerid][2], -1);
     PlayerTextDrawSetShadow(playerid, PTD_Dealership[playerid][2], 0);
     PlayerTextDrawSetOutline(playerid, PTD_Dealership[playerid][2], 0);
-    PlayerTextDrawBackgroundColor(playerid, PTD_Dealership[playerid][2], 255);
+    PlayerTextDrawBackgroundColour(playerid, PTD_Dealership[playerid][2], 255);
     PlayerTextDrawFont(playerid, PTD_Dealership[playerid][2], 1);
     PlayerTextDrawSetProportional(playerid, PTD_Dealership[playerid][2], 1);
     PlayerTextDrawSetShadow(playerid, PTD_Dealership[playerid][2], 0);
@@ -45,9 +45,9 @@ DS:ShowDealerShip(playerid, ds_index)
     PlayerTextDrawLetterSize(playerid, PTD_Dealership[playerid][3], 0.181200, 0.952499);
     PlayerTextDrawTextSize(playerid, PTD_Dealership[playerid][3], 60.0, 8.5);
     PlayerTextDrawAlignment(playerid, PTD_Dealership[playerid][3], 1);
-    PlayerTextDrawColor(playerid, PTD_Dealership[playerid][3], -1);
+    PlayerTextDrawColour(playerid, PTD_Dealership[playerid][3], -1);
     PlayerTextDrawSetOutline(playerid, PTD_Dealership[playerid][3], 0);
-    PlayerTextDrawBackgroundColor(playerid, PTD_Dealership[playerid][3], 255);
+    PlayerTextDrawBackgroundColour(playerid, PTD_Dealership[playerid][3], 255);
     PlayerTextDrawFont(playerid, PTD_Dealership[playerid][3], 2);
     PlayerTextDrawSetProportional(playerid, PTD_Dealership[playerid][3], 1);
     PlayerTextDrawSetShadow(playerid, PTD_Dealership[playerid][3], 0);
@@ -57,10 +57,10 @@ DS:ShowDealerShip(playerid, ds_index)
     PlayerTextDrawLetterSize(playerid, PTD_Dealership[playerid][4], 0.181200, 0.952499);
     PlayerTextDrawTextSize(playerid, PTD_Dealership[playerid][4], 105.0, 8.5);
     PlayerTextDrawAlignment(playerid, PTD_Dealership[playerid][4], 1);
-    PlayerTextDrawColor(playerid, PTD_Dealership[playerid][4], -1);
+    PlayerTextDrawColour(playerid, PTD_Dealership[playerid][4], -1);
     PlayerTextDrawSetShadow(playerid, PTD_Dealership[playerid][4], 0);
     PlayerTextDrawSetOutline(playerid, PTD_Dealership[playerid][4], 0);
-    PlayerTextDrawBackgroundColor(playerid, PTD_Dealership[playerid][4], 255);
+    PlayerTextDrawBackgroundColour(playerid, PTD_Dealership[playerid][4], 255);
     PlayerTextDrawFont(playerid, PTD_Dealership[playerid][4], 2);
     PlayerTextDrawSetProportional(playerid, PTD_Dealership[playerid][4], 1);
     PlayerTextDrawSetShadow(playerid, PTD_Dealership[playerid][4], 0);
@@ -70,10 +70,10 @@ DS:ShowDealerShip(playerid, ds_index)
     PlayerTextDrawLetterSize(playerid, PTD_Dealership[playerid][5], 0.181200, 0.952499);
     PlayerTextDrawTextSize(playerid, PTD_Dealership[playerid][5], 140.0, 8.5);
     PlayerTextDrawAlignment(playerid, PTD_Dealership[playerid][5], 1);
-    PlayerTextDrawColor(playerid, PTD_Dealership[playerid][5], -1);
+    PlayerTextDrawColour(playerid, PTD_Dealership[playerid][5], -1);
     PlayerTextDrawSetShadow(playerid, PTD_Dealership[playerid][5], 0);
     PlayerTextDrawSetOutline(playerid, PTD_Dealership[playerid][5], 0);
-    PlayerTextDrawBackgroundColor(playerid, PTD_Dealership[playerid][5], 255);
+    PlayerTextDrawBackgroundColour(playerid, PTD_Dealership[playerid][5], 255);
     PlayerTextDrawFont(playerid, PTD_Dealership[playerid][5], 2);
     PlayerTextDrawSetProportional(playerid, PTD_Dealership[playerid][5], 1);
     PlayerTextDrawSetShadow(playerid, PTD_Dealership[playerid][5], 0);
@@ -83,10 +83,10 @@ DS:ShowDealerShip(playerid, ds_index)
     PlayerTextDrawLetterSize(playerid, PTD_Dealership[playerid][6], 0.000000, 0.000000);
     PlayerTextDrawTextSize(playerid, PTD_Dealership[playerid][6], 5.3, 158.600000);
     PlayerTextDrawAlignment(playerid, PTD_Dealership[playerid][6], 1);
-    PlayerTextDrawColor(playerid, PTD_Dealership[playerid][6], 0x000000FF);
+    PlayerTextDrawColour(playerid, PTD_Dealership[playerid][6], 0x000000FF);
     PlayerTextDrawSetShadow(playerid, PTD_Dealership[playerid][6], 0);
     PlayerTextDrawSetOutline(playerid, PTD_Dealership[playerid][6], 0);
-    PlayerTextDrawBackgroundColor(playerid, PTD_Dealership[playerid][6], 255);
+    PlayerTextDrawBackgroundColour(playerid, PTD_Dealership[playerid][6], 255);
     PlayerTextDrawFont(playerid, PTD_Dealership[playerid][6], 4);
     PlayerTextDrawSetProportional(playerid, PTD_Dealership[playerid][6], 0);
     PlayerTextDrawSetShadow(playerid, PTD_Dealership[playerid][6], 0);
@@ -95,10 +95,10 @@ DS:ShowDealerShip(playerid, ds_index)
     PlayerTextDrawLetterSize(playerid, PTD_Dealership[playerid][7], 0.000000, 0.000000);
     PlayerTextDrawTextSize(playerid, PTD_Dealership[playerid][7], 5.3, 0.000000);
     PlayerTextDrawAlignment(playerid, PTD_Dealership[playerid][7], 1);
-    PlayerTextDrawColor(playerid, PTD_Dealership[playerid][7], 0x505050FF);
+    PlayerTextDrawColour(playerid, PTD_Dealership[playerid][7], 0x505050FF);
     PlayerTextDrawSetShadow(playerid, PTD_Dealership[playerid][7], 0);
     PlayerTextDrawSetOutline(playerid, PTD_Dealership[playerid][7], 0);
-    PlayerTextDrawBackgroundColor(playerid, PTD_Dealership[playerid][7], 255);
+    PlayerTextDrawBackgroundColour(playerid, PTD_Dealership[playerid][7], 255);
     PlayerTextDrawFont(playerid, PTD_Dealership[playerid][7], 4);
     PlayerTextDrawSetProportional(playerid, PTD_Dealership[playerid][7], 0);
     PlayerTextDrawSetShadow(playerid, PTD_Dealership[playerid][7], 0);
@@ -107,10 +107,10 @@ DS:ShowDealerShip(playerid, ds_index)
     PlayerTextDrawLetterSize(playerid, PTD_Dealership[playerid][8], 0.000000, 0.000000);
     PlayerTextDrawTextSize(playerid, PTD_Dealership[playerid][8], 5.699996, 10.800001);
     PlayerTextDrawAlignment(playerid, PTD_Dealership[playerid][8], 1);
-    PlayerTextDrawColor(playerid, PTD_Dealership[playerid][8], -1);
+    PlayerTextDrawColour(playerid, PTD_Dealership[playerid][8], -1);
     PlayerTextDrawSetShadow(playerid, PTD_Dealership[playerid][8], 0);
     PlayerTextDrawSetOutline(playerid, PTD_Dealership[playerid][8], 0);
-    PlayerTextDrawBackgroundColor(playerid, PTD_Dealership[playerid][8], 255);
+    PlayerTextDrawBackgroundColour(playerid, PTD_Dealership[playerid][8], 255);
     PlayerTextDrawFont(playerid, PTD_Dealership[playerid][8], 4);
     PlayerTextDrawSetProportional(playerid, PTD_Dealership[playerid][8], 0);
     PlayerTextDrawSetShadow(playerid, PTD_Dealership[playerid][8], 0);
@@ -120,10 +120,10 @@ DS:ShowDealerShip(playerid, ds_index)
     PlayerTextDrawLetterSize(playerid, PTD_Dealership[playerid][9], 0.000000, 0.000000);
     PlayerTextDrawTextSize(playerid, PTD_Dealership[playerid][9], 5.899999, 10.800001);
     PlayerTextDrawAlignment(playerid, PTD_Dealership[playerid][9], 1);
-    PlayerTextDrawColor(playerid, PTD_Dealership[playerid][9], -1);
+    PlayerTextDrawColour(playerid, PTD_Dealership[playerid][9], -1);
     PlayerTextDrawSetShadow(playerid, PTD_Dealership[playerid][9], 0);
     PlayerTextDrawSetOutline(playerid, PTD_Dealership[playerid][9], 0);
-    PlayerTextDrawBackgroundColor(playerid, PTD_Dealership[playerid][9], 255);
+    PlayerTextDrawBackgroundColour(playerid, PTD_Dealership[playerid][9], 255);
     PlayerTextDrawFont(playerid, PTD_Dealership[playerid][9], 4);
     PlayerTextDrawSetProportional(playerid, PTD_Dealership[playerid][9], 0);
     PlayerTextDrawSetShadow(playerid, PTD_Dealership[playerid][9], 0);
@@ -133,10 +133,10 @@ DS:ShowDealerShip(playerid, ds_index)
     PlayerTextDrawLetterSize(playerid, PTD_Dealership[playerid][10], 0.000000, 0.000000);
     PlayerTextDrawTextSize(playerid, PTD_Dealership[playerid][10], 55.949985, 23.000000);
     PlayerTextDrawAlignment(playerid, PTD_Dealership[playerid][10], 1);
-    PlayerTextDrawColor(playerid, PTD_Dealership[playerid][10], 303174399);
+    PlayerTextDrawColour(playerid, PTD_Dealership[playerid][10], 303174399);
     PlayerTextDrawSetShadow(playerid, PTD_Dealership[playerid][10], 0);
     PlayerTextDrawSetOutline(playerid, PTD_Dealership[playerid][10], 0);
-    PlayerTextDrawBackgroundColor(playerid, PTD_Dealership[playerid][10], 255);
+    PlayerTextDrawBackgroundColour(playerid, PTD_Dealership[playerid][10], 255);
     PlayerTextDrawFont(playerid, PTD_Dealership[playerid][10], 4);
     PlayerTextDrawSetProportional(playerid, PTD_Dealership[playerid][10], 0);
     PlayerTextDrawSetShadow(playerid, PTD_Dealership[playerid][10], 0);
@@ -145,12 +145,12 @@ DS:ShowDealerShip(playerid, ds_index)
     PlayerTextDrawLetterSize(playerid, PTD_Dealership[playerid][11], 0.000000, 0.903394);
     PlayerTextDrawTextSize(playerid, PTD_Dealership[playerid][11], 62.169818, 0.000000);
     PlayerTextDrawAlignment(playerid, PTD_Dealership[playerid][11], 1);
-    PlayerTextDrawColor(playerid, PTD_Dealership[playerid][11], -1);
+    PlayerTextDrawColour(playerid, PTD_Dealership[playerid][11], -1);
     PlayerTextDrawUseBox(playerid, PTD_Dealership[playerid][11], 1);
-    PlayerTextDrawBoxColor(playerid, PTD_Dealership[playerid][11], 150);
+    PlayerTextDrawBoxColour(playerid, PTD_Dealership[playerid][11], 150);
     PlayerTextDrawSetShadow(playerid, PTD_Dealership[playerid][11], 0);
     PlayerTextDrawSetOutline(playerid, PTD_Dealership[playerid][11], 0);
-    PlayerTextDrawBackgroundColor(playerid, PTD_Dealership[playerid][11], 255);
+    PlayerTextDrawBackgroundColour(playerid, PTD_Dealership[playerid][11], 255);
     PlayerTextDrawFont(playerid, PTD_Dealership[playerid][11], 1);
     PlayerTextDrawSetProportional(playerid, PTD_Dealership[playerid][11], 1);
     PlayerTextDrawSetShadow(playerid, PTD_Dealership[playerid][11], 0);
@@ -159,10 +159,10 @@ DS:ShowDealerShip(playerid, ds_index)
     PlayerTextDrawLetterSize(playerid, PTD_Dealership[playerid][12], 0.261317, 1.319999);
     PlayerTextDrawTextSize(playerid, PTD_Dealership[playerid][12], 60.0, 10.0);
     PlayerTextDrawAlignment(playerid, PTD_Dealership[playerid][12], 1);
-    PlayerTextDrawColor(playerid, PTD_Dealership[playerid][12], -1);
+    PlayerTextDrawColour(playerid, PTD_Dealership[playerid][12], -1);
     PlayerTextDrawSetShadow(playerid, PTD_Dealership[playerid][12], 0);
     PlayerTextDrawSetOutline(playerid, PTD_Dealership[playerid][12], 0);
-    PlayerTextDrawBackgroundColor(playerid, PTD_Dealership[playerid][12], 255);
+    PlayerTextDrawBackgroundColour(playerid, PTD_Dealership[playerid][12], 255);
     PlayerTextDrawFont(playerid, PTD_Dealership[playerid][12], 2);
     PlayerTextDrawSetProportional(playerid, PTD_Dealership[playerid][12], 1);
     PlayerTextDrawSetShadow(playerid, PTD_Dealership[playerid][12], 0);
@@ -237,37 +237,37 @@ DS:ShowVehicles(playerid, ds_index, type=BDS_TYPE_LUXURIOUS, offset=0)
     {
         case BDS_TYPE_LUXURIOUS:
         {
-            PlayerTextDrawColor(playerid, PTD_Dealership[playerid][3], COLOR_ORANGE);
+            PlayerTextDrawColour(playerid, PTD_Dealership[playerid][3], COLOR_ORANGE);
             PlayerTextDrawShow(playerid, PTD_Dealership[playerid][3]);
 
-            PlayerTextDrawColor(playerid, PTD_Dealership[playerid][4], -1);
+            PlayerTextDrawColour(playerid, PTD_Dealership[playerid][4], -1);
             PlayerTextDrawShow(playerid, PTD_Dealership[playerid][4]);
 
-            PlayerTextDrawColor(playerid, PTD_Dealership[playerid][5], -1);
+            PlayerTextDrawColour(playerid, PTD_Dealership[playerid][5], -1);
             PlayerTextDrawShow(playerid, PTD_Dealership[playerid][5]);
         }
 
         case BDS_TYPE_POPULAR:
         {
-            PlayerTextDrawColor(playerid, PTD_Dealership[playerid][3], -1);
+            PlayerTextDrawColour(playerid, PTD_Dealership[playerid][3], -1);
             PlayerTextDrawShow(playerid, PTD_Dealership[playerid][3]);
 
-            PlayerTextDrawColor(playerid, PTD_Dealership[playerid][4], COLOR_ORANGE);
+            PlayerTextDrawColour(playerid, PTD_Dealership[playerid][4], COLOR_ORANGE);
             PlayerTextDrawShow(playerid, PTD_Dealership[playerid][4]);
 
-            PlayerTextDrawColor(playerid, PTD_Dealership[playerid][5], -1);
+            PlayerTextDrawColour(playerid, PTD_Dealership[playerid][5], -1);
             PlayerTextDrawShow(playerid, PTD_Dealership[playerid][5]);
         }
 
         case BDS_TYPE_OLD:
         {
-            PlayerTextDrawColor(playerid, PTD_Dealership[playerid][3], -1);
+            PlayerTextDrawColour(playerid, PTD_Dealership[playerid][3], -1);
             PlayerTextDrawShow(playerid, PTD_Dealership[playerid][3]);
 
-            PlayerTextDrawColor(playerid, PTD_Dealership[playerid][4], -1);
+            PlayerTextDrawColour(playerid, PTD_Dealership[playerid][4], -1);
             PlayerTextDrawShow(playerid, PTD_Dealership[playerid][4]);
 
-            PlayerTextDrawColor(playerid, PTD_Dealership[playerid][5], COLOR_ORANGE);
+            PlayerTextDrawColour(playerid, PTD_Dealership[playerid][5], COLOR_ORANGE);
             PlayerTextDrawShow(playerid, PTD_Dealership[playerid][5]);
         }
     }
@@ -304,11 +304,11 @@ DS:ShowVehicles(playerid, ds_index, type=BDS_TYPE_LUXURIOUS, offset=0)
             PlayerTextDrawLetterSize(playerid, PTD_DealershipVehicles[playerid][i][0], 0.16, 0.9);
             PlayerTextDrawTextSize(playerid, PTD_DealershipVehicles[playerid][i][0], bX + 87.8, 9.500000);
             PlayerTextDrawAlignment(playerid, PTD_DealershipVehicles[playerid][i][0], 1);
-            PlayerTextDrawColor(playerid, PTD_DealershipVehicles[playerid][i][0], -1);
+            PlayerTextDrawColour(playerid, PTD_DealershipVehicles[playerid][i][0], -1);
             PlayerTextDrawUseBox(playerid, PTD_DealershipVehicles[playerid][i][0], 0);
-            PlayerTextDrawBoxColor(playerid, PTD_DealershipVehicles[playerid][i][0], 255);
+            PlayerTextDrawBoxColour(playerid, PTD_DealershipVehicles[playerid][i][0], 255);
             PlayerTextDrawSetOutline(playerid, PTD_DealershipVehicles[playerid][i][0], 0);
-            PlayerTextDrawBackgroundColor(playerid, PTD_DealershipVehicles[playerid][i][0], 255);
+            PlayerTextDrawBackgroundColour(playerid, PTD_DealershipVehicles[playerid][i][0], 255);
             PlayerTextDrawFont(playerid, PTD_DealershipVehicles[playerid][i][0], 2);
             PlayerTextDrawSetProportional(playerid, PTD_DealershipVehicles[playerid][i][0], 1);
             PlayerTextDrawSetShadow(playerid, PTD_DealershipVehicles[playerid][i][0], 0);
@@ -317,9 +317,9 @@ DS:ShowVehicles(playerid, ds_index, type=BDS_TYPE_LUXURIOUS, offset=0)
             PTD_DealershipVehicles[playerid][i][1] = CreatePlayerTextDraw(playerid, bX + 135.0, bY, RealStr(BDS_VehiclesInf[playerid][i][Price]));
             PlayerTextDrawLetterSize(playerid, PTD_DealershipVehicles[playerid][i][1], 0.198535, 1.040000);
             PlayerTextDrawAlignment(playerid, PTD_DealershipVehicles[playerid][i][1], 3);
-            PlayerTextDrawColor(playerid, PTD_DealershipVehicles[playerid][i][1], COLOR_GREEN);
+            PlayerTextDrawColour(playerid, PTD_DealershipVehicles[playerid][i][1], COLOR_GREEN);
             PlayerTextDrawSetOutline(playerid, PTD_DealershipVehicles[playerid][i][1], 0);
-            PlayerTextDrawBackgroundColor(playerid, PTD_DealershipVehicles[playerid][i][1], 255);
+            PlayerTextDrawBackgroundColour(playerid, PTD_DealershipVehicles[playerid][i][1], 255);
             PlayerTextDrawFont(playerid, PTD_DealershipVehicles[playerid][i][1], 2);
             PlayerTextDrawSetProportional(playerid, PTD_DealershipVehicles[playerid][i][1], 1);
             PlayerTextDrawSetShadow(playerid, PTD_DealershipVehicles[playerid][i][1], 0);

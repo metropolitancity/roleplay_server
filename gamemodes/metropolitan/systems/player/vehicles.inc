@@ -80,7 +80,7 @@ hook OnPlayerDisconnect(playerid, reason)
             pVehicle[vehicleid] = reset;
 
             Iter_Remove(pVehicle, vehicleid);
-            Iter_SafeRemove(VehiclesPlayer[playerid], vehicleid, vehicleid);
+            Iter_Remove(VehiclesPlayer[playerid], vehicleid);
         }
     }
     return Y_HOOKS_CONTINUE_RETURN_1;

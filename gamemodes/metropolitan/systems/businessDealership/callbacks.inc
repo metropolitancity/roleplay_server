@@ -332,14 +332,14 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
             new index = DS:SELECTED_SLOT[playerid];
             if ( index == -1 ) {  
                 DS:SELECTED_SLOT[playerid] = i;
-                PlayerTextDrawColor(playerid, PTD_DealershipVehicles[playerid][i][0], COLOR_ORANGE);
+                PlayerTextDrawColour(playerid, PTD_DealershipVehicles[playerid][i][0], COLOR_ORANGE);
                 PlayerTextDrawShow(playerid, PTD_DealershipVehicles[playerid][i][0]);
             } else {
                 DS:SELECTED_SLOT[playerid] = i;
-                PlayerTextDrawColor(playerid, PTD_DealershipVehicles[playerid][index][0], -1);
+                PlayerTextDrawColour(playerid, PTD_DealershipVehicles[playerid][index][0], -1);
                 PlayerTextDrawShow(playerid, PTD_DealershipVehicles[playerid][index][0]);
 
-                PlayerTextDrawColor(playerid, PTD_DealershipVehicles[playerid][i][0], COLOR_ORANGE);
+                PlayerTextDrawColour(playerid, PTD_DealershipVehicles[playerid][i][0], COLOR_ORANGE);
                 PlayerTextDrawShow(playerid, PTD_DealershipVehicles[playerid][i][0]);
             }
 
@@ -373,7 +373,7 @@ public OnPlayerBuyingVehicle(playerid, price, vID[])
         NT:Send(playerid, NT_TYPE_SUCCESS, "Veiculo comprado com sucesso!");
         
         CleanChat(playerid);
-        SendClientMessagef(playerid, COLOR_ORANGE, "[!] {"COLOR_WHITE_EMBED"}Seu veiculo está na garagem da concessionária.");
+        SendClientMessage(playerid, COLOR_ORANGE, "[!] {"COLOR_WHITE_EMBED"}Seu veiculo está na garagem da concessionária.");
         return 1;
     }
     NT:Send(playerid, NT_TYPE_ERROR, "Não foi possível comprar seu veiculo.");
@@ -468,7 +468,7 @@ public OnPlayerSellBusinessDealership(playerid, ds_index)
         
         NT:Send(playerid, NT_TYPE_SUCCESS, "Concessionária vendida com sucesso!");
         CleanChat(playerid, 50);
-        SendClientMessagef(playerid, COLOR_BLUE, "» {"COLOR_WHITE_EMBED"}Você recebeu {"COLOR_ORANGE_EMBED"}¢%d{"COLOR_WHITE_EMBED"} pela venda de sua conessionária.", price);
+        SendClientMessage(playerid, COLOR_BLUE, "» {"COLOR_WHITE_EMBED"}Você recebeu {"COLOR_ORANGE_EMBED"}¢%d{"COLOR_WHITE_EMBED"} pela venda de sua conessionária.", price);
         return 1;
     }
     NT:Send(playerid, NT_TYPE_ERROR, "Não foi possível vender sua concessionária.");
