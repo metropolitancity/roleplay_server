@@ -65,7 +65,7 @@ hook OnGameModeInit()
             format(
                 str,
                 sizeof(str),
-                "{"COLOR_RED_EMBED"}%s{FFFFFF}\nProprietário: {c1c1c1}%s{"COLOR_WHITE_EMBED"}\nPreço: {"COLOR_ORANGE_EMBED"}%s{FFFFFF}\nEstoque: {c1c1c1}%d",
+                "{"COLOR_RED_EMBED"}%s{FFFFFF}\nProprietário: {c1c1c1}%s{"COLOR_WHITE_EMBED"}\nPreço: {"COLOR_ORANGE_EMBED"}%s{FFFFFF}\nEstoque: {c1c1c1}%d\n\n{"COLOR_WHITE_EMBED"}[{"COLOR_RED_EMBED"}Y{"COLOR_WHITE_EMBED"}]",
                 ret_utf8decode(BusinessDealership[i][Name]),
                 BusinessDealership[i][Owner][Name],
                 RealStr(BusinessDealership[i][Price], "¢"),
@@ -83,7 +83,7 @@ hook OnGameModeInit()
                 .streamdistance=DISTANCE_RENDER_LABEL
             );
 
-            format(str, sizeof(str), "%s\n{"COLOR_WHITE_EMBED"}Garagem", ret_utf8decode(BusinessDealership[i][Name]));
+            format(str, sizeof(str), "%s\n{"COLOR_WHITE_EMBED"}Garagem\n\n{"COLOR_WHITE_EMBED"}[{"COLOR_RED_EMBED"}Y{"COLOR_WHITE_EMBED"}]", ret_utf8decode(BusinessDealership[i][Name]));
             BusinessDealership[i][Label][1] = CreateDynamic3DTextLabel(
                 str,
                 COLOR_RED,
@@ -145,7 +145,7 @@ hook OnPlayerEnterDynamicCP(playerid, STREAMER_TAG_CP:checkpointid)
     return Y_HOOKS_CONTINUE_RETURN_1;
 }
 
-hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
+hook OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys)
 {
     if ( IsPlayerInAnyVehicle(playerid) ) return Y_HOOKS_CONTINUE_RETURN_1;
 
@@ -321,7 +321,7 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
             BDS_VehiclesInf[playerid][index][Color1],
             BDS_VehiclesInf[playerid][index][Color2]
         );
-        mysql_tquery(SQL_Connection, query, "OnPlayerBuyingVehicle", "iis", playerid, BDS_VehiclesInf[playerid][index][Price], BDS_VehiclesInf[playerid][index][ID]);
+        mysql_tquery(SQL_Connection, query, "OnPlayerBuyingVehicle", "iiis", playerid, ds_id, BDS_VehiclesInf[playerid][index][Price], BDS_VehiclesInf[playerid][index][ID]);
         return Y_HOOKS_BREAK_RETURN_1;
     }
 
@@ -356,14 +356,14 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
 }
 
 
-forward OnPlayerBuyingVehicle(playerid, price, vID[]);
-public OnPlayerBuyingVehicle(playerid, price, vID[])
+forward OnPlayerBuyingVehicle(playerid, ds_id, price, vID[]);
+public OnPlayerBuyingVehicle(playerid, ds_id, price, vID[])
 {
     if ( cache_affected_rows() )
     {
         GivePlayerMoney(playerid, -price);
 
-        new query[300];
+        new query[300], str[512];
         mysql_format(SQL_Connection, query, sizeof(query), "UPDATE "TABLE_USERS" SET `money`='%d' WHERE `id`='%d';", GetPlayerMoney(playerid), Player[playerid][ID]);
         mysql_tquery(SQL_Connection, query);
         
@@ -374,6 +374,17 @@ public OnPlayerBuyingVehicle(playerid, price, vID[])
         
         CleanChat(playerid);
         SendClientMessage(playerid, COLOR_ORANGE, "[!] {"COLOR_WHITE_EMBED"}Seu veiculo está na garagem da concessionária.");
+
+        format(
+            str,
+            sizeof(str),
+            "{"COLOR_RED_EMBED"}%s{FFFFFF}\nProprietário: {c1c1c1}%s{"COLOR_WHITE_EMBED"}\nPreço: {"COLOR_ORANGE_EMBED"}%s{FFFFFF}\nEstoque: {c1c1c1}%d\n\n{"COLOR_WHITE_EMBED"}[{"COLOR_RED_EMBED"}Y{"COLOR_WHITE_EMBED"}]",
+            ret_utf8decode(BusinessDealership[ds_id][Name]),
+            BusinessDealership[ds_id][Owner][Name],
+            RealStr(BusinessDealership[ds_id][Price], "¢"),
+            DS:GetVehiclesInStock(ds_id) - 1
+        );
+        UpdateDynamic3DTextLabelText(BusinessDealership[ds_id][Label][0], COLOR_WHITE, str);
         return 1;
     }
     NT:Send(playerid, NT_TYPE_ERROR, "Não foi possível comprar seu veiculo.");
@@ -391,6 +402,8 @@ public OnLoadPlayerVehicle(playerid)
     {    
         new vname[MAX_VEHICLE_NAME];
         new vehicleid = CreatePlayerVehicle(playerid);
+        PutPlayerInVehicle(playerid, vehicleid, 0);
+
         GetVehicleName(vehicleid, vname);
         NT:Send(playerid, NT_TYPE_SUCCESS, "Veiculo ~b~%s~w~ carregado.", vname);
 

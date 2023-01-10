@@ -1169,7 +1169,7 @@ public OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys)
 #endif
 #define OnPlayerKeyStateChange vSync_OnPlayerKeyStateChange
 #if defined vSync_OnPlayerKeyStateChange
-	forward vSync_OnPlayerKeyStateChange(playerid, newkeys, oldkeys);
+	forward vSync_OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys);
 #endif
 
 public OnEnterExitModShop(playerid, enterexit, interiorid)
