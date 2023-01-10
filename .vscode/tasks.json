@@ -5,14 +5,14 @@
       "label": "Compiler",
       "type": "shell",
       "windows":{
-        "command": "${workspaceRoot}\\qawno\\pawncc.exe",
+        "command": "qawno\\pawncc.exe",
         "args": [
           "metropolitan/main.pwn",
           "--%",
-          "-Dgamemodes",
           "-i./../qawno/include",
           "-imetropolitan",
           "-imetropolitan\\systems",
+          "-Dgamemodes",
           "-;+",
           "-(+",
           "-d3",
@@ -48,7 +48,7 @@
       "label": "compiler-filterscript",
       "type": "shell",
       "windows":{
-        "command": "${workspaceRoot}\\qawno\\pawncc.exe",
+        "command": "qawno\\pawncc.exe",
         "args": [
           "${file}",
           "--%",
