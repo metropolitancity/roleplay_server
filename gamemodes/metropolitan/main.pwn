@@ -1,5 +1,4 @@
-#include <a_samp>
-#include <omp>
+#include <open.mp>
 #include <a_mysql>
 #include <bcrypt>
 #include <sampvoice>

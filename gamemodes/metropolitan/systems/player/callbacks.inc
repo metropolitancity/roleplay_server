@@ -294,10 +294,10 @@ hook OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY, 
             CleanChat(playerid); // limpar chat
             Player:GiveWarningKick(playerid, 1);
 
-            SendClientMessagef(playerid, COLOR_RED, "%02d/03 Você não pode disparar contra um anjo.", Player:GetWarningKick(playerid));
+            SendClientMessage(playerid, COLOR_RED, "%02d/03 Você não pode disparar contra um anjo.", Player:GetWarningKick(playerid));
             if ( Player:GetWarningKick(playerid) >= 3 )
             {
-                SendClientMessagef(playerid, COLOR_RED, "Você foi kickado do servidor por acumular muitos avisos.");
+                SendClientMessage(playerid, COLOR_RED, "Você foi kickado do servidor por acumular muitos avisos.");
                 Player:Kick(playerid);
             }
             return Y_HOOKS_CONTINUE_RETURN_0;
@@ -451,7 +451,7 @@ public OnPlayerAttempAuth(playerid)
 
     // mensagem de sucesso!
     CleanChat(playerid);
-    SendClientMessagef(playerid, COLOR_BLUE, ""SERVER_MESSAGE_TAG" {"COLOR_WHITE_EMBED"}Bem vindo, %s, seu último login foi em {"COLOR_RED_EMBED"}%s{"COLOR_WHITE_EMBED"}.", Player[playerid][Name], Player[playerid][LastLogin]);
+    SendClientMessage(playerid, COLOR_BLUE, ""SERVER_MESSAGE_TAG" {"COLOR_WHITE_EMBED"}Bem vindo, %s, seu último login foi em {"COLOR_RED_EMBED"}%s{"COLOR_WHITE_EMBED"}.", Player[playerid][Name], Player[playerid][LastLogin]);
     
     Player[playerid][Logged] = true;
     return Y_HOOKS_BREAK_RETURN_1;

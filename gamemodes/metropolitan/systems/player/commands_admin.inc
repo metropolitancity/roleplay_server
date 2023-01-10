@@ -121,9 +121,9 @@ cmd:setaradmin(playerid, params[])
     Player:SetAdmin(id, level);
     CleanChat(id);
     if ( Player[id][Admin] <= level ){
-        SendClientMessagef(id, COLOR_GOLD, "[Administração] {"COLOR_WHITE_EMBED"}Você foi promovido a {"COLOR_GOLD_EMBED"}%s{"COLOR_WHITE_EMBED"}.", admname);
+        SendClientMessage(id, COLOR_GOLD, "[Administração] {"COLOR_WHITE_EMBED"}Você foi promovido a {"COLOR_GOLD_EMBED"}%s{"COLOR_WHITE_EMBED"}.", admname);
     }else{
-        SendClientMessagef(id, COLOR_RED, "[Administração] {"COLOR_WHITE_EMBED"}Você foi rebaixado a {"COLOR_RED_EMBED"}%s{"COLOR_WHITE_EMBED"}.", admname);
+        SendClientMessage(id, COLOR_RED, "[Administração] {"COLOR_WHITE_EMBED"}Você foi rebaixado a {"COLOR_RED_EMBED"}%s{"COLOR_WHITE_EMBED"}.", admname);
     }
 
     // salvar no banco de dados.
@@ -307,6 +307,6 @@ cmd:setarcombustivel(playerid, params[])
     NT:Send(playerid, NT_TYPE_SUCCESS, "Combustível setado para o veículo.");
     
     CleanChat(playerid);
-    SendClientMessagef(playerid, COLOR_BLUE, "» {"COLOR_WHITE_EMBED"}Você setou {"COLOR_ORANGE_EMBED"}%.2f{"COLOR_WHITE_EMBED"} de combustível para o veiculo.", fuel);
+    SendClientMessage(playerid, COLOR_BLUE, "» {"COLOR_WHITE_EMBED"}Você setou {"COLOR_ORANGE_EMBED"}%.2f{"COLOR_WHITE_EMBED"} de combustível para o veiculo.", fuel);
     return 1;
 }

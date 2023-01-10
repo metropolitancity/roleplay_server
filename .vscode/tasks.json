@@ -5,11 +5,12 @@
       "label": "Compiler",
       "type": "shell",
       "windows":{
-        "command": "${workspaceRoot}\\pawno\\pawncc.exe",
+        "command": "${workspaceRoot}\\qawno\\pawncc.exe",
         "args": [
-          "metropolitan\\main.pwn",
+          "metropolitan/main.pwn",
           "--%",
           "-Dgamemodes",
+          "-i./../qawno/include",
           "-imetropolitan",
           "-imetropolitan\\systems",
           "-;+",
@@ -19,10 +20,10 @@
         ]
       },
       "linux":{
-        "command": "pawno/pawncc",
+        "command": "qawno/pawncc",
         "args": [
           "metropolitan/main.pwn",
-          "-i./../pawno/include",
+          "-i./../qawno/include",
           "-imetropolitan",
           "-imetropolitan/systems",
           "-Dgamemodes",
@@ -47,7 +48,7 @@
       "label": "compiler-filterscript",
       "type": "shell",
       "windows":{
-        "command": "${workspaceRoot}\\pawno\\pawncc.exe",
+        "command": "${workspaceRoot}\\qawno\\pawncc.exe",
         "args": [
           "${file}",
           "--%",
@@ -59,11 +60,11 @@
         ]
       },
       "linux":{
-        "command": "pawno/pawncc",
+        "command": "qawno/pawncc",
         "args": [
           "${file}",
           "-Dfilterscripts",
-          "-i./../pawno/include",
+          "-i./../qawno/include",
           "\"-;+\"",
           "\"-(+\"",
           "\"-d3\"",

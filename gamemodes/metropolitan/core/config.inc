@@ -9,14 +9,13 @@
 hook OnGameModeInit()
 {
     print("Configurando informações do servidor...");
-    SendRconCommandf("hostname %s %s", SERVER_NAME, SERVER_STAGE);
-    SendRconCommandf("language Português Brasil");
-    SendRconCommandf("gamemodetext RP %s", SERVER_VERSION);
+    SendRconCommand("hostname %s %s", SERVER_NAME, SERVER_STAGE);
+    SendRconCommand("language Português Brasil");
+    SendRconCommand("gamemodetext RP %s", SERVER_VERSION);
     ManualVehicleEngineAndLights();
     DisableInteriorEnterExits();
     UsePlayerPedAnims();
     ShowPlayerMarkers(PLAYER_MARKERS_MODE_OFF);
-    DisableCrashDetectLongCall();
     ShowNameTags(false);
     print(" ");
     return Y_HOOKS_CONTINUE_RETURN_1;
