@@ -285,7 +285,7 @@ hook OnPlayerClickMap(playerid, Float:fX, Float:fY, Float:fZ)
     return Y_HOOKS_CONTINUE_RETURN_1;
 }
 
-hook OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY, Float:fZ)
+hook OnPlayerWeaponShot(playerid, weaponid, BULLET_HIT_TYPE:hittype, hitid, Float:fX, Float:fY, Float:fZ)
 {
     if ( hittype == BULLET_HIT_TYPE_PLAYER )
     {
@@ -433,7 +433,7 @@ public OnPlayerAttempAuth(playerid)
     TogglePlayerSpectating(playerid, false);
     
     // setar informações
-    SetSpawnInfo(playerid, NO_TEAM, Player[playerid][Skin], Player[playerid][Spawn][X], Player[playerid][Spawn][Y], Player[playerid][Spawn][Z], Player[playerid][Spawn][A], 0, 0, 0, 0, 0, 0);
+    SetSpawnInfo(playerid, NO_TEAM, Player[playerid][Skin], Player[playerid][Spawn][X], Player[playerid][Spawn][Y], Player[playerid][Spawn][Z], Player[playerid][Spawn][A], WEAPON:0, 0, WEAPON:0, 0, WEAPON:0, 0);
     SetPlayerInterior(playerid, Player[playerid][Interior]);
     SetPlayerVirtualWorld(playerid, Player[playerid][World]);
     SetPlayerHealth(playerid, Player[playerid][Health]);

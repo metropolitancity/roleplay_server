@@ -6,46 +6,46 @@ hook OnGameModeInit()
 {
     TD_Logo[0] = TextDrawCreate(278.160491, 2.166652, "M");
     TextDrawLetterSize(TD_Logo[0], 0.480585, 2.684999);
-    TextDrawAlignment(TD_Logo[0], 1);
+    TextDrawAlignment(TD_Logo[0], TEXT_DRAW_ALIGN_LEFT);
     TextDrawColour(TD_Logo[0], 1077952767);
     TextDrawSetShadow(TD_Logo[0], 0);
     TextDrawSetOutline(TD_Logo[0], 1);
     TextDrawBackgroundColour(TD_Logo[0], -1378294017);
-    TextDrawFont(TD_Logo[0], 2);
-    TextDrawSetProportional(TD_Logo[0], 1);
+    TextDrawFont(TD_Logo[0], TEXT_DRAW_FONT_2);
+    TextDrawSetProportional(TD_Logo[0], true);
     TextDrawSetShadow(TD_Logo[0], 0);
 
     TD_Logo[1] = TextDrawCreate(293.853363, 13.016663, "etropolitan");
     TextDrawLetterSize(TD_Logo[1], 0.276779, 1.203333);
-    TextDrawAlignment(TD_Logo[1], 1);
+    TextDrawAlignment(TD_Logo[1], TEXT_DRAW_ALIGN_LEFT);
     TextDrawColour(TD_Logo[1], -1);
     TextDrawSetShadow(TD_Logo[1], 0);
     TextDrawSetOutline(TD_Logo[1], 1);
     TextDrawBackgroundColour(TD_Logo[1], -1378294017);
-    TextDrawFont(TD_Logo[1], 3);
-    TextDrawSetProportional(TD_Logo[1], 1);
+    TextDrawFont(TD_Logo[1], TEXT_DRAW_FONT_3);
+    TextDrawSetProportional(TD_Logo[1], true);
     TextDrawSetShadow(TD_Logo[1], 0);
 
     TD_Logo[2] = TextDrawCreate(319.062438, 3.333310, "Roleplay");
     TextDrawLetterSize(TD_Logo[2], 0.250073, 0.818332);
-    TextDrawAlignment(TD_Logo[2], 2);
+    TextDrawAlignment(TD_Logo[2], TEXT_DRAW_ALIGN_CENTER);
     TextDrawColour(TD_Logo[2], -1);
     TextDrawSetShadow(TD_Logo[2], 1);
     TextDrawSetOutline(TD_Logo[2], 0);
     TextDrawBackgroundColour(TD_Logo[2], 255);
-    TextDrawFont(TD_Logo[2], 1);
-    TextDrawSetProportional(TD_Logo[2], 1);
+    TextDrawFont(TD_Logo[2], TEXT_DRAW_FONT_1);
+    TextDrawSetProportional(TD_Logo[2], true);
     TextDrawSetShadow(TD_Logo[2], 1);
 
     TD_Logo[3] = TextDrawCreate(318.711669, 25.166648, "]]]");
     TextDrawLetterSize(TD_Logo[3], 0.218213, 1.057500);
-    TextDrawAlignment(TD_Logo[3], 2);
+    TextDrawAlignment(TD_Logo[3], TEXT_DRAW_ALIGN_CENTER);
     TextDrawColour(TD_Logo[3], 1616929023);
     TextDrawSetShadow(TD_Logo[3], 0);
     TextDrawSetOutline(TD_Logo[3], 0);
     TextDrawBackgroundColour(TD_Logo[3], 255);
-    TextDrawFont(TD_Logo[3], 2);
-    TextDrawSetProportional(TD_Logo[3], 1);
+    TextDrawFont(TD_Logo[3], TEXT_DRAW_FONT_2);
+    TextDrawSetProportional(TD_Logo[3], true);
     TextDrawSetShadow(TD_Logo[3], 0);
 
     return Y_HOOKS_CONTINUE_RETURN_1;

@@ -48,7 +48,8 @@ hook OnPlayerDisconnect(playerid, reason)
 {
     if ( Iter_Count(VehiclesPlayer[playerid]) )
     {
-        new reset[E_PLAYER_VEHICLE_DATA], query[512], Float:health, Float:x, Float:y, Float:z, Float:a, tires, panels, lights, doors;
+        new reset[E_PLAYER_VEHICLE_DATA], query[512], Float:health, Float:x, Float:y, Float:z, Float:a,
+            VEHICLE_TYRE_STATUS:tires, VEHICLE_PANEL_STATUS:panels, VEHICLE_LIGHT_STATUS:lights, VEHICLE_DOOR_STATUS:doors;
         foreach(new vehicleid: VehiclesPlayer[playerid])
         {
             if ( !IsValidVehicle(vehicleid) )continue;

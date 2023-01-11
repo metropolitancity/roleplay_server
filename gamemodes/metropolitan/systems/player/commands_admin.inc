@@ -7,7 +7,7 @@ cmd:staff(playerid, params[])
     Player[playerid][StaffWorking] = !Player[playerid][StaffWorking];
     switch(Player[playerid][StaffWorking])
     {
-        case 0:
+        case false:
         {
             NT:Send(playerid, NT_TYPE_SUCCESS, "Modo administrador: ~r~~h~Offline");
             SetPlayerSkin(playerid, Player[playerid][Skin]);
@@ -16,7 +16,7 @@ cmd:staff(playerid, params[])
             RemovePlayerAttachedObject(playerid, _:ATTACHED_OBJECT_ANGEL);
             return 1;
         }
-        case 1:
+        case true:
         {
             GetPlayerHealth(playerid, Player[playerid][Health]);
             GetPlayerArmour(playerid, Player[playerid][Armour]);

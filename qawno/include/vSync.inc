@@ -608,7 +608,7 @@ stock vSync_CreateVehicle(modelid, Float:x, Float:y, Float:z, Float:rotation, co
 	// Add siren to the Firetruck (ladder variant), by default it's disabled.
 	if(modelid == 544)
 	{
-		addsiren = 1;
+		addsiren = true;
 	}
 
 	// Generate random colors (if it proceeds)
@@ -1574,7 +1574,10 @@ stock VehicleSupportsComponent(modelid, componentid)
 	}
 
 	// Check if the component is a wheel, stereo, hydraulics or nitro.
-	if(GetVehicleComponentType(componentid) == CARMODTYPE_WHEELS || componentid == 1086 || componentid == 1087 || (1008 <= componentid <= 1010))
+	if(GetVehicleComponentType(componentid) == _:CARMODTYPE_WHEELS || 
+	componentid == 1086 || 
+	componentid == 1087 ||
+	 (1008 <= componentid <= 1010))
 	{
 		// If the vehicle doesn't support nitro it must be a bike, boat or plane.
 		if(!VehicleSupportsNitro(modelid))
@@ -1606,7 +1609,7 @@ stock VehicleSupportsComponent(modelid, componentid)
 
 stock SetVehicleParams(vehicleid, vSync_VehicleParams:type, bool:status)
 {
-	new params[7];
+	new bool:params[7];
 	GetVehicleParamsEx(vehicleid, params[0], params[1], params[2], params[3], params[4], params[5], params[6]);
 	params[type] = status;
 	SetVehicleParamsEx(vehicleid, params[0], params[1], params[2], params[3], params[4], params[5], params[6]);
@@ -1614,9 +1617,9 @@ stock SetVehicleParams(vehicleid, vSync_VehicleParams:type, bool:status)
 
 stock GetVehicleParams(vehicleid, vSync_VehicleParams:type)
 {
-	new params[7];
+	new bool:params[7];
 	GetVehicleParamsEx(vehicleid, params[0], params[1], params[2], params[3], params[4], params[5], params[6]);
-	return (!(params[type] <= 0));
+	return params[type];
 }
 
 

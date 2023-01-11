@@ -46,7 +46,7 @@ hook OnGameModeInit()
     return Y_HOOKS_CONTINUE_RETURN_1;
 }
 
-hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
+hook OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys)
 {
     if ( PRESSED(KEY_SECONDARY_ATTACK) )
     {
