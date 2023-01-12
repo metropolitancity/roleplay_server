@@ -82,6 +82,7 @@ public DC_OnCreateDM(playerid)
         DCC_SendChannelEmbedMessage(channel, embed, "", "DC_OnSendMessage", "i", playerid);
         return 1;
     }
+    NT:Send(playerid, NT_TYPE_ERROR, "Não foi possível lhe enviar uma mensagem no DM do discord.");
     return 0;
 }
 

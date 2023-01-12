@@ -412,8 +412,6 @@ public OnPlayerAttempAuth(playerid)
     cache_get_value_name_float(0, "thirst", Player[playerid][Thirst]);
     cache_get_value_name_float(0, "sleep", Player[playerid][Sleep]);
 
-    /*
-        Desativado
     if ( !Player[playerid][Discord] )
     {
         if ( !isnull(Player[playerid][DiscordID]) )
@@ -427,7 +425,7 @@ public OnPlayerAttempAuth(playerid)
         NT:Send(playerid, NT_TYPE_ERROR, "Você precisa adicionar seu discord para jogador em nosso servidor.");
         DC:ShowIntegration(playerid);
         return Y_HOOKS_BREAK_RETURN_1;
-    }*/
+    }
 
     // tirar o jogador de modo spectador.
     TogglePlayerSpectating(playerid, false);

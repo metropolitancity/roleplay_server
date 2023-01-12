@@ -5,7 +5,7 @@
 #include <Pawn.CMD>
 #include <sscanf2>
 #include <streamer>
-//#include <discord-connector>
+#include <discord-connector>
 #include <YSI_Coding\y_va>
 #include <YSI_Data\y_iterate>
 #include <easyDialog>
@@ -44,7 +44,7 @@ main()
 #include <logo/logo>
 #include <player/player>
 #include <notifications/nt>
-//#include <discord/discord>
+#include <discord/discord>
 #include <fss/fss>
 #include <property/property>
 #include <businessDealership/dealership>
