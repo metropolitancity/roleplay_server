@@ -2,7 +2,7 @@
 
 hook OnGameModeInit()
 {
-    DCC_SetBotActivity(""SERVER_NAME" - 45.6.102.237:7777");
+    DCC_SetBotActivity(""SERVER_NAME" - 186.233.117.189:7777");
     return Y_HOOKS_CONTINUE_RETURN_1;
 }
 
@@ -21,7 +21,7 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
     
     if ( playertextid == PTD_DiscordIntegration[playerid][5] ) // input discord
     {
-        Dialog_Show(playerid, INPUT_DISCORD_ID, DIALOG_STYLE_INPUT, "DISCORD ID", "{"COLOR_WHITE_EMBED"}Digite o ID do seu discord, caso tenha dúvida você pode obter ajuda em nosso próprio discord ou fórum.", "Confirmar", "Fechar");
+        Dialog_Show(playerid, INPUT_DISCORD_ID, DIALOG_STYLE_INPUT, "DISCORD ID", "{"COLOR_WHITE_EMBED"}Digite o ID do seu usuário no discord\nSe tiver dúvida abra um ticket em nosso discord.", "Confirmar", "Fechar");
         return Y_HOOKS_BREAK_RETURN_1;
     }
     else if ( playertextid == PTD_DiscordIntegration[playerid][6] ) //  confirmar
