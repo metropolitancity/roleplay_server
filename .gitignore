@@ -3,6 +3,7 @@ log.txt
 omp_minidump.dmp
 logs/*
 gamemodes/metropolitan/main.amx
+gamemodes/main.amx
 filterscripts/**.amx
 database.ini
 config.json
