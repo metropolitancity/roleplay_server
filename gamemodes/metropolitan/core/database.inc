@@ -38,6 +38,3 @@ hook OnQueryError(errorid, const error[], const callback[], const query[], MySQL
 #define TABLE_USERS                         "users"
 #define TABLE_USERS_VEHICLES                ""TABLE_USERS"_vehicles"
 #define TABLE_PROPERTY                      "property"
-#define TABLE_BUSINESS_DEALERSHIP           "business_dealerships"
-#define TABLE_BDS_VEHICLES                  ""TABLE_BUSINESS_DEALERSHIP"_vehicles"
-#define TABLE_IMPORT_VEHICLES               "import_vehicles"

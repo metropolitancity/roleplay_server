@@ -196,6 +196,7 @@ FSS:Show(playerid, index)
     return 1;
 }
 
+/*
 FSS:HideAll(playerid)
 {
     if ( !IsPlayerConnected(playerid) )return 0;
@@ -216,7 +217,7 @@ FSS:Hide(playerid, index)
     PlayerTextDrawHide(playerid, PTD_FSS[playerid][index][2]);
     PlayerTextDrawHide(playerid, PTD_FSS[playerid][index][3]);
     return 1;
-}
+}*/
 
 FSS:SetValue(playerid, index, Float:value)
 {
